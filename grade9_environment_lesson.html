@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environment · Grade 9 · English</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f7f0; --bg2:#e8f5e8; --card:#ffffff;
+  --border:#c8e6c8; --ink:#0d2b0d; --muted:#4a7a4a;
+  --green:#2e7d32; --lime:#558b2f; --teal:#00695c;
+  --amber:#f57f17; --red:#c62828; --blue:#1565c0;
+  --ok:#2e7d32; --no:#c62828;
+  --soft:#f1f8e9; --earth:#795548;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── ORGANIC BG ── */
+body::before{content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 5% 5%,rgba(46,125,50,.08) 0%,transparent 45%),
+    radial-gradient(ellipse at 95% 10%,rgba(0,105,92,.07) 0%,transparent 45%),
+    radial-gradient(ellipse at 50% 95%,rgba(85,139,47,.06) 0%,transparent 50%);
+  pointer-events:none;z-index:0;}
+
+/* leaf decorations */
+.leaf{position:fixed;font-size:clamp(24px,4vw,48px);pointer-events:none;z-index:0;opacity:.12;animation:sway var(--sw,6s) ease-in-out infinite alternate;}
+@keyframes sway{0%{transform:rotate(-8deg);}100%{transform:rotate(8deg);}}
+
+/* ── PROGRESS ── */
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:4px;z-index:100;background:rgba(46,125,50,.15);}
+.prog-bar{height:100%;background:linear-gradient(90deg,#2e7d32,#558b2f,#00695c);width:0%;transition:width .5s ease;}
+
+/* ── APP ── */
+.app{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 16px 80px;}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 40%,#004d40 100%);
+  border-radius:0 0 40px 40px;
+  padding:52px 36px 48px;
+  text-align:center;
+  margin:0 -16px 36px;
+  overflow:hidden;
+  animation:heroIn .8s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes heroIn{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,.08)'/%3E%3C/svg%3E");}
+.hero-badge{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:18px;}
+.hero h1{position:relative;font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,64px);font-weight:900;color:#fff;line-height:1.0;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,.3);}
+.hero h1 em{font-style:normal;color:#a5d6a7;}
+.hero-sub{position:relative;font-size:15px;color:rgba(255,255,255,.65);font-weight:500;margin-bottom:24px;}
+.hero-chips{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hchip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:5px;}
+
+/* ── SECTION DIVIDERS ── */
+.sec-div{display:flex;align-items:center;gap:14px;margin:32px 0 18px;}
+.sec-div .sl{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border));}
+.sec-div .sl:last-child{background:linear-gradient(90deg,var(--border),transparent);}
+.sec-div .st{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;padding:7px 20px;border-radius:20px;border:1.5px solid;white-space:nowrap;}
+.sd-green .st{color:var(--green);border-color:rgba(46,125,50,.4);background:rgba(46,125,50,.06);}
+.sd-teal .st{color:var(--teal);border-color:rgba(0,105,92,.4);background:rgba(0,105,92,.06);}
+.sd-amber .st{color:var(--amber);border-color:rgba(245,127,23,.4);background:rgba(245,127,23,.06);}
+.sd-blue .st{color:var(--blue);border-color:rgba(21,101,192,.4);background:rgba(21,101,192,.06);}
+.sd-earth .st{color:var(--earth);border-color:rgba(121,85,72,.4);background:rgba(121,85,72,.06);}
+
+/* ── VOCAB GRID ── */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:8px;}
+.vocab-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:12px 14px;transition:transform .2s,box-shadow .2s;animation:fadeUp .4s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.vocab-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(46,125,50,.12);}
+.vc-en{font-size:14px;font-weight:700;color:var(--green);margin-bottom:3px;}
+.vc-uk{font-size:12px;color:var(--muted);}
+
+/* ── TASK CARDS ── */
+.task{background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:24px 26px;margin-bottom:14px;transition:transform .2s,box-shadow .2s;animation:fadeUp .5s ease both;}
+.task:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(46,125,50,.1);}
+.task-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.task-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;}
+.task-type{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.task-q{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.5;}
+.task-hint{font-size:13px;color:var(--muted);margin-bottom:12px;font-style:italic;}
+
+/* Input */
+input[type=text]{
+  background:var(--soft);border:2px solid var(--border);border-radius:12px;
+  padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  color:var(--ink);width:100%;max-width:320px;outline:none;transition:all .25s;
+}
+input[type=text]:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(46,125,50,.12);}
+input[type=text].ok{border-color:var(--ok);background:#f1f8e9;color:var(--ok);box-shadow:0 0 0 3px rgba(46,125,50,.12);}
+input[type=text].no{border-color:var(--no);background:#ffebee;color:var(--no);box-shadow:0 0 0 3px rgba(198,40,40,.1);}
+
+/* Option buttons */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.opt{padding:9px 20px;border-radius:12px;border:2px solid var(--border);background:var(--soft);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .18s;}
+.opt:hover{border-color:var(--green);background:#e8f5e9;color:var(--green);}
+.opt.ok{background:#e8f5e9;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.no{background:#ffebee;border-color:var(--no);color:var(--no);pointer-events:none;}
+.opt.reveal{background:#e8f5e9;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.dis{opacity:.35;pointer-events:none;}
+
+/* Feedback */
+.fb{font-size:13px;font-weight:600;min-height:18px;margin-bottom:10px;}
+.fb.ok{color:var(--ok);}
+.fb.no{color:var(--no);}
+
+/* Check button */
+.chk{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:12px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(46,125,50,.3);}
+.chk:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.chk.done{background:var(--ok)!important;pointer-events:none;}
+.chk.teal{background:var(--teal);box-shadow:0 4px 14px rgba(0,105,92,.3);}
+.chk.amber{background:var(--amber);box-shadow:0 4px 14px rgba(245,127,23,.3);}
+.chk.blue{background:var(--blue);box-shadow:0 4px 14px rgba(21,101,192,.3);}
+
+/* Cloze blanks */
+.cloze-line{font-size:16px;font-weight:600;color:var(--ink);line-height:2;margin-bottom:12px;}
+.cloze-input{display:inline-block;border:none;border-bottom:2px solid var(--green);background:transparent;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;color:var(--green);width:130px;outline:none;padding:0 4px;margin:0 4px;transition:all .25s;}
+.cloze-input:focus{border-bottom-color:var(--teal);}
+.cloze-input.ok{border-bottom-color:var(--ok);color:var(--ok);}
+.cloze-input.no{border-bottom-color:var(--no);color:var(--no);}
+
+/* Drag match */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;}
+.match-col h4{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.drag-item{padding:9px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);font-size:14px;font-weight:600;color:var(--ink);cursor:grab;user-select:none;transition:all .18s;margin-bottom:6px;}
+.drag-item:hover{border-color:var(--green);background:#e8f5e9;}
+.drag-item.dragging{opacity:.35;}
+.drop-zone{min-height:46px;padding:9px 16px;border-radius:12px;border:2px dashed var(--border);background:var(--bg2);font-size:14px;font-weight:600;color:var(--muted);display:flex;align-items:center;margin-bottom:6px;transition:background .2s;}
+.drop-zone.over{background:#e8f5e9;border-color:var(--green);}
+.drop-zone.filled{border-style:solid;border-color:var(--green);color:var(--ink);background:#fff;}
+.drop-zone.ok{border-color:var(--ok);background:#e8f5e9;color:var(--ok);}
+.drop-zone.no{border-color:var(--no);background:#ffebee;color:var(--no);}
+
+/* Speaking cards */
+.speak-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media(max-width:500px){.speak-cards{grid-template-columns:1fr;}}
+.speak-card{background:var(--soft);border:1.5px solid var(--border);border-radius:16px;padding:16px;border-left:3px solid var(--green);}
+.speak-card.teal{border-left-color:var(--teal);}
+.speak-card.amber{border-left-color:var(--amber);}
+.speak-card h4{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.speak-card p{font-size:14px;font-weight:600;color:var(--ink);line-height:1.5;}
+
+/* Listening */
+.audio-box{background:linear-gradient(135deg,#e8f5e9,#e0f2f1);border:1.5px solid var(--border);border-radius:20px;padding:22px 24px;margin-bottom:16px;}
+.audio-box h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.audio-script{font-size:14px;line-height:1.8;color:var(--ink);background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border);max-height:160px;overflow-y:auto;margin-bottom:14px;}
+.audio-script .blank-word{font-weight:800;color:var(--green);background:#e8f5e9;padding:1px 6px;border-radius:4px;}
+
+/* Final score */
+.score-box{display:none;background:linear-gradient(135deg,#1b5e20,#2e7d32,#004d40);border-radius:28px;padding:44px 30px;text-align:center;margin-top:32px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.84);}to{opacity:1;transform:scale(1);}}
+.sc-trophy{font-size:70px;margin-bottom:12px;animation:bob 1.2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.sc-num{font-family:'Playfair Display',serif;font-size:clamp(50px,12vw,88px);background:linear-gradient(135deg,#a5d6a7,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.sc-stars{font-size:32px;letter-spacing:6px;margin:10px 0;}
+.sc-msg{font-size:20px;font-weight:700;color:#fff;margin-bottom:18px;}
+.sc-break{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.sc-chip{background:rgba(255,255,255,.1);border-radius:12px;padding:9px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);}
+.rebtn{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;border-radius:16px;border:none;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;background:linear-gradient(135deg,#f57f17,#fbc02d);color:#1a0800;cursor:pointer;box-shadow:0 4px 20px rgba(251,192,45,.3);transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+.check-all{display:block;width:100%;padding:16px;border-radius:18px;border:none;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;cursor:pointer;box-shadow:0 6px 24px rgba(27,94,32,.35);transition:all .25s;margin-top:30px;animation:fadeUp .5s ease both;}
+.check-all:hover{transform:translateY(-3px);filter:brightness(1.08);}
+
+/* CONFETTI */
+.cf{position:fixed;z-index:999;pointer-events:none;border-radius:3px;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+
+@media(max-width:560px){
+  .match-wrap{grid-template-columns:1fr;}
+  input[type=text]{max-width:100%;}
+}
+@keyframes pop{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+.pop{animation:pop .3s ease;}
+</style>
+</head>
+<body>
+
+<!-- BG LEAVES -->
+<div class="leaf" style="top:8%;left:2%;--sw:7s">🌿</div>
+<div class="leaf" style="top:20%;right:3%;--sw:5s">🍃</div>
+<div class="leaf" style="top:55%;left:1%;--sw:9s">🌱</div>
+<div class="leaf" style="top:70%;right:2%;--sw:6s">🍀</div>
+<div class="leaf" style="top:88%;left:3%;--sw:8s">🌿</div>
+
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📗 Karpyuk · Grade 9 · English</div>
+  <h1>Our <em>Environment</em></h1>
+  <p class="hero-sub">Vocabulary · Conditional 1 · Speaking · Listening</p>
+  <div class="hero-chips">
+    <div class="hchip">🌍 40 key words</div>
+    <div class="hchip">📝 6 activities</div>
+    <div class="hchip">🗣️ Speaking tasks</div>
+    <div class="hchip">🎧 Listening</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     VOCABULARY REFERENCE
+══════════════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">📚 Key Vocabulary</div><div class="sl"></div></div>
+<div class="vocab-grid" id="vgrid"></div>
+
+<!-- ══════════════════════════════════
+     TASK 1 — MATCH WORD + DEFINITION
+══════════════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">✏️ Activity 1 — Match the definition</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.1s" id="t1">
+  <div class="task-head"><div class="task-num" style="background:#2e7d32">1</div><div><div class="task-type">Vocabulary · Choose the correct word</div></div></div>
+  <p class="task-q">The process of making land, water or air dirty and dangerous: ___</p>
+  <div class="opts" id="o1">
+    <button class="opt" onclick="pickOpt(1,'pollution','pollution')">pollution</button>
+    <button class="opt" onclick="pickOpt(1,'recycling','pollution')">recycling</button>
+    <button class="opt" onclick="pickOpt(1,'species','pollution')">species</button>
+    <button class="opt" onclick="pickOpt(1,'waste','pollution')">waste</button>
+  </div>
+  <div class="fb" id="fb1"></div>
+</div>
+
+<div class="task" style="animation-delay:.15s" id="t2">
+  <div class="task-head"><div class="task-num" style="background:#558b2f">2</div><div><div class="task-type">Vocabulary · Choose the correct word</div></div></div>
+  <p class="task-q">Animals or plants that may soon no longer exist are called ___.</p>
+  <div class="opts" id="o2">
+    <button class="opt" onclick="pickOpt(2,'dangerous','endangered')">dangerous</button>
+    <button class="opt" onclick="pickOpt(2,'responsible','endangered')">responsible</button>
+    <button class="opt" onclick="pickOpt(2,'endangered','endangered')">endangered</button>
+    <button class="opt" onclick="pickOpt(2,'ecological','endangered')">ecological</button>
+  </div>
+  <div class="fb" id="fb2"></div>
+</div>
+
+<div class="task" style="animation-delay:.2s" id="t3">
+  <div class="task-head"><div class="task-num" style="background:#00695c">3</div><div><div class="task-type">Vocabulary · Choose the correct word</div></div></div>
+  <p class="task-q">The gradual warming of Earth's atmosphere due to greenhouse gases is called ___.</p>
+  <div class="opts" id="o3">
+    <button class="opt" onclick="pickOpt(3,'climate','global warming')">climate</button>
+    <button class="opt" onclick="pickOpt(3,'global warming','global warming')">global warming</button>
+    <button class="opt" onclick="pickOpt(3,'pollution','global warming')">pollution</button>
+    <button class="opt" onclick="pickOpt(3,'fire','global warming')">fire</button>
+  </div>
+  <div class="fb" id="fb3"></div>
+</div>
+
+<div class="task" style="animation-delay:.25s" id="t4">
+  <div class="task-head"><div class="task-num" style="background:#2e7d32">4</div><div><div class="task-type">Vocabulary · Choose the correct word</div></div></div>
+  <p class="task-q">To use something again instead of throwing it away means to ___.</p>
+  <div class="opts" id="o4">
+    <button class="opt" onclick="pickOpt(4,'reduce','reuse')">reduce</button>
+    <button class="opt" onclick="pickOpt(4,'recycle','reuse')">recycle</button>
+    <button class="opt" onclick="pickOpt(4,'reuse','reuse')">reuse</button>
+    <button class="opt" onclick="pickOpt(4,'destroy','reuse')">destroy</button>
+  </div>
+  <div class="fb" id="fb4"></div>
+</div>
+
+<!-- ══════════════════════════════════
+     TASK 2 — CLOZE
+══════════════════════════════════ -->
+<div class="sec-div sd-teal"><div class="sl"></div><div class="st">📝 Activity 2 — Fill in the gaps</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.3s" id="t5">
+  <div class="task-head"><div class="task-num" style="background:#00695c">5</div><div><div class="task-type">Vocabulary · Complete the sentences</div></div></div>
+  <p class="task-hint">💡 Use: pollution · protect · recycle · endangered · waste · disappear · environment · responsible</p>
+
+  <div class="cloze-line">1. We must <input class="cloze-input" id="c1" placeholder="..."> the forests from destruction.</div>
+  <div class="cloze-line">2. Many species of animals are <input class="cloze-input" id="c2" placeholder="..."> because of human activity.</div>
+  <div class="cloze-line">3. Air <input class="cloze-input" id="c3" placeholder="..."> is a serious problem in big cities.</div>
+  <div class="cloze-line">4. We should <input class="cloze-input" id="c4" placeholder="..."> paper, glass and plastic.</div>
+  <div class="cloze-line">5. Don't throw <input class="cloze-input" id="c5" placeholder="..."> on the ground — use a bin!</div>
+  <div class="cloze-line">6. If we don't act now, many animals will <input class="cloze-input" id="c6" placeholder="...">.</div>
+  <div class="cloze-line">7. Every person must be <input class="cloze-input" id="c7" placeholder="..."> for protecting our planet.</div>
+  <div class="cloze-line">8. The <input class="cloze-input" id="c8" placeholder="..."> includes air, water, land and all living things.</div>
+  <div class="fb" id="fb5"></div>
+  <button class="chk teal" id="chk5" onclick="checkCloze()">✔ Check Answers</button>
+</div>
+
+<!-- ══════════════════════════════════
+     TASK 3 — CONDITIONAL 1
+══════════════════════════════════ -->
+<div class="sec-div sd-amber"><div class="sl"></div><div class="st">⚡ Activity 3 — Conditional 1</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.35s">
+  <div class="task-head"><div class="task-num" style="background:#f57f17">6</div><div><div class="task-type">Grammar · Conditional 1 rule</div></div></div>
+  <div style="background:#fff8e1;border:1.5px solid #ffe082;border-radius:16px;padding:18px 20px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:700;color:#f57f17;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">📌 Conditional 1 — Real / Possible situations</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:#fff;border-radius:12px;padding:12px;border:1px solid #ffe082;">
+        <div style="font-size:12px;font-weight:700;color:#f57f17;margin-bottom:6px;">STRUCTURE</div>
+        <div style="font-size:14px;font-weight:700;color:var(--ink);">If + Present Simple,<br>will + infinitive</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:12px;border:1px solid #ffe082;">
+        <div style="font-size:12px;font-weight:700;color:#f57f17;margin-bottom:6px;">EXAMPLE</div>
+        <div style="font-size:14px;font-weight:700;color:var(--ink);font-style:italic;">If we recycle more,<br>we will reduce waste.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="task" style="animation-delay:.4s" id="t7">
+  <div class="task-head"><div class="task-num" style="background:#f57f17">7</div><div><div class="task-type">Grammar · Conditional 1 · Choose the correct form</div></div></div>
+
+  <p class="task-q" style="margin-bottom:8px;">1. If people <span style="font-weight:800">___</span> so much, the air will be cleaner.</p>
+  <div class="opts" id="o7a">
+    <button class="opt" onclick="pickOpt('7a','don\'t pollute','don\'t pollute')">don't pollute</button>
+    <button class="opt" onclick="pickOpt('7a','won\'t pollute','don\'t pollute')">won't pollute</button>
+    <button class="opt" onclick="pickOpt('7a','didn\'t pollute','don\'t pollute')">didn't pollute</button>
+  </div>
+  <div class="fb" id="fb7a"></div>
+
+  <p class="task-q" style="margin-bottom:8px;margin-top:12px;">2. If we cut down all the forests, many animals <span style="font-weight:800">___</span>.</p>
+  <div class="opts" id="o7b">
+    <button class="opt" onclick="pickOpt('7b','disappear','will disappear')">disappear</button>
+    <button class="opt" onclick="pickOpt('7b','will disappear','will disappear')">will disappear</button>
+    <button class="opt" onclick="pickOpt('7b','disappeared','will disappear')">disappeared</button>
+  </div>
+  <div class="fb" id="fb7b"></div>
+
+  <p class="task-q" style="margin-bottom:8px;margin-top:12px;">3. If the temperature <span style="font-weight:800">___</span>, the ice will melt faster.</p>
+  <div class="opts" id="o7c">
+    <button class="opt" onclick="pickOpt('7c','rises','rises')">rises</button>
+    <button class="opt" onclick="pickOpt('7c','will rise','rises')">will rise</button>
+    <button class="opt" onclick="pickOpt('7c','rose','rises')">rose</button>
+  </div>
+  <div class="fb" id="fb7c"></div>
+
+  <p class="task-q" style="margin-bottom:8px;margin-top:12px;">4. We <span style="font-weight:800">___</span> the planet if we use renewable energy.</p>
+  <div class="opts" id="o7d">
+    <button class="opt" onclick="pickOpt('7d','save','will save')">save</button>
+    <button class="opt" onclick="pickOpt('7d','will save','will save')">will save</button>
+    <button class="opt" onclick="pickOpt('7d','saved','will save')">saved</button>
+  </div>
+  <div class="fb" id="fb7d"></div>
+</div>
+
+<div class="task" style="animation-delay:.45s" id="t8">
+  <div class="task-head"><div class="task-num" style="background:#f57f17">8</div><div><div class="task-type">Grammar · Conditional 1 · Complete the sentence</div></div></div>
+  <p class="task-hint">💡 Write the correct form of the verb in brackets.</p>
+
+  <div class="cloze-line">1. If we <input class="cloze-input" id="g1" placeholder="verb..." style="width:110px"> (not litter), our parks will be beautiful.</div>
+  <div class="cloze-line">2. If you <input class="cloze-input" id="g2" placeholder="verb..." style="width:110px"> (recycle), you will help the environment.</div>
+  <div class="cloze-line">3. The forest <input class="cloze-input" id="g3" placeholder="verb..." style="width:130px"> (disappear) if people keep cutting trees.</div>
+  <div class="cloze-line">4. If there is less pollution, more animals <input class="cloze-input" id="g4" placeholder="verb..." style="width:140px"> (survive).</div>
+  <div class="fb" id="fb8"></div>
+  <button class="chk amber" id="chk8" onclick="checkGrammar()">✔ Check Grammar</button>
+</div>
+
+<!-- ══════════════════════════════════
+     TASK 4 — LISTENING
+══════════════════════════════════ -->
+<div class="sec-div sd-blue"><div class="sl"></div><div class="st">🎧 Activity 4 — Listening Comprehension</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.5s" id="t9">
+  <div class="task-head"><div class="task-num" style="background:#1565c0">9</div><div><div class="task-type">Listening · Read & answer</div></div></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:12px;">📖 Read the text, then answer the comprehension questions below.</p>
+
+  <div class="audio-box">
+    <h3>🌍 Our Planet Is In Danger</h3>
+    <div class="audio-script">
+      Every year, millions of tonnes of <span class="blank-word">rubbish</span> are thrown into the oceans. Factories release dangerous <span class="blank-word">pollution</span> into the air and water. As a result, many <span class="blank-word">species</span> of animals and plants are <span class="blank-word">endangered</span> — they may <span class="blank-word">disappear</span> forever.
+      <br><br>
+      <span class="blank-word">Global warming</span> is making our <span class="blank-word">climate</span> more extreme. Polar ice is melting, and sea levels are rising. Forests are being destroyed by fire and illegal cutting. If we do not act now, the damage to our <span class="blank-word">environment</span> will be impossible to repair.
+      <br><br>
+      But there is hope. People all over the world are working to <span class="blank-word">protect wildlife</span>, <span class="blank-word">reduce</span> pollution and <span class="blank-word">recycle</span> waste. If every person becomes more <span class="blank-word">responsible</span>, we can <span class="blank-word">save</span> our planet for future generations.
+    </div>
+  </div>
+
+  <p class="task-q">1. What happens to many species because of pollution?</p>
+  <div class="opts" id="o9a">
+    <button class="opt" onclick="pickOpt('9a','They grow faster.','They become endangered / disappear.')">They grow faster.</button>
+    <button class="opt" onclick="pickOpt('9a','They become endangered / disappear.','They become endangered / disappear.')">They become endangered / disappear.</button>
+    <button class="opt" onclick="pickOpt('9a','They move to cities.','They become endangered / disappear.')">They move to cities.</button>
+  </div>
+  <div class="fb" id="fb9a"></div>
+
+  <p class="task-q" style="margin-top:14px">2. What is causing sea levels to rise?</p>
+  <div class="opts" id="o9b">
+    <button class="opt" onclick="pickOpt('9b','Heavy rain.','Global warming / melting polar ice.')">Heavy rain.</button>
+    <button class="opt" onclick="pickOpt('9b','Global warming / melting polar ice.','Global warming / melting polar ice.')">Global warming / melting polar ice.</button>
+    <button class="opt" onclick="pickOpt('9b','New rivers.','Global warming / melting polar ice.')">New rivers.</button>
+  </div>
+  <div class="fb" id="fb9b"></div>
+
+  <p class="task-q" style="margin-top:14px">3. According to the text, what can save our planet?</p>
+  <div class="opts" id="o9c">
+    <button class="opt" onclick="pickOpt('9c','Building more factories.','Being responsible + recycling + protecting wildlife.')">Building more factories.</button>
+    <button class="opt" onclick="pickOpt('9c','Being responsible + recycling + protecting wildlife.','Being responsible + recycling + protecting wildlife.')">Being responsible + recycling + protecting wildlife.</button>
+    <button class="opt" onclick="pickOpt('9c','Moving to other planets.','Being responsible + recycling + protecting wildlife.')">Moving to other planets.</button>
+  </div>
+  <div class="fb" id="fb9c"></div>
+</div>
+
+<!-- ══════════════════════════════════
+     TASK 5 — SPEAKING
+══════════════════════════════════ -->
+<div class="sec-div sd-earth"><div class="sl"></div><div class="st">🗣️ Activity 5 — Speaking</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.55s">
+  <div class="task-head"><div class="task-num" style="background:#795548">10</div><div><div class="task-type">Speaking · Discuss in pairs / group</div></div></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">💬 Discuss these questions using the vocabulary from this lesson. Try to use <strong>Conditional 1</strong> in your answers!</p>
+  <div class="speak-cards">
+    <div class="speak-card">
+      <h4>🌍 Question 1</h4>
+      <p>What are the biggest environmental problems in Ukraine today?</p>
+    </div>
+    <div class="speak-card teal">
+      <h4>♻️ Question 2</h4>
+      <p>What do you personally do to help the environment? What more could you do?</p>
+    </div>
+    <div class="speak-card amber">
+      <h4>🐾 Question 3</h4>
+      <p>If an endangered species disappeared from Ukraine, what would be the consequences?</p>
+    </div>
+    <div class="speak-card">
+      <h4>⚡ Question 4</h4>
+      <p>If every student in your school recycled their waste, how much rubbish would be saved?</p>
+    </div>
+  </div>
+
+  <div style="background:#e8f5e9;border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;">
+    <div style="font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">💡 Useful phrases for speaking</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">I think that...</span>
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">In my opinion...</span>
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">If we..., we will...</span>
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">The most serious problem is...</span>
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">We should / must...</span>
+      <span style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;font-weight:600;color:var(--ink)">Unless we act now...</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     TASK 6 — WRITING CONDITIONAL
+══════════════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">✍️ Activity 6 — Write your own sentences</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.6s" id="t11">
+  <div class="task-head"><div class="task-num" style="background:#2e7d32">11</div><div><div class="task-type">Writing · Conditional 1 · Your own sentences</div></div></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">✍️ Write your own Conditional 1 sentences about the environment. Start each one with the prompt given.</p>
+
+  <div style="margin-bottom:14px">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">1. <em style="color:var(--green)">If people stop using plastic bags,</em></div>
+    <input type="text" id="w1" placeholder="... they will ..." style="max-width:100%">
+  </div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">2. <em style="color:var(--green)">If we plant more trees,</em></div>
+    <input type="text" id="w2" placeholder="... the air will ..." style="max-width:100%">
+  </div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">3. <em style="color:var(--green)">Animals will disappear</em></div>
+    <input type="text" id="w3" placeholder="if ..." style="max-width:100%">
+  </div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">4. <em style="color:var(--green)">If every student recycles,</em></div>
+    <input type="text" id="w4" placeholder="... we will ..." style="max-width:100%">
+  </div>
+  <div class="fb" id="fb11"></div>
+  <button class="chk" id="chk11" onclick="checkWriting()">✔ Check My Sentences</button>
+</div>
+
+<!-- CHECK ALL -->
+<button class="check-all" onclick="checkAll()">🌍 Check All Activities & See My Score!</button>
+
+<!-- SCORE -->
+<div class="score-box" id="scoreBox">
+  <div class="sc-trophy" id="sc-t">🌍</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.45);font-weight:600;">YOUR SCORE</div>
+  <div class="sc-num" id="sc-num">0</div>
+  <div class="sc-stars" id="sc-stars">⭐⭐⭐⭐⭐</div>
+  <div class="sc-msg" id="sc-msg">Excellent!</div>
+  <div class="sc-break" id="sc-break"></div>
+  <button class="rebtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div><!-- /app -->
+
+<script>
+// ═══════════════════════════════════════════
+//  VOCABULARY DATA
+// ═══════════════════════════════════════════
+const words=[
+  {en:'nature',uk:'природа'},{en:'environment',uk:'довкілля'},{en:'pollution',uk:'забруднення'},
+  {en:'ash',uk:'попіл'},{en:'population',uk:'населення'},{en:'climate',uk:'клімат'},
+  {en:'pollute',uk:'забруднювати'},{en:'danger',uk:'небезпека'},{en:'endangered',uk:'під загрозою зникнення'},
+  {en:'protect',uk:'захищати'},{en:'recycle',uk:'переробляти'},{en:'reduce',uk:'зменшувати'},
+  {en:'reuse',uk:'використовувати повторно'},{en:'save',uk:'зберігати, рятувати'},
+  {en:'ecological',uk:'екологічний'},{en:'waste',uk:'відходи'},{en:'rubbish',uk:'сміття'},
+  {en:'planet',uk:'планета'},{en:'Earth',uk:'Земля'},{en:'forest',uk:'ліс'},
+  {en:'fire',uk:'пожежа'},{en:'air',uk:'повітря'},{en:'water',uk:'вода'},
+  {en:'litter',uk:'смітити'},{en:'protect wildlife',uk:'захищати дику природу'},
+  {en:'species',uk:'вид, різновид'},{en:'thirsty',uk:'хотіти пити'},
+  {en:'disappear',uk:'зникати'},{en:'enough',uk:'достатньо'},
+  {en:'responsible',uk:'відповідальний'},{en:'global warming',uk:'глобальне потепління'},
+  {en:'dangerous',uk:'небезпечний'},{en:'destroy',uk:'знищувати'},
+  {en:'be in danger',uk:'бути в небезпеці'},
+];
+
+// Build vocab grid
+(()=>{
+  const g=document.getElementById('vgrid');
+  words.forEach((w,i)=>{
+    const d=document.createElement('div');
+    d.className='vocab-card';
+    d.style.animationDelay=(i*.03)+'s';
+    d.innerHTML=`<div class="vc-en">${w.en}</div><div class="vc-uk">${w.uk}</div>`;
+    g.appendChild(d);
+  });
+})();
+
+// ═══════════════════════════════════════════
+//  SCORE TRACKING
+// ═══════════════════════════════════════════
+const done={};
+function upProg(){
+  const total=20;
+  const c=Object.keys(done).length;
+  document.getElementById('pb').style.width=(c/total*100)+'%';
+}
+
+// ═══════════════════════════════════════════
+//  OPTION BUTTONS (multiple choice)
+// ═══════════════════════════════════════════
+function pickOpt(id,chosen,correct){
+  const opts=document.querySelectorAll('#o'+id+' .opt');
+  const fb=document.getElementById('fb'+id);
+  if(!fb) return;
+  opts.forEach(o=>o.classList.add('dis'));
+  const ok=chosen===correct;
+  opts.forEach(o=>{
+    if(o.textContent.trim()===chosen) o.classList.add(ok?'ok':'no');
+    if(!ok&&o.textContent.trim()===correct) o.classList.add('reveal');
+  });
+  fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=ok?'✅ Correct!':'❌ Wrong! Correct answer: <b>'+correct+'</b>';
+  done[id]=ok;
+  upProg();
+}
+
+// ═══════════════════════════════════════════
+//  CLOZE (Activity 2)
+// ═══════════════════════════════════════════
+const clozeAnswers={c1:'protect',c2:'endangered',c3:'pollution',c4:'recycle',c5:'waste',c6:'disappear',c7:'responsible',c8:'environment'};
+function checkCloze(){
+  let ok=0,total=8;
+  Object.entries(clozeAnswers).forEach(([id,ans])=>{
+    const inp=document.getElementById(id);
+    const val=inp.value.trim().toLowerCase();
+    if(val===ans){inp.className='cloze-input ok';ok++;}
+    else{inp.className='cloze-input no';}
+  });
+  const fb=document.getElementById('fb5');
+  fb.className='fb '+(ok===total?'ok':'no');
+  fb.innerHTML=ok===total?'✅ All correct! Well done!':'❌ '+ok+'/'+total+' correct. Check the red fields!';
+  document.getElementById('chk5').classList.add('done');
+  document.getElementById('chk5').innerHTML='✅ Checked!';
+  done['cloze']=ok===total;
+  upProg();
+}
+
+// ═══════════════════════════════════════════
+//  GRAMMAR CLOZE (Activity 3)
+// ═══════════════════════════════════════════
+const gramAnswers={g1:"don't litter",g2:'recycle',g3:'will disappear',g4:'will survive'};
+function checkGrammar(){
+  let ok=0,total=4;
+  Object.entries(gramAnswers).forEach(([id,ans])=>{
+    const inp=document.getElementById(id);
+    const val=inp.value.trim().toLowerCase().replace(/'/g,"'");
+    const correct=ans.toLowerCase().replace(/'/g,"'");
+    if(val===correct||val===correct.replace("'","'")){inp.className='cloze-input ok';ok++;}
+    else{inp.className='cloze-input no';}
+  });
+  const fb=document.getElementById('fb8');
+  fb.className='fb '+(ok===total?'ok':'no');
+  if(ok===total) fb.innerHTML='✅ Perfect conditional forms!';
+  else {
+    fb.innerHTML='❌ '+ok+'/'+total+' correct. Answers: <b>don\'t litter / recycle / will disappear / will survive</b>';
+  }
+  document.getElementById('chk8').classList.add('done');
+  document.getElementById('chk8').innerHTML='✅ Checked!';
+  done['grammar']=ok===total;
+  upProg();
+}
+
+// ═══════════════════════════════════════════
+//  WRITING CHECK (Activity 6)
+// ═══════════════════════════════════════════
+function checkWriting(){
+  let ok=0;
+  ['w1','w2','w3','w4'].forEach(id=>{
+    const val=document.getElementById(id).value.trim();
+    const inp=document.getElementById(id);
+    if(val.length>10){
+      inp.className='ok';ok++;
+    } else {
+      inp.className='no';
+    }
+  });
+  const fb=document.getElementById('fb11');
+  fb.className='fb '+(ok>=3?'ok':'no');
+  fb.innerHTML=ok>=3?'✅ Great sentences! Check your Conditional 1 structure.':'⚠️ Please write complete sentences (at least 10 characters each).';
+  document.getElementById('chk11').classList.add('done');
+  document.getElementById('chk11').innerHTML='✅ Checked!';
+  done['writing']=ok>=3;
+  upProg();
+}
+
+// ═══════════════════════════════════════════
+//  CHECK ALL + SCORE
+// ═══════════════════════════════════════════
+function checkAll(){
+  if(!done.cloze) checkCloze();
+  if(!done.grammar) checkGrammar();
+  if(!done.writing) checkWriting();
+
+  let score=0;
+  const tracked=['1','2','3','4','7a','7b','7c','7d','9a','9b','9c','cloze','grammar','writing'];
+  tracked.forEach(k=>{if(done[k]===true)score++;});
+  const max=14;
+  const pct=Math.round(score/max*100);
+
+  let emoji='🌱',msg='Keep studying!',stars='⭐';
+  if(pct===100){emoji='🌍';msg='Outstanding! You are an Eco Champion!';stars='⭐⭐⭐⭐⭐';}
+  else if(pct>=80){emoji='🌿';msg='Excellent! Great environmental knowledge!';stars='⭐⭐⭐⭐';}
+  else if(pct>=60){emoji='🌳';msg='Good job! Keep going!';stars='⭐⭐⭐';}
+  else if(pct>=40){emoji='🌱';msg='Not bad! Review the vocabulary!';stars='⭐⭐';}
+
+  const vocabOk=['1','2','3','4'].filter(k=>done[k]).length;
+  const gramOk=['7a','7b','7c','7d'].filter(k=>done[k]).length;
+  const listenOk=['9a','9b','9c'].filter(k=>done[k]).length;
+
+  document.getElementById('sc-t').textContent=emoji;
+  document.getElementById('sc-num').textContent=score+'/'+max;
+  document.getElementById('sc-stars').textContent=stars;
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('sc-break').innerHTML=
+    `<div class="sc-chip">📚 Vocabulary: ${vocabOk+( done.cloze?1:0)}/5</div>`+
+    `<div class="sc-chip">⚡ Grammar: ${gramOk}/4</div>`+
+    `<div class="sc-chip">🎧 Listening: ${listenOk}/3</div>`+
+    `<div class="sc-chip">✍️ Writing: ${done.writing?'✅':'❌'}</div>`;
+
+  const box=document.getElementById('scoreBox');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=70) confetti();
+}
+
+// ═══════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════
+function confetti(){
+  const cols=['#a5d6a7','#80cbc4','#fff9c4','#c8e6c9','#b2dfdb','#ffffff','#ffcc80'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*8;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*2}s;--dl:${Math.random()*.8}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+
+// Enter key support
+document.querySelectorAll('input[type=text]').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter') inp.blur();});
+});
+</script>
+</body>
+</html>
