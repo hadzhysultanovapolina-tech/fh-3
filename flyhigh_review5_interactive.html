@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly High · Review 5 · Interactive</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f9ff; --card:#ffffff; --border:#bae6fd;
+  --ink:#0c2340; --muted:#4a7a9b; --soft:#e0f2fe;
+  --blue:#0369a1; --green:#15803d; --red:#b91c1c;
+  --orange:#c2410c; --purple:#6d28d9; --teal:#0f766e;
+  --ok:#15803d; --no:#b91c1c; --gold:#b45309;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 10% 10%,rgba(3,105,161,.06),transparent 50%),
+             radial-gradient(ellipse at 90% 90%,rgba(15,118,110,.05),transparent 50%);
+  pointer-events:none;z-index:0;}
+
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:4px;z-index:100;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));width:0%;transition:width .4s;}
+
+.app{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 16px 80px;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0c4a6e,#0369a1,#0f766e);border-radius:0 0 32px 32px;padding:44px 28px 40px;text-align:center;margin:0 -16px 32px;position:relative;overflow:hidden;animation:hin .7s cubic-bezier(.22,1,.36,1) both;}
+@keyframes hin{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,255,255,.07),transparent 60%);}
+.hero-badge{position:relative;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:14px;}
+.hero h1{position:relative;font-family:'Baloo 2',cursive;font-size:clamp(28px,6vw,52px);color:#fff;line-height:1.05;margin-bottom:6px;}
+.hero h1 em{font-style:normal;color:#7dd3fc;}
+.hero-sub{position:relative;font-size:14px;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:20px;}
+.hero-chips{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hc{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:6px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+
+/* SEC DIVIDER */
+.sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 16px;}
+.sec-div .sl{flex:1;height:1px;}
+.sec-div .st{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;padding:6px 18px;border-radius:20px;border:1.5px solid;white-space:nowrap;}
+.sd-blue .sl{background:linear-gradient(90deg,transparent,rgba(3,105,161,.4));}
+.sd-blue .sl:last-child{background:linear-gradient(90deg,rgba(3,105,161,.4),transparent);}
+.sd-blue .st{color:var(--blue);border-color:rgba(3,105,161,.35);background:rgba(3,105,161,.06);}
+.sd-green .sl{background:linear-gradient(90deg,transparent,rgba(21,128,61,.4));}
+.sd-green .sl:last-child{background:linear-gradient(90deg,rgba(21,128,61,.4),transparent);}
+.sd-green .st{color:var(--green);border-color:rgba(21,128,61,.35);background:rgba(21,128,61,.06);}
+.sd-purple .sl{background:linear-gradient(90deg,transparent,rgba(109,40,217,.4));}
+.sd-purple .sl:last-child{background:linear-gradient(90deg,rgba(109,40,217,.4),transparent);}
+.sd-purple .st{color:var(--purple);border-color:rgba(109,40,217,.35);background:rgba(109,40,217,.06);}
+.sd-orange .sl{background:linear-gradient(90deg,transparent,rgba(194,65,12,.4));}
+.sd-orange .sl:last-child{background:linear-gradient(90deg,rgba(194,65,12,.4),transparent);}
+.sd-orange .st{color:var(--orange);border-color:rgba(194,65,12,.35);background:rgba(194,65,12,.06);}
+
+/* TASK CARD */
+.task{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:22px 24px;margin-bottom:14px;animation:up .4s ease both;transition:transform .2s,box-shadow .2s;}
+.task:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(3,105,161,.1);}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.task-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.tnum{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:#fff;flex-shrink:0;}
+.ttype{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.tq{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;}
+.thint{font-size:13px;color:var(--muted);margin-bottom:10px;font-style:italic;}
+
+/* ODD ONE OUT */
+.odd-rows{display:flex;flex-direction:column;gap:10px;}
+.odd-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.odd-num{font-size:13px;font-weight:800;color:var(--muted);min-width:18px;}
+.odd-word{padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--soft);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;}
+.odd-word:hover{border-color:var(--blue);background:#e0f2fe;color:var(--blue);}
+.odd-word.selected-ok{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.odd-word.selected-no{background:#fee2e2;border-color:var(--no);color:var(--no);}
+.odd-word.reveal{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.odd-word.dis{opacity:.4;pointer-events:none;}
+.odd-fb{font-size:12px;font-weight:700;min-height:16px;margin-left:6px;}
+.odd-fb.ok{color:var(--ok);}
+.odd-fb.no{color:var(--no);}
+
+/* FILL BLANKS */
+.story-box{background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;font-size:15px;font-weight:600;color:var(--ink);line-height:2.2;margin-bottom:14px;}
+.bl{display:inline-block;border:none;border-bottom:2px solid var(--blue);background:transparent;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--blue);width:110px;outline:none;padding:0 4px;margin:0 3px;transition:all .22s;text-align:center;}
+.bl:focus{border-bottom-color:var(--teal);}
+.bl.ok{border-bottom-color:var(--ok);color:var(--ok);}
+.bl.no{border-bottom-color:var(--no);color:var(--no);}
+
+/* OPTS */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.opt{padding:8px 18px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;}
+.opt:hover{border-color:var(--blue);background:#e0f2fe;color:var(--blue);}
+.opt.ok{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.no{background:#fee2e2;border-color:var(--no);color:var(--no);pointer-events:none;}
+.opt.reveal{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.dis{opacity:.35;pointer-events:none;}
+
+/* FB */
+.fb{font-size:13px;font-weight:700;min-height:18px;margin-bottom:10px;}
+.fb.ok{color:var(--ok);}
+.fb.no{color:var(--no);}
+
+/* CHECK BTN */
+.chk{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.15);}
+.chk:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.chk.done{background:var(--ok)!important;pointer-events:none;}
+.cb{background:var(--blue);}
+.cg{background:var(--green);}
+.cp{background:var(--purple);}
+.co{background:var(--orange);}
+
+/* TABLE */
+.comp-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px;}
+.comp-table th{background:#e0f2fe;color:var(--blue);font-weight:700;padding:8px 12px;text-align:left;border:1px solid var(--border);}
+.comp-table td{padding:8px 12px;border:1px solid var(--border);font-weight:600;}
+.comp-table tr:nth-child(even) td{background:#f8fcff;}
+
+/* SENTENCE ROWS */
+.sent-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.sent-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.sent-label{font-size:13px;font-weight:700;color:var(--muted);min-width:24px;}
+.sent-prompt{font-size:14px;font-weight:700;color:var(--ink);}
+input[type=text].sent-input{border:2px solid var(--border);border-radius:10px;padding:7px 12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--ink);background:var(--soft);outline:none;transition:all .22s;width:260px;}
+input[type=text].sent-input:focus{border-color:var(--blue);background:#fff;}
+input[type=text].sent-input.ok{border-color:var(--ok);background:#dcfce7;color:var(--ok);}
+input[type=text].sent-input.no{border-color:var(--no);background:#fee2e2;color:var(--no);}
+
+/* SCORE */
+.score-box{display:none;background:linear-gradient(135deg,#0c2a4a,#0369a1,#0f766e);border-radius:26px;padding:40px 28px;text-align:center;margin-top:28px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.sc-t{font-size:64px;margin-bottom:10px;animation:bob 1s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.sc-n{font-family:'Baloo 2',cursive;font-size:clamp(48px,12vw,80px);background:linear-gradient(135deg,#7dd3fc,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.sc-stars{font-size:30px;letter-spacing:5px;margin:8px 0;}
+.sc-msg{font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;}
+.sc-break{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:22px;}
+.sc-chip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
+.rebtn{display:inline-flex;align-items:center;gap:7px;padding:12px 30px;border-radius:14px;border:none;font-family:'Baloo 2',cursive;font-size:18px;background:linear-gradient(135deg,#b45309,#fbbf24);color:#1a0800;cursor:pointer;box-shadow:0 4px 16px rgba(251,191,36,.3);transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+.check-all{display:block;width:100%;padding:15px;border-radius:16px;border:none;font-family:'Baloo 2',cursive;font-size:20px;background:linear-gradient(135deg,#0c4a6e,#0369a1);color:#fff;cursor:pointer;box-shadow:0 5px 20px rgba(3,105,161,.35);transition:all .22s;margin-top:28px;}
+.check-all:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* CONFETTI */
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+
+@media(max-width:500px){input[type=text].sent-input{width:200px;}.bl{width:90px;}}
+</style>
+</head>
+<body>
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🐝 Fly High · Review 5</div>
+  <h1>Review <em>Exercises</em></h1>
+  <p class="hero-sub">Was/Were · Comparatives · Superlatives · Odd one out</p>
+  <div class="hero-chips">
+    <div class="hc">📝 4 exercises</div>
+    <div class="hc">✅ Auto-check</div>
+    <div class="hc">🏆 Score at the end</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     EXERCISE 1 — ODD ONE OUT
+══════════════════════════════ -->
+<div class="sec-div sd-purple"><div class="sl"></div><div class="st">🔍 Exercise 1 — Find the odd one out</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.05s">
+  <div class="task-head"><div class="tnum" style="background:#6d28d9">1</div><div><div class="ttype">Vocabulary · Click the word that doesn't belong</div></div></div>
+  <div class="odd-rows">
+    <!-- Row 1 -->
+    <div class="odd-row" id="odd-row1">
+      <span class="odd-num">1</span>
+      <button class="odd-word" onclick="pickOdd(1,'ambulance','heavy')">ambulance</button>
+      <button class="odd-word" onclick="pickOdd(1,'heavy','heavy')">heavy</button>
+      <button class="odd-word" onclick="pickOdd(1,'nurse','heavy')">nurse</button>
+      <button class="odd-word" onclick="pickOdd(1,'accident','heavy')">accident</button>
+      <span class="odd-fb" id="odd-fb1"></span>
+    </div>
+    <!-- Row 2 -->
+    <div class="odd-row" id="odd-row2">
+      <span class="odd-num">2</span>
+      <button class="odd-word" onclick="pickOdd(2,'rhino','finger')">rhino</button>
+      <button class="odd-word" onclick="pickOdd(2,'giraffe','finger')">giraffe</button>
+      <button class="odd-word" onclick="pickOdd(2,'finger','finger')">finger</button>
+      <button class="odd-word" onclick="pickOdd(2,'hummingbird','finger')">hummingbird</button>
+      <span class="odd-fb" id="odd-fb2"></span>
+    </div>
+    <!-- Row 3 -->
+    <div class="odd-row" id="odd-row3">
+      <span class="odd-num">3</span>
+      <button class="odd-word" onclick="pickOdd(3,'chocolates','seventy-six')">chocolates</button>
+      <button class="odd-word" onclick="pickOdd(3,'seventy-six','seventy-six')">seventy-six</button>
+      <button class="odd-word" onclick="pickOdd(3,'strawberries','seventy-six')">strawberries</button>
+      <button class="odd-word" onclick="pickOdd(3,'cherries','seventy-six')">cherries</button>
+      <span class="odd-fb" id="odd-fb3"></span>
+    </div>
+    <!-- Row 4 -->
+    <div class="odd-row" id="odd-row4">
+      <span class="odd-num">4</span>
+      <button class="odd-word" onclick="pickOdd(4,'thirty-eight','bandage')">thirty-eight</button>
+      <button class="odd-word" onclick="pickOdd(4,'fifty-four','bandage')">fifty-four</button>
+      <button class="odd-word" onclick="pickOdd(4,'ninety-two','bandage')">ninety-two</button>
+      <button class="odd-word" onclick="pickOdd(4,'bandage','bandage')">bandage</button>
+      <span class="odd-fb" id="odd-fb4"></span>
+    </div>
+    <!-- Row 5 -->
+    <div class="odd-row" id="odd-row5">
+      <span class="odd-num">5</span>
+      <button class="odd-word" onclick="pickOdd(5,'grapes','hand')">grapes</button>
+      <button class="odd-word" onclick="pickOdd(5,'hand','hand')">hand</button>
+      <button class="odd-word" onclick="pickOdd(5,'head','hand')">head</button>
+      <button class="odd-word" onclick="pickOdd(5,'leg','hand')">leg</button>
+      <span class="odd-fb" id="odd-fb5"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     EXERCISE 2 — WHALES TEXT
+══════════════════════════════ -->
+<div class="sec-div sd-blue"><div class="sl"></div><div class="st">🐋 Exercise 2 — Read and choose</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.1s" id="t2">
+  <div class="task-head"><div class="tnum" style="background:#0369a1">2</div><div><div class="ttype">Grammar · Comparatives & Superlatives · Click the correct form</div></div></div>
+  <p class="thint">💡 Click the correct word for each gap!</p>
+
+  <!-- Gap 1 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">Blue whales are <span id="wg1" style="display:inline-block;min-width:110px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(big)</em> animals in the world.</div>
+    <div class="opts" id="wo1">
+      <button class="opt" onclick="pickW(1,'bigger','the biggest')">bigger</button>
+      <button class="opt" onclick="pickW(1,'the biggest','the biggest')">the biggest</button>
+      <button class="opt" onclick="pickW(1,'most big','the biggest')">most big</button>
+    </div>
+    <div class="fb" id="wfb1"></div>
+  </div>
+
+  <!-- Gap 2 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">They are <span id="wg2" style="display:inline-block;min-width:110px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(small)</em> than blue whales.</div>
+    <div class="opts" id="wo2">
+      <button class="opt" onclick="pickW(2,'the smallest','smaller')">the smallest</button>
+      <button class="opt" onclick="pickW(2,'smaller','smaller')">smaller</button>
+      <button class="opt" onclick="pickW(2,'most small','smaller')">most small</button>
+    </div>
+    <div class="fb" id="wfb2"></div>
+  </div>
+
+  <!-- Gap 3 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">But they are <span id="wg3" style="display:inline-block;min-width:120px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(fast)</em> animals in the sea.</div>
+    <div class="opts" id="wo3">
+      <button class="opt" onclick="pickW(3,'faster','the fastest')">faster</button>
+      <button class="opt" onclick="pickW(3,'the fastest','the fastest')">the fastest</button>
+      <button class="opt" onclick="pickW(3,'most fast','the fastest')">most fast</button>
+    </div>
+    <div class="fb" id="wfb3"></div>
+  </div>
+
+  <!-- Gap 5 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">Whales are <span id="wg5" style="display:inline-block;min-width:120px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(loud)</em> animals in the world.</div>
+    <div class="opts" id="wo5">
+      <button class="opt" onclick="pickW(5,'louder','the loudest')">louder</button>
+      <button class="opt" onclick="pickW(5,'the loudest','the loudest')">the loudest</button>
+      <button class="opt" onclick="pickW(5,'most loud','the loudest')">most loud</button>
+    </div>
+    <div class="fb" id="wfb5"></div>
+  </div>
+
+  <!-- Gap 6 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">They are <span id="wg6" style="display:inline-block;min-width:130px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(noisy)</em> animals in the world.</div>
+    <div class="opts" id="wo6">
+      <button class="opt" onclick="pickW(6,'noisier','the noisiest')">noisier</button>
+      <button class="opt" onclick="pickW(6,'the noisiest','the noisiest')">the noisiest</button>
+      <button class="opt" onclick="pickW(6,'most noisy','the noisiest')">most noisy</button>
+    </div>
+    <div class="fb" id="wfb6"></div>
+  </div>
+
+  <!-- Gap 7 -->
+  <div style="background:#f0f9ff;border:1.5px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;">
+    <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;">They make the <span id="wg7" style="display:inline-block;min-width:120px;border-bottom:2px solid var(--blue);color:var(--blue);font-weight:800;text-align:center;padding:0 6px;">___</span> <em style="color:var(--muted)">(long)</em> journeys.</div>
+    <div class="opts" id="wo7">
+      <button class="opt" onclick="pickW(7,'longer','the longest')">longer</button>
+      <button class="opt" onclick="pickW(7,'the longest','the longest')">the longest</button>
+      <button class="opt" onclick="pickW(7,'most long','the longest')">most long</button>
+    </div>
+    <div class="fb" id="wfb7"></div>
+  </div>
+
+  <div class="fb" id="fb2"></div>
+</div>
+
+<!-- ══════════════════════════════
+     EXERCISE 3 — TABLE SENTENCES
+══════════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">📊 Exercise 3 — Choose the correct sentence</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.15s">
+  <div class="task-head"><div class="tnum" style="background:#15803d">3</div><div><div class="ttype">Grammar · Comparatives & Superlatives · Click the correct sentence</div></div></div>
+
+  <table class="comp-table" style="margin-bottom:16px;">
+    <tr><th>Name</th><th>How old?</th><th>How tall?</th><th>How heavy?</th></tr>
+    <tr><td>Kevin</td><td>10</td><td>1m 55cm</td><td>45 kg</td></tr>
+    <tr><td>Peter</td><td>9</td><td>1m 50cm</td><td>40 kg</td></tr>
+    <tr><td>Rosa</td><td>8</td><td>1m 45cm</td><td>38 kg</td></tr>
+    <tr><td>Mary</td><td>12</td><td>1m 64cm</td><td>51 kg</td></tr>
+  </table>
+
+  <!-- S1 -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">1. Kevin / Peter (old)</div>
+  <div class="opts" id="os1">
+    <button class="opt" onclick="pickS(1,'Kevin is older than Peter.','Kevin is older than Peter.')">Kevin is older than Peter.</button>
+    <button class="opt" onclick="pickS(1,'Kevin is the oldest.','Kevin is older than Peter.')">Kevin is the oldest.</button>
+    <button class="opt" onclick="pickS(1,'Peter is older than Kevin.','Kevin is older than Peter.')">Peter is older than Kevin.</button>
+  </div><div class="fb" id="sfb1"></div></div>
+
+  <!-- S2 -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">2. Rosa / Mary (tall)</div>
+  <div class="opts" id="os2">
+    <button class="opt" onclick="pickS(2,'Mary is taller than Rosa.','Rosa is shorter than Mary.')">Mary is taller than Rosa.</button>
+    <button class="opt" onclick="pickS(2,'Rosa is shorter than Mary.','Rosa is shorter than Mary.')">Rosa is shorter than Mary.</button>
+    <button class="opt" onclick="pickS(2,'Rosa is taller than Mary.','Rosa is shorter than Mary.')">Rosa is taller than Mary.</button>
+  </div><div class="fb" id="sfb2"></div></div>
+
+  <!-- S3 -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">3. Peter / Rosa (heavy)</div>
+  <div class="opts" id="os3">
+    <button class="opt" onclick="pickS(3,'Rosa is heavier than Peter.','Peter is heavier than Rosa.')">Rosa is heavier than Peter.</button>
+    <button class="opt" onclick="pickS(3,'Peter is heavier than Rosa.','Peter is heavier than Rosa.')">Peter is heavier than Rosa.</button>
+    <button class="opt" onclick="pickS(3,'Peter is the heaviest.','Peter is heavier than Rosa.')">Peter is the heaviest.</button>
+  </div><div class="fb" id="sfb3"></div></div>
+
+  <!-- S4 -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">4. Rosa / Peter (short)</div>
+  <div class="opts" id="os4">
+    <button class="opt" onclick="pickS(4,'Peter is shorter than Rosa.','Rosa is shorter than Peter.')">Peter is shorter than Rosa.</button>
+    <button class="opt" onclick="pickS(4,'Rosa is shorter than Peter.','Rosa is shorter than Peter.')">Rosa is shorter than Peter.</button>
+    <button class="opt" onclick="pickS(4,'Rosa is the shortest.','Rosa is shorter than Peter.')">Rosa is the shortest.</button>
+  </div><div class="fb" id="sfb4"></div></div>
+
+  <!-- S5 -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">5. Mary / Rosa (young)</div>
+  <div class="opts" id="os5">
+    <button class="opt" onclick="pickS(5,'Mary is younger than Rosa.','Rosa is younger than Mary.')">Mary is younger than Rosa.</button>
+    <button class="opt" onclick="pickS(5,'Rosa is younger than Mary.','Rosa is younger than Mary.')">Rosa is younger than Mary.</button>
+    <button class="opt" onclick="pickS(5,'Mary is the youngest.','Rosa is younger than Mary.')">Mary is the youngest.</button>
+  </div><div class="fb" id="sfb5"></div></div>
+
+  <!-- S6 superlative heavy -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">6. Who is the heaviest?</div>
+  <div class="opts" id="os6">
+    <button class="opt" onclick="pickS(6,'Kevin is the heaviest.','Mary is the heaviest.')">Kevin is the heaviest.</button>
+    <button class="opt" onclick="pickS(6,'Mary is the heaviest.','Mary is the heaviest.')">Mary is the heaviest.</button>
+    <button class="opt" onclick="pickS(6,'Peter is the heaviest.','Mary is the heaviest.')">Peter is the heaviest.</button>
+  </div><div class="fb" id="sfb6"></div></div>
+
+  <!-- S7 superlative young -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">7. Who is the youngest?</div>
+  <div class="opts" id="os7">
+    <button class="opt" onclick="pickS(7,'Kevin is the youngest.','Rosa is the youngest.')">Kevin is the youngest.</button>
+    <button class="opt" onclick="pickS(7,'Mary is the youngest.','Rosa is the youngest.')">Mary is the youngest.</button>
+    <button class="opt" onclick="pickS(7,'Rosa is the youngest.','Rosa is the youngest.')">Rosa is the youngest.</button>
+  </div><div class="fb" id="sfb7"></div></div>
+
+  <!-- S8 superlative tall -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">8. Who is the tallest?</div>
+  <div class="opts" id="os8">
+    <button class="opt" onclick="pickS(8,'Kevin is the tallest.','Mary is the tallest.')">Kevin is the tallest.</button>
+    <button class="opt" onclick="pickS(8,'Mary is the tallest.','Mary is the tallest.')">Mary is the tallest.</button>
+    <button class="opt" onclick="pickS(8,'Rosa is the tallest.','Mary is the tallest.')">Rosa is the tallest.</button>
+  </div><div class="fb" id="sfb8"></div></div>
+
+  <!-- S9 superlative short -->
+  <div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;">9. Who is the shortest?</div>
+  <div class="opts" id="os9">
+    <button class="opt" onclick="pickS(9,'Peter is the shortest.','Rosa is the shortest.')">Peter is the shortest.</button>
+    <button class="opt" onclick="pickS(9,'Rosa is the shortest.','Rosa is the shortest.')">Rosa is the shortest.</button>
+    <button class="opt" onclick="pickS(9,'Mary is the shortest.','Rosa is the shortest.')">Mary is the shortest.</button>
+  </div><div class="fb" id="sfb9"></div></div>
+
+  <div class="fb" id="fb3"></div>
+</div>
+
+<!-- ══════════════════════════════
+     EXERCISE 4 — WAS/WERE
+══════════════════════════════ -->
+<div class="sec-div sd-orange"><div class="sl"></div><div class="st">📅 Exercise 4 — Was, Wasn't or Were?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.2s" id="t4">
+  <div class="task-head"><div class="tnum" style="background:#c2410c">4</div><div><div class="ttype">Grammar · Past of To Be · Fill the story</div></div></div>
+  <p class="thint">💡 Choose the correct form for each gap.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+    <!-- Saturday -->
+    <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;padding:14px 16px;">
+      <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#c2410c;margin-bottom:10px;">📅 Saturday</div>
+      <div style="font-size:14px;font-weight:600;color:var(--ink);line-height:2.2;">
+        On Saturday morning I <strong>(1)</strong>
+        <select class="sel" id="p1"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        in the playground with my friends. It was a sunny day and we
+        <strong>(2)</strong>
+        <select class="sel" id="p2"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        on the swings. It
+        <strong>(3)</strong>
+        <select class="sel" id="p3"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        fun.<br>
+        In the afternoon I <strong>(4)</strong>
+        <select class="sel" id="p4"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        at the supermarket with my mum. I don't like shopping. I
+        <strong>(5)</strong>
+        <select class="sel" id="p5"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        bored. It
+        <strong>(6)</strong>
+        <select class="sel" id="p6"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        fun.
+      </div>
+    </div>
+    <!-- Sunday -->
+    <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:14px 16px;">
+      <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#15803d;margin-bottom:10px;">📅 Sunday</div>
+      <div style="font-size:14px;font-weight:600;color:var(--ink);line-height:2.2;">
+        On Sunday morning I <strong>(7)</strong>
+        <select class="sel" id="p7"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        at home with my family.<br>
+        In the afternoon I <strong>(8)</strong>
+        <select class="sel" id="p8"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        at the aquarium with my friends. The sharks <strong>(9)</strong>
+        <select class="sel" id="p9"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        very big. We <strong>(10)</strong>
+        <select class="sel" id="p10"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        scared! But we <strong>(11)</strong>
+        <select class="sel" id="p11"><option value="">—</option><option>was</option><option>were</option><option>wasn't</option><option>weren't</option></select>
+        very brave!
+      </div>
+    </div>
+  </div>
+  <div class="fb" id="fb4"></div>
+  <button class="chk co" id="chk4" onclick="checkStory()">✔ Check Story</button>
+</div>
+
+<!-- ══════════════════════════════
+     EXERCISE 5 — Q&A
+══════════════════════════════ -->
+<div class="sec-div sd-blue"><div class="sl"></div><div class="st">❓ Exercise 5 — Questions and Answers</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.25s" id="t5">
+  <div class="task-head"><div class="tnum" style="background:#0369a1">5</div><div><div class="ttype">Grammar · Was / Were · Questions</div></div></div>
+  <p class="thint">💡 Click the correct answer for each question.</p>
+
+  <!-- Q1 -->
+  <p class="tq">1. Was it sunny on Saturday?</p>
+  <div class="opts" id="oq1">
+    <button class="opt" onclick="pickOpt('q1','Yes, it was.','Yes, it was.')">Yes, it was.</button>
+    <button class="opt" onclick="pickOpt('q1','No, it wasn\'t.','Yes, it was.')">No, it wasn't.</button>
+    <button class="opt" onclick="pickOpt('q1','Yes, they were.','Yes, it was.')">Yes, they were.</button>
+  </div>
+  <div class="fb" id="fbq1"></div>
+
+  <!-- Q2 -->
+  <p class="tq" style="margin-top:12px">2. Were Jill and her friends at the zoo in the morning?</p>
+  <div class="opts" id="oq2">
+    <button class="opt" onclick="pickOpt('q2','Yes, they were.','No, they weren\'t. They were at the playground.')">Yes, they were.</button>
+    <button class="opt" onclick="pickOpt('q2','No, they weren\'t. They were at the playground.','No, they weren\'t. They were at the playground.')">No, they weren't. They were at the playground.</button>
+    <button class="opt" onclick="pickOpt('q2','No, she wasn\'t.','No, they weren\'t. They were at the playground.')">No, she wasn't.</button>
+  </div>
+  <div class="fb" id="fbq2"></div>
+
+  <!-- Q3 -->
+  <p class="tq" style="margin-top:12px">3. Was she excited at the supermarket?</p>
+  <div class="opts" id="oq3">
+    <button class="opt" onclick="pickOpt('q3','Yes, she was.','No, she wasn\'t. She was bored.')">Yes, she was.</button>
+    <button class="opt" onclick="pickOpt('q3','No, she wasn\'t. She was bored.','No, she wasn\'t. She was bored.')">No, she wasn't. She was bored.</button>
+    <button class="opt" onclick="pickOpt('q3','No, they weren\'t.','No, she wasn\'t. She was bored.')">No, they weren't.</button>
+  </div>
+  <div class="fb" id="fbq3"></div>
+
+  <!-- Q4 -->
+  <p class="tq" style="margin-top:12px">4. Was she at the library on Sunday morning?</p>
+  <div class="opts" id="oq4">
+    <button class="opt" onclick="pickOpt('q4','Yes, she was.','No, she wasn\'t. She was at home.')">Yes, she was.</button>
+    <button class="opt" onclick="pickOpt('q4','No, she wasn\'t. She was at home.','No, she wasn\'t. She was at home.')">No, she wasn't. She was at home.</button>
+    <button class="opt" onclick="pickOpt('q4','No, they weren\'t.','No, she wasn\'t. She was at home.')">No, they weren't.</button>
+  </div>
+  <div class="fb" id="fbq4"></div>
+
+  <!-- Q5 -->
+  <p class="tq" style="margin-top:12px">5. Was she at the aquarium on Sunday afternoon?</p>
+  <div class="opts" id="oq5">
+    <button class="opt" onclick="pickOpt('q5','No, she wasn\'t.','Yes, she was.')">No, she wasn't.</button>
+    <button class="opt" onclick="pickOpt('q5','Yes, she was.','Yes, she was.')">Yes, she was.</button>
+    <button class="opt" onclick="pickOpt('q5','Yes, they were.','Yes, she was.')">Yes, they were.</button>
+  </div>
+  <div class="fb" id="fbq5"></div>
+
+  <!-- Q6 -->
+  <p class="tq" style="margin-top:12px">6. Were the sharks big?</p>
+  <div class="opts" id="oq6">
+    <button class="opt" onclick="pickOpt('q6','No, they weren\'t.','Yes, they were.')">No, they weren't.</button>
+    <button class="opt" onclick="pickOpt('q6','Yes, they were.','Yes, they were.')">Yes, they were.</button>
+    <button class="opt" onclick="pickOpt('q6','Yes, it was.','Yes, they were.')">Yes, it was.</button>
+  </div>
+  <div class="fb" id="fbq6"></div>
+
+  <!-- Q7 -->
+  <p class="tq" style="margin-top:12px">7. Were Jill and her friends brave?</p>
+  <div class="opts" id="oq7">
+    <button class="opt" onclick="pickOpt('q7','No, they weren\'t.','Yes, they were.')">No, they weren't.</button>
+    <button class="opt" onclick="pickOpt('q7','Yes, she was.','Yes, they were.')">Yes, she was.</button>
+    <button class="opt" onclick="pickOpt('q7','Yes, they were.','Yes, they were.')">Yes, they were.</button>
+  </div>
+  <div class="fb" id="fbq7"></div>
+</div>
+
+<!-- CHECK ALL -->
+<button class="check-all" onclick="checkAll()">🏆 Check All & See Score!</button>
+
+<!-- SCORE -->
+<div class="score-box" id="scoreBox">
+  <div class="sc-t" id="sc-t">🏆</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:600;">YOUR SCORE</div>
+  <div class="sc-n" id="sc-n">0</div>
+  <div class="sc-stars" id="sc-stars">⭐⭐⭐⭐⭐</div>
+  <div class="sc-msg" id="sc-msg">Well done!</div>
+  <div class="sc-break" id="sc-break"></div>
+  <button class="rebtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div>
+
+<style>
+.sel{border:1.5px solid var(--border);border-radius:8px;padding:3px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:var(--soft);outline:none;cursor:pointer;margin:0 3px;}
+.sel.ok{border-color:var(--ok);background:#dcfce7;color:var(--ok);}
+.sel.no{border-color:var(--no);background:#fee2e2;color:var(--no);}
+</style>
+
+<script>
+const done={};
+function upProg(){
+  const total=30;
+  document.getElementById('pb').style.width=(Object.keys(done).length/total*100)+'%';
+}
+
+// ── ODD ONE OUT ──
+const oddAnswers={1:'heavy',2:'finger',3:'seventy-six',4:'bandage',5:'hand'};
+function pickOdd(n,chosen,correct){
+  const btns=document.querySelectorAll('#odd-row'+n+' .odd-word');
+  const fb=document.getElementById('odd-fb'+n);
+  btns.forEach(b=>b.classList.add('dis'));
+  if(chosen===correct){
+    btns.forEach(b=>{if(b.textContent===chosen)b.classList.add('selected-ok');});
+    fb.className='odd-fb ok';fb.textContent='✅';
+    done['odd'+n]=true;
+  } else {
+    btns.forEach(b=>{
+      if(b.textContent===chosen)b.classList.add('selected-no');
+      if(b.textContent===correct)b.classList.add('reveal');
+    });
+    fb.className='odd-fb no';fb.textContent='❌ '+correct;
+    done['odd'+n]=false;
+  }
+  upProg();
+}
+
+// ── WHALES BUTTONS ──
+function pickW(n,chosen,correct){
+  const opts=document.querySelectorAll('#wo'+n+' .opt');
+  const fb=document.getElementById('wfb'+n);
+  const gap=document.getElementById('wg'+n);
+  opts.forEach(o=>o.classList.add('dis'));
+  const ok=chosen===correct;
+  opts.forEach(o=>{
+    if(o.textContent.trim()===chosen)o.classList.add(ok?'ok':'no');
+    if(!ok&&o.textContent.trim()===correct)o.classList.add('reveal');
+  });
+  if(ok){gap.textContent=chosen;gap.style.borderBottomColor='var(--ok)';gap.style.color='var(--ok)';}
+  else{gap.textContent=correct;gap.style.borderBottomColor='var(--no)';gap.style.color='var(--no)';}
+  fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=ok?'✅ Correct!':'❌ Correct: <b>'+correct+'</b>';
+  done['w'+n]=ok;upProg();
+}
+
+// ── SENTENCES BUTTONS ──
+function pickS(n,chosen,correct){
+  const opts=document.querySelectorAll('#os'+n+' .opt');
+  const fb=document.getElementById('sfb'+n);
+  opts.forEach(o=>o.classList.add('dis'));
+  const ok=chosen===correct;
+  opts.forEach(o=>{
+    if(o.textContent.trim()===chosen)o.classList.add(ok?'ok':'no');
+    if(!ok&&o.textContent.trim()===correct)o.classList.add('reveal');
+  });
+  fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=ok?'✅ Correct!':'❌ Correct: <b>'+correct+'</b>';
+  done['s'+n]=ok;upProg();
+}
+
+// ── WAS/WERE STORY ──
+const storyAnswers={p1:'was',p2:'were',p3:'was',p4:'was',p5:'was',p6:'wasn\'t',p7:'was',p8:'was',p9:'were',p10:'weren\'t',p11:'were'};
+function checkStory(){
+  let ok=0,total=11;
+  Object.entries(storyAnswers).forEach(([id,ans])=>{
+    const sel=document.getElementById(id);
+    if(sel.value===ans){sel.className='sel ok';ok++;}
+    else sel.className='sel no';
+  });
+  const fb=document.getElementById('fb4');
+  fb.className='fb '+(ok===total?'ok':'no');
+  fb.innerHTML=ok===total?'✅ Perfect story!':'❌ '+ok+'/'+total+' correct. Red = wrong. Answers: was/were/was/was/was/wasn\'t/was/was/were/weren\'t/were';
+  document.getElementById('chk4').classList.add('done');
+  document.getElementById('chk4').innerHTML='✅ Checked!';
+  done['story']=ok===total;upProg();
+}
+
+// ── Q&A ──
+function pickOpt(id,chosen,correct){
+  const opts=document.querySelectorAll('#o'+id+' .opt');
+  const fb=document.getElementById('fb'+id);
+  opts.forEach(o=>o.classList.add('dis'));
+  const ok=chosen===correct;
+  opts.forEach(o=>{
+    if(o.textContent.trim()===chosen)o.classList.add(ok?'ok':'no');
+    if(!ok&&o.textContent.trim()===correct)o.classList.add('reveal');
+  });
+  fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=ok?'✅ Correct!':'❌ Correct: <b>'+correct+'</b>';
+  done[id]=ok;upProg();
+}
+
+// ── CHECK ALL ──
+function checkAll(){
+  checkWhales();checkStory();checkSentences();
+  const vocabOk=[1,2,3,4,5].filter(i=>done['odd'+i]).length;
+  const whalesOk=[1,2,3,5,6,7].filter(i=>done['w'+i]).length;
+  const sentsOk=[1,2,3,4,5,6,7,8,9].filter(i=>done['s'+i]).length;
+  const storyOk=done['story']?1:0;
+  const qaOk=[1,2,3,4,5,6,7].filter(i=>done['q'+i]).length;
+  const score=vocabOk+whalesOk+sentsOk+storyOk+qaOk;
+  const max=5+6+9+1+7;
+  const pct=Math.round(score/max*100);
+  let em='😅',msg='Keep practising!',stars='⭐';
+  if(pct===100){em='🏆';msg='Perfect! Outstanding work!';stars='⭐⭐⭐⭐⭐';}
+  else if(pct>=80){em='🌟';msg='Excellent work!';stars='⭐⭐⭐⭐';}
+  else if(pct>=60){em='👏';msg='Good job!';stars='⭐⭐⭐';}
+  else if(pct>=40){em='💪';msg='Keep going!';stars='⭐⭐';}
+
+  document.getElementById('sc-t').textContent=em;
+  document.getElementById('sc-n').textContent=score+'/'+max;
+  document.getElementById('sc-stars').textContent=stars;
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('sc-break').innerHTML=
+    `<div class="sc-chip">🔍 Odd one out: ${vocabOk}/5</div>`+
+    `<div class="sc-chip">🐋 Whales: ${whalesOk}/6</div>`+
+    `<div class="sc-chip">📊 Sentences: ${sentsOk}/9</div>`+
+    `<div class="sc-chip">📅 Was/Were: ${done['story']?'✅':'❌'}</div>`+
+    `<div class="sc-chip">❓ Q&A: ${qaOk}/7</div>`;
+
+  const box=document.getElementById('scoreBox');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=70) confetti();
+}
+
+function confetti(){
+  const cols=['#7dd3fc','#34d399','#fbbf24','#f87171','#a78bfa','#fff'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*8;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*2}s;--dl:${Math.random()*.8}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+</script>
+</body>
+</html>
