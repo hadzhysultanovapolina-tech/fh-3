@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Junior 4 · Animals & Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0fdf4; --card:#fff; --border:#bbf7d0;
+  --ink:#0d2b0d; --muted:#4a7a4a; --soft:#dcfce7;
+  --green:#15803d; --teal:#0f766e; --blue:#0369a1;
+  --orange:#c2410c; --purple:#6d28d9; --red:#b91c1c;
+  --ok:#15803d; --no:#b91c1c; --gold:#b45309;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 8% 8%,rgba(21,128,61,.07),transparent 50%),
+             radial-gradient(ellipse at 92% 92%,rgba(15,118,110,.06),transparent 50%);
+  pointer-events:none;z-index:0;}
+
+/* floating leaves */
+.leaf{position:fixed;font-size:28px;pointer-events:none;z-index:0;opacity:.1;animation:sway var(--sw,6s) ease-in-out infinite alternate;}
+@keyframes sway{0%{transform:rotate(-10deg);}100%{transform:rotate(10deg);}}
+
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:4px;z-index:100;}
+.prog-bar{height:100%;background:linear-gradient(90deg,#15803d,#0f766e,#0369a1);width:0%;transition:width .4s;}
+
+.app{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 16px 80px;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#052e16,#15803d,#065f46);border-radius:0 0 36px 36px;padding:48px 28px 44px;text-align:center;margin:0 -16px 32px;position:relative;overflow:hidden;animation:hin .7s cubic-bezier(.22,1,.36,1) both;}
+@keyframes hin{from{opacity:0;transform:translateY(-22px);}to{opacity:1;transform:translateY(0);}}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(255,255,255,.07),transparent 55%);}
+.hero-badge{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:14px;}
+.hero h1{position:relative;font-family:'Baloo 2',cursive;font-size:clamp(28px,6vw,54px);color:#fff;line-height:1.05;margin-bottom:6px;}
+.hero h1 em{font-style:normal;color:#86efac;}
+.hero-sub{position:relative;font-size:14px;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:20px;}
+.hero-chips{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hc{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:6px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+
+/* SEC DIVIDERS */
+.sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 16px;}
+.sec-div .sl{flex:1;height:1px;}
+.sec-div .st{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;padding:6px 18px;border-radius:20px;border:1.5px solid;white-space:nowrap;}
+.sd-green .sl{background:linear-gradient(90deg,transparent,rgba(21,128,61,.4));}
+.sd-green .sl:last-child{background:linear-gradient(90deg,rgba(21,128,61,.4),transparent);}
+.sd-green .st{color:var(--green);border-color:rgba(21,128,61,.35);background:rgba(21,128,61,.06);}
+.sd-teal .sl{background:linear-gradient(90deg,transparent,rgba(15,118,110,.4));}
+.sd-teal .sl:last-child{background:linear-gradient(90deg,rgba(15,118,110,.4),transparent);}
+.sd-teal .st{color:var(--teal);border-color:rgba(15,118,110,.35);background:rgba(15,118,110,.06);}
+.sd-blue .sl{background:linear-gradient(90deg,transparent,rgba(3,105,161,.4));}
+.sd-blue .sl:last-child{background:linear-gradient(90deg,rgba(3,105,161,.4),transparent);}
+.sd-blue .st{color:var(--blue);border-color:rgba(3,105,161,.35);background:rgba(3,105,161,.06);}
+.sd-red .sl{background:linear-gradient(90deg,transparent,rgba(185,28,28,.4));}
+.sd-red .sl:last-child{background:linear-gradient(90deg,rgba(185,28,28,.4),transparent);}
+.sd-red .st{color:var(--red);border-color:rgba(185,28,28,.35);background:rgba(185,28,28,.06);}
+.sd-purple .sl{background:linear-gradient(90deg,transparent,rgba(109,40,217,.4));}
+.sd-purple .sl:last-child{background:linear-gradient(90deg,rgba(109,40,217,.4),transparent);}
+.sd-purple .st{color:var(--purple);border-color:rgba(109,40,217,.35);background:rgba(109,40,217,.06);}
+
+/* TASK CARD */
+.task{background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:22px 24px;margin-bottom:14px;animation:up .4s ease both;transition:transform .2s,box-shadow .2s;}
+.task:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(21,128,61,.1);}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.task-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.tnum{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:#fff;flex-shrink:0;}
+.ttype{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.tq{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;}
+.thint{font-size:13px;color:var(--muted);margin-bottom:12px;}
+
+/* VOCAB GRID */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:8px;}
+.vc{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 12px;transition:transform .18s;}
+.vc:hover{transform:translateY(-2px);}
+.vc-emoji{font-size:24px;margin-bottom:4px;}
+.vc-en{font-size:13px;font-weight:800;color:var(--green);}
+.vc-uk{font-size:11px;color:var(--muted);}
+
+/* GRAMMAR BOX */
+.gram-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;margin-bottom:16px;}
+.gram-box h3{font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.gram-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:500px){.gram-grid{grid-template-columns:1fr;}}
+.gram-col{background:#fff;border-radius:12px;padding:12px 14px;border:1px solid var(--border);}
+.gram-col .gc-title{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.gram-row{font-size:13px;font-weight:700;color:var(--ink);padding:4px 0;border-bottom:1px dashed #e5e7eb;}
+.gram-row:last-child{border:none;}
+.gram-row span{color:var(--green);}
+
+/* OPTS */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.opt{padding:9px 18px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;}
+.opt:hover{border-color:var(--green);background:#bbf7d0;color:var(--green);}
+.opt.ok{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.no{background:#fee2e2;border-color:var(--no);color:var(--no);pointer-events:none;}
+.opt.reveal{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.dis{opacity:.35;pointer-events:none;}
+
+/* GAP INLINE */
+.gap-span{display:inline-block;min-width:100px;border-bottom:2px solid var(--green);color:var(--green);font-weight:800;text-align:center;padding:0 6px;margin:0 4px;}
+.gap-span.ok{border-bottom-color:var(--ok);color:var(--ok);}
+.gap-span.no{border-bottom-color:var(--no);color:var(--no);}
+
+/* FB */
+.fb{font-size:13px;font-weight:700;min-height:18px;margin-bottom:10px;}
+.fb.ok{color:var(--ok);}
+.fb.no{color:var(--no);}
+
+/* HEALTH CARDS */
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:500px){.health-grid{grid-template-columns:1fr 1fr;}}
+.hcard{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;}
+.hcard:hover{border-color:var(--red);transform:translateY(-2px);}
+.hcard.selected{border-color:var(--red);background:#fff5f5;box-shadow:0 4px 14px rgba(185,28,28,.15);}
+.hcard .hemoji{font-size:32px;margin-bottom:6px;}
+.hcard .hname{font-size:13px;font-weight:800;color:var(--ink);}
+.hcard .huk{font-size:11px;color:var(--muted);}
+
+/* DIALOGUE */
+.dialogue-box{background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1.5px solid #fed7aa;border-radius:18px;padding:18px 20px;margin-bottom:16px;}
+.dialogue-box h3{font-family:'Baloo 2',cursive;font-size:15px;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.d-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.d-speaker{font-size:12px;font-weight:800;color:var(--orange);min-width:60px;margin-top:2px;}
+.d-text{font-size:14px;font-weight:600;color:var(--ink);line-height:1.5;}
+
+/* SHOULD TABLE */
+.should-table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+.should-table th{background:#dcfce7;color:var(--green);font-weight:700;padding:9px 14px;text-align:left;border:1px solid var(--border);font-size:13px;}
+.should-table td{padding:9px 14px;border:1px solid var(--border);font-size:13px;font-weight:600;}
+.should-table tr:nth-child(even) td{background:#f0fdf4;}
+
+/* CHECK ALL */
+.check-all{display:block;width:100%;padding:16px;border-radius:18px;border:none;font-family:'Baloo 2',cursive;font-size:21px;background:linear-gradient(135deg,#052e16,#15803d);color:#fff;cursor:pointer;box-shadow:0 5px 20px rgba(21,128,61,.35);transition:all .22s;margin-top:28px;}
+.check-all:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* SCORE */
+.score-box{display:none;background:linear-gradient(135deg,#052e16,#15803d,#065f46);border-radius:26px;padding:40px 28px;text-align:center;margin-top:28px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.sc-t{font-size:64px;margin-bottom:10px;animation:bob 1s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.sc-n{font-family:'Baloo 2',cursive;font-size:clamp(50px,12vw,82px);background:linear-gradient(135deg,#86efac,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.sc-stars{font-size:30px;letter-spacing:5px;margin:8px 0;}
+.sc-msg{font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;}
+.sc-break{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.sc-chip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
+.rebtn{display:inline-flex;align-items:center;gap:7px;padding:12px 28px;border-radius:14px;border:none;font-family:'Baloo 2',cursive;font-size:18px;background:linear-gradient(135deg,#b45309,#fbbf24);color:#1a0800;cursor:pointer;box-shadow:0 4px 16px rgba(251,191,36,.3);transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* CONFETTI */
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+
+<div class="leaf" style="top:6%;left:1%;--sw:7s">🌿</div>
+<div class="leaf" style="top:25%;right:1%;--sw:5s">🍃</div>
+<div class="leaf" style="top:60%;left:1%;--sw:8s">🌱</div>
+<div class="leaf" style="top:80%;right:1%;--sw:6s">🍀</div>
+
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🌿 Smart Junior 4 · Units 6 & 7</div>
+  <h1>Animals & <em>Health!</em></h1>
+  <p class="hero-sub">Comparatives · Superlatives · Should / Shouldn't</p>
+  <div class="hero-chips">
+    <div class="hc">🐼 Animals</div>
+    <div class="hc">📊 Comparatives</div>
+    <div class="hc">🏆 Superlatives</div>
+    <div class="hc">🩺 Health</div>
+    <div class="hc">💊 Should</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     VOCABULARY REFERENCE
+══════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">📚 Animals Vocabulary</div><div class="sl"></div></div>
+<div class="vocab-grid">
+  <div class="vc"><div class="vc-emoji">🐼</div><div class="vc-en">panda</div><div class="vc-uk">панда</div></div>
+  <div class="vc"><div class="vc-emoji">🦏</div><div class="vc-en">rhino</div><div class="vc-uk">носоріг</div></div>
+  <div class="vc"><div class="vc-emoji">🐻‍❄️</div><div class="vc-en">polar bear</div><div class="vc-uk">полярний ведмідь</div></div>
+  <div class="vc"><div class="vc-emoji">🦕</div><div class="vc-en">dinosaur</div><div class="vc-uk">динозавр</div></div>
+  <div class="vc"><div class="vc-emoji">🦍</div><div class="vc-en">gorilla</div><div class="vc-uk">горила</div></div>
+  <div class="vc"><div class="vc-emoji">✂️</div><div class="vc-en">cut down</div><div class="vc-uk">вирубувати</div></div>
+  <div class="vc"><div class="vc-emoji">🛡️</div><div class="vc-en">protect</div><div class="vc-uk">захищати</div></div>
+</div>
+
+<!-- Grammar reference -->
+<div class="sec-div sd-teal"><div class="sl"></div><div class="st">📌 Grammar: Comparatives & Superlatives</div><div class="sl"></div></div>
+<div class="gram-box">
+  <h3>⚡ Rules</h3>
+  <div class="gram-grid">
+    <div class="gram-col">
+      <div class="gc-title">➕ Comparative</div>
+      <div class="gram-row">heavy → <span>heavier</span></div>
+      <div class="gram-row">intelligent → <span>more intelligent</span></div>
+      <div class="gram-row">easy → <span>easier</span></div>
+      <div class="gram-row">boring → <span>more boring</span></div>
+      <div class="gram-row">old → <span>older</span></div>
+      <div class="gram-row">young → <span>younger</span></div>
+      <div class="gram-row">popular → <span>more popular</span></div>
+    </div>
+    <div class="gram-col">
+      <div class="gc-title">🏆 Superlative</div>
+      <div class="gram-row">heavy → <span>the heaviest</span></div>
+      <div class="gram-row">intelligent → <span>the most intelligent</span></div>
+      <div class="gram-row">easy → <span>the easiest</span></div>
+      <div class="gram-row">boring → <span>the most boring</span></div>
+      <div class="gram-row">old → <span>the oldest</span></div>
+      <div class="gram-row">young → <span>the youngest</span></div>
+      <div class="gram-row">popular → <span>the most popular</span></div>
+    </div>
+    <div class="gram-col">
+      <div class="gc-title">⭐ Irregular</div>
+      <div class="gram-row">good → <span>better</span> → <span>the best</span></div>
+      <div class="gram-row">bad → <span>worse</span> → <span>the worst</span></div>
+      <div class="gram-row" style="margin-top:8px;font-size:12px;color:var(--muted)">weigh = важити</div>
+      <div class="gram-row" style="font-size:12px;color:var(--muted)">A gorilla weighs more than a panda.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  ACT 1 — COMPARATIVE BUTTONS
+══════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">✏️ Activity 1 — Choose the comparative</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.05s">
+  <div class="task-head"><div class="tnum" style="background:#15803d">1</div><div><div class="ttype">Comparatives · Click the correct form</div></div></div>
+
+  <!-- 1a -->
+  <div style="background:#f0fdf4;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">A gorilla is <span class="gap-span" id="g1a">___</span> (heavy) than a panda.</div>
+    <div class="opts" id="o1a">
+      <button class="opt" data-val="more heavy" onclick="pickGap('1a',this,'heavier')">more heavy</button>
+      <button class="opt" data-val="heavier" onclick="pickGap('1a',this,'heavier')">heavier</button>
+      <button class="opt" data-val="heaviest" onclick="pickGap('1a',this,'heavier')">heaviest</button>
+    </div>
+    <div class="fb" id="fb1a"></div>
+  </div>
+
+  <!-- 1b -->
+  <div style="background:#f0fdf4;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">A polar bear is <span class="gap-span" id="g1b">___</span> (old) than a dinosaur? No! 🦕</div>
+    <div class="opts" id="o1b">
+      <button class="opt" data-val="more old" onclick="pickGap('1b',this,'older')">more old</button>
+      <button class="opt" data-val="oldest" onclick="pickGap('1b',this,'older')">oldest</button>
+      <button class="opt" data-val="older" onclick="pickGap('1b',this,'older')">older</button>
+    </div>
+    <div class="fb" id="fb1b"></div>
+  </div>
+
+  <!-- 1c -->
+  <div style="background:#f0fdf4;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">A gorilla is <span class="gap-span" id="g1c">___</span> (intelligent) than a rhino.</div>
+    <div class="opts" id="o1c">
+      <button class="opt" data-val="intelligenter" onclick="pickGap('1c',this,'more intelligent')">intelligenter</button>
+      <button class="opt" data-val="more intelligent" onclick="pickGap('1c',this,'more intelligent')">more intelligent</button>
+      <button class="opt" data-val="most intelligent" onclick="pickGap('1c',this,'more intelligent')">most intelligent</button>
+    </div>
+    <div class="fb" id="fb1c"></div>
+  </div>
+
+  <!-- 1d -->
+  <div style="background:#f0fdf4;border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">A panda is <span class="gap-span" id="g1d">___</span> (popular) than a rhino.</div>
+    <div class="opts" id="o1d">
+      <button class="opt" data-val="popularer" onclick="pickGap('1d',this,'more popular')">popularer</button>
+      <button class="opt" data-val="more popular" onclick="pickGap('1d',this,'more popular')">more popular</button>
+      <button class="opt" data-val="the most popular" onclick="pickGap('1d',this,'more popular')">the most popular</button>
+    </div>
+    <div class="fb" id="fb1d"></div>
+  </div>
+
+  <!-- 1e IRREGULAR -->
+  <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:14px;padding:14px 16px;margin-bottom:4px;">
+    <div class="tq">⭐ Pandas are <span class="gap-span" id="g1e">___</span> (good) at climbing than gorillas.</div>
+    <div class="opts" id="o1e">
+      <button class="opt" data-val="gooder" onclick="pickGap('1e',this,'better')">gooder</button>
+      <button class="opt" data-val="more good" onclick="pickGap('1e',this,'better')">more good</button>
+      <button class="opt" data-val="better" onclick="pickGap('1e',this,'better')">better</button>
+    </div>
+    <div class="fb" id="fb1e"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  ACT 2 — SUPERLATIVE BUTTONS
+══════════════════════════ -->
+<div class="sec-div sd-teal"><div class="sl"></div><div class="st">🏆 Activity 2 — Choose the superlative</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.1s">
+  <div class="task-head"><div class="tnum" style="background:#0f766e">2</div><div><div class="ttype">Superlatives · Click the correct form</div></div></div>
+
+  <!-- 2a -->
+  <div style="background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">The gorilla is <span class="gap-span" id="g2a">___</span> (heavy) animal here.</div>
+    <div class="opts" id="o2a">
+      <button class="opt" data-val="heavier" onclick="pickGap('2a',this,'the heaviest')">heavier</button>
+      <button class="opt" data-val="the heaviest" onclick="pickGap('2a',this,'the heaviest')">the heaviest</button>
+      <button class="opt" data-val="most heavy" onclick="pickGap('2a',this,'the heaviest')">most heavy</button>
+    </div>
+    <div class="fb" id="fb2a"></div>
+  </div>
+
+  <!-- 2b -->
+  <div style="background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">The gorilla is <span class="gap-span" id="g2b">___</span> (intelligent) animal of all.</div>
+    <div class="opts" id="o2b">
+      <button class="opt" data-val="more intelligent" onclick="pickGap('2b',this,'the most intelligent')">more intelligent</button>
+      <button class="opt" data-val="the most intelligent" onclick="pickGap('2b',this,'the most intelligent')">the most intelligent</button>
+      <button class="opt" data-val="intelligentst" onclick="pickGap('2b',this,'the most intelligent')">intelligentst</button>
+    </div>
+    <div class="fb" id="fb2b"></div>
+  </div>
+
+  <!-- 2c -->
+  <div style="background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">Is a panda <span class="gap-span" id="g2c">___</span> (young) animal in the zoo?</div>
+    <div class="opts" id="o2c">
+      <button class="opt" data-val="the youngest" onclick="pickGap('2c',this,'the youngest')">the youngest</button>
+      <button class="opt" data-val="younger" onclick="pickGap('2c',this,'the youngest')">younger</button>
+      <button class="opt" data-val="most young" onclick="pickGap('2c',this,'the youngest')">most young</button>
+    </div>
+    <div class="fb" id="fb2c"></div>
+  </div>
+
+  <!-- 2d IRREGULAR -->
+  <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:14px;padding:14px 16px;margin-bottom:4px;">
+    <div class="tq">⭐ The panda is <span class="gap-span" id="g2d">___</span> (good) animal in the world!</div>
+    <div class="opts" id="o2d">
+      <button class="opt" data-val="better" onclick="pickGap('2d',this,'the best')">better</button>
+      <button class="opt" data-val="the goodest" onclick="pickGap('2d',this,'the best')">the goodest</button>
+      <button class="opt" data-val="the best" onclick="pickGap('2d',this,'the best')">the best</button>
+    </div>
+    <div class="fb" id="fb2d"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  ACT 3 — PROTECT ANIMALS
+══════════════════════════ -->
+<div class="sec-div sd-blue"><div class="sl"></div><div class="st">🌍 Activity 3 — Protect animals!</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.15s">
+  <div class="task-head"><div class="tnum" style="background:#0369a1">3</div><div><div class="ttype">Vocabulary · Choose the correct word</div></div></div>
+
+  <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">People <span class="gap-span" id="g3a">___</span> trees in forests. This is dangerous for animals.</div>
+    <div class="opts" id="o3a">
+      <button class="opt" data-val="protect" onclick="pickGap('3a',this,'cut down')">protect</button>
+      <button class="opt" data-val="cut down" onclick="pickGap('3a',this,'cut down')">cut down</button>
+      <button class="opt" data-val="weigh" onclick="pickGap('3a',this,'cut down')">weigh</button>
+    </div>
+    <div class="fb" id="fb3a"></div>
+  </div>
+
+  <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">We must <span class="gap-span" id="g3b">___</span> endangered animals like pandas and rhinos.</div>
+    <div class="opts" id="o3b">
+      <button class="opt" data-val="cut down" onclick="pickGap('3b',this,'protect')">cut down</button>
+      <button class="opt" data-val="protect" onclick="pickGap('3b',this,'protect')">protect</button>
+      <button class="opt" data-val="weigh" onclick="pickGap('3b',this,'protect')">weigh</button>
+    </div>
+    <div class="fb" id="fb3b"></div>
+  </div>
+
+  <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:14px 16px;">
+    <div class="tq">A gorilla can <span class="gap-span" id="g3c">___</span> up to 200 kilograms!</div>
+    <div class="opts" id="o3c">
+      <button class="opt" data-val="protect" onclick="pickGap('3c',this,'weigh')">protect</button>
+      <button class="opt" data-val="cut down" onclick="pickGap('3c',this,'weigh')">cut down</button>
+      <button class="opt" data-val="weigh" onclick="pickGap('3c',this,'weigh')">weigh</button>
+    </div>
+    <div class="fb" id="fb3c"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     HEALTH VOCAB REFERENCE
+══════════════════════════ -->
+<div class="sec-div sd-red"><div class="sl"></div><div class="st">🩺 Health Vocabulary</div><div class="sl"></div></div>
+
+<div class="health-grid">
+  <div class="vc" style="text-align:center"><div class="vc-emoji">🤕</div><div class="vc-en">headache</div><div class="vc-uk">головний біль</div></div>
+  <div class="vc" style="text-align:center"><div class="vc-emoji">🤢</div><div class="vc-en">stomachache</div><div class="vc-uk">біль у животі</div></div>
+  <div class="vc" style="text-align:center"><div class="vc-emoji">👂</div><div class="vc-en">earache</div><div class="vc-uk">біль у вусі</div></div>
+  <div class="vc" style="text-align:center"><div class="vc-emoji">🦷</div><div class="vc-en">toothache</div><div class="vc-uk">зубний біль</div></div>
+  <div class="vc" style="text-align:center"><div class="vc-emoji">😮</div><div class="vc-en">sore throat</div><div class="vc-uk">біль у горлі</div></div>
+  <div class="vc" style="text-align:center"><div class="vc-emoji">😷</div><div class="vc-en">cough</div><div class="vc-uk">кашель</div></div>
+</div>
+
+<!-- Should reference -->
+<div class="should-table-wrap" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:16px 18px;margin-bottom:16px;">
+  <div style="font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:var(--red);margin-bottom:12px;">💊 Should / Shouldn't</div>
+  <table class="should-table">
+    <tr><th>Problem</th><th>You should...</th><th>You shouldn't...</th></tr>
+    <tr><td>🤕 headache</td><td>go to bed / rest</td><td>watch TV</td></tr>
+    <tr><td>🤢 stomachache</td><td>drink water / see a doctor</td><td>eat sweets</td></tr>
+    <tr><td>👂 earache</td><td>see a doctor</td><td>go swimming</td></tr>
+    <tr><td>🦷 toothache</td><td>go to the dentist</td><td>eat sweets</td></tr>
+    <tr><td>😮 sore throat</td><td>drink hot tea / rest</td><td>talk loudly</td></tr>
+    <tr><td>😷 cough</td><td>take medicine / rest</td><td>go to school</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════
+  ACT 4 — WHAT'S THE MATTER?
+══════════════════════════ -->
+<div class="sec-div sd-red"><div class="sl"></div><div class="st">🤒 Activity 4 — What's the matter?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.2s">
+  <div class="task-head"><div class="tnum" style="background:#b91c1c">4</div><div><div class="ttype">Health Vocabulary · Match the problem</div></div></div>
+  <p class="thint">💡 Click the correct illness for each sentence!</p>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">My head hurts. I've got a <span class="gap-span" id="h1">___</span>.</div>
+    <div class="opts" id="oh1">
+      <button class="opt" data-val="stomachache" onclick="pickGap('h1',this,'headache')">stomachache</button>
+      <button class="opt" data-val="headache" onclick="pickGap('h1',this,'headache')">headache</button>
+      <button class="opt" data-val="cough" onclick="pickGap('h1',this,'headache')">cough</button>
+    </div>
+    <div class="fb" id="fbh1"></div>
+  </div>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">My tummy hurts. I've got a <span class="gap-span" id="h2">___</span>.</div>
+    <div class="opts" id="oh2">
+      <button class="opt" data-val="headache" onclick="pickGap('h2',this,'stomachache')">headache</button>
+      <button class="opt" data-val="earache" onclick="pickGap('h2',this,'stomachache')">earache</button>
+      <button class="opt" data-val="stomachache" onclick="pickGap('h2',this,'stomachache')">stomachache</button>
+    </div>
+    <div class="fb" id="fbh2"></div>
+  </div>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">My ear hurts. I've got an <span class="gap-span" id="h3">___</span>.</div>
+    <div class="opts" id="oh3">
+      <button class="opt" data-val="toothache" onclick="pickGap('h3',this,'earache')">toothache</button>
+      <button class="opt" data-val="earache" onclick="pickGap('h3',this,'earache')">earache</button>
+      <button class="opt" data-val="sore throat" onclick="pickGap('h3',this,'earache')">sore throat</button>
+    </div>
+    <div class="fb" id="fbh3"></div>
+  </div>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">My tooth hurts. I've got a <span class="gap-span" id="h4">___</span>.</div>
+    <div class="opts" id="oh4">
+      <button class="opt" data-val="cough" onclick="pickGap('h4',this,'toothache')">cough</button>
+      <button class="opt" data-val="headache" onclick="pickGap('h4',this,'toothache')">headache</button>
+      <button class="opt" data-val="toothache" onclick="pickGap('h4',this,'toothache')">toothache</button>
+    </div>
+    <div class="fb" id="fbh4"></div>
+  </div>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">My throat hurts. I've got a <span class="gap-span" id="h5">___</span>.</div>
+    <div class="opts" id="oh5">
+      <button class="opt" data-val="stomachache" onclick="pickGap('h5',this,'sore throat')">stomachache</button>
+      <button class="opt" data-val="sore throat" onclick="pickGap('h5',this,'sore throat')">sore throat</button>
+      <button class="opt" data-val="earache" onclick="pickGap('h5',this,'sore throat')">earache</button>
+    </div>
+    <div class="fb" id="fbh5"></div>
+  </div>
+
+  <div style="background:#fff5f5;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;">
+    <div class="tq">I keep coughing. I've got a <span class="gap-span" id="h6">___</span>.</div>
+    <div class="opts" id="oh6">
+      <button class="opt" data-val="earache" onclick="pickGap('h6',this,'cough')">earache</button>
+      <button class="opt" data-val="headache" onclick="pickGap('h6',this,'cough')">headache</button>
+      <button class="opt" data-val="cough" onclick="pickGap('h6',this,'cough')">cough</button>
+    </div>
+    <div class="fb" id="fbh6"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  ACT 5 — SHOULD / SHOULDN'T
+══════════════════════════ -->
+<div class="sec-div sd-purple"><div class="sl"></div><div class="st">💊 Activity 5 — Should or Shouldn't?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.25s">
+  <div class="task-head"><div class="tnum" style="background:#6d28d9">5</div><div><div class="ttype">Grammar · Should / Shouldn't · Click the correct advice</div></div></div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">I've got a headache. You <span class="gap-span" id="s1">___</span> go to bed.</div>
+    <div class="opts" id="os1">
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s1',this,'should')">shouldn't</button>
+      <button class="opt" data-val="should" onclick="pickGap('s1',this,'should')">should</button>
+    </div>
+    <div class="fb" id="fbs1"></div>
+  </div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">I've got a stomachache. You <span class="gap-span" id="s2">___</span> eat sweets.</div>
+    <div class="opts" id="os2">
+      <button class="opt" data-val="should" onclick="pickGap('s2',this,'shouldn\'t')">should</button>
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s2',this,'shouldn\'t')">shouldn't</button>
+    </div>
+    <div class="fb" id="fbs2"></div>
+  </div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">I've got an earache. You <span class="gap-span" id="s3">___</span> see a doctor.</div>
+    <div class="opts" id="os3">
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s3',this,'should')">shouldn't</button>
+      <button class="opt" data-val="should" onclick="pickGap('s3',this,'should')">should</button>
+    </div>
+    <div class="fb" id="fbs3"></div>
+  </div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">I've got a toothache. You <span class="gap-span" id="s4">___</span> go to the dentist.</div>
+    <div class="opts" id="os4">
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s4',this,'should')">shouldn't</button>
+      <button class="opt" data-val="should" onclick="pickGap('s4',this,'should')">should</button>
+    </div>
+    <div class="fb" id="fbs4"></div>
+  </div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;">
+    <div class="tq">I've got a cough. You <span class="gap-span" id="s5">___</span> go to school today.</div>
+    <div class="opts" id="os5">
+      <button class="opt" data-val="should" onclick="pickGap('s5',this,'shouldn\'t')">should</button>
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s5',this,'shouldn\'t')">shouldn't</button>
+    </div>
+    <div class="fb" id="fbs5"></div>
+  </div>
+
+  <div style="background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;">
+    <div class="tq">I've got a sore throat. You <span class="gap-span" id="s6">___</span> drink hot tea.</div>
+    <div class="opts" id="os6">
+      <button class="opt" data-val="shouldn't" onclick="pickGap('s6',this,'should')">shouldn't</button>
+      <button class="opt" data-val="should" onclick="pickGap('s6',this,'should')">should</button>
+    </div>
+    <div class="fb" id="fbs6"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  ACT 6 — DIALOGUE
+══════════════════════════ -->
+<div class="sec-div sd-red"><div class="sl"></div><div class="st">🗣️ Activity 6 — What's the matter? Dialogue</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.3s">
+  <div class="task-head"><div class="tnum" style="background:#b91c1c">6</div><div><div class="ttype">Speaking · Complete the dialogue</div></div></div>
+  <p class="thint">💡 Click the correct line to complete the dialogue!</p>
+
+  <div class="dialogue-box">
+    <h3>🩺 At the doctor's</h3>
+    <div class="d-line"><span class="d-speaker">Doctor:</span><span class="d-text">What's the matter?</span></div>
+    <div class="d-line"><span class="d-speaker">You:</span>
+      <span class="d-text">
+        <span class="gap-span" id="d1">___</span>
+      </span>
+    </div>
+    <div class="opts" id="od1">
+      <button class="opt" data-val="I'm fine, thanks." onclick="pickGap('d1',this,'I\'ve got a stomachache.')">I'm fine, thanks.</button>
+      <button class="opt" data-val="I've got a stomachache." onclick="pickGap('d1',this,'I\'ve got a stomachache.')">I've got a stomachache.</button>
+      <button class="opt" data-val="I like animals." onclick="pickGap('d1',this,'I\'ve got a stomachache.')">I like animals.</button>
+    </div>
+    <div class="fb" id="fbd1"></div>
+
+    <div class="d-line" style="margin-top:8px;"><span class="d-speaker">Doctor:</span><span class="d-text">You should <span class="gap-span" id="d2">___</span>.</span></div>
+    <div class="opts" id="od2">
+      <button class="opt" data-val="eat lots of sweets" onclick="pickGap('d2',this,'drink water and rest')">eat lots of sweets</button>
+      <button class="opt" data-val="go swimming" onclick="pickGap('d2',this,'drink water and rest')">go swimming</button>
+      <button class="opt" data-val="drink water and rest" onclick="pickGap('d2',this,'drink water and rest')">drink water and rest</button>
+    </div>
+    <div class="fb" id="fbd2"></div>
+  </div>
+</div>
+
+<!-- CHECK ALL -->
+<button class="check-all" onclick="checkAll()">🌿 Check All & See My Score!</button>
+
+<!-- SCORE -->
+<div class="score-box" id="scoreBox">
+  <div class="sc-t" id="sc-t">🌿</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:600;">YOUR SCORE</div>
+  <div class="sc-n" id="sc-n">0</div>
+  <div class="sc-stars" id="sc-stars">⭐⭐⭐⭐⭐</div>
+  <div class="sc-msg" id="sc-msg">Well done!</div>
+  <div class="sc-break" id="sc-break"></div>
+  <button class="rebtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div>
+
+<script>
+const done={};
+function upProg(){
+  const total=28;
+  document.getElementById('pb').style.width=(Object.keys(done).length/total*100)+'%';
+}
+
+function pickGap(id,btn,correct){
+  const chosen=btn.dataset.val;
+  const opts=document.querySelectorAll('#o'+id+' .opt, #oh'+id.replace('h','')+' .opt, #os'+id.replace('s','')+' .opt, #od'+id.replace('d','')+' .opt');
+  // disable all opts in same group
+  btn.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.add('dis'));
+  const gap=document.getElementById(id);
+  const fb=document.getElementById('fb'+id);
+  const ok=chosen===correct;
+  if(ok){
+    btn.classList.remove('dis');btn.classList.add('ok');
+    gap.textContent=chosen;gap.className='gap-span ok';
+    fb.className='fb ok';fb.innerHTML='✅ Correct!';
+  } else {
+    btn.classList.remove('dis');btn.classList.add('no');
+    // reveal correct
+    btn.closest('.opts').querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.val===correct){o.classList.remove('dis');o.classList.add('reveal');}
+    });
+    gap.textContent=correct;gap.className='gap-span no';
+    fb.className='fb no';fb.innerHTML='❌ Correct: <b>'+correct+'</b>';
+  }
+  done[id]=ok;
+  upProg();
+}
+
+function checkAll(){
+  const keys=Object.keys(done);
+  const correct=keys.filter(k=>done[k]).length;
+  const total=keys.length;
+  const allKeys=['1a','1b','1c','1d','1e','2a','2b','2c','2d','3a','3b','3c',
+    'h1','h2','h3','h4','h5','h6','s1','s2','s3','s4','s5','s6','d1','d2'];
+  const fullTotal=allKeys.length;
+  const fullCorrect=allKeys.filter(k=>done[k]===true).length;
+  const pct=Math.round(fullCorrect/fullTotal*100);
+
+  let em='🌱',msg='Keep practising!',stars='⭐';
+  if(pct===100){em='🏆';msg='Perfect! You are amazing!';stars='⭐⭐⭐⭐⭐';}
+  else if(pct>=80){em='🌿';msg='Excellent work!';stars='⭐⭐⭐⭐';}
+  else if(pct>=60){em='🍃';msg='Good job!';stars='⭐⭐⭐';}
+  else if(pct>=40){em='🌱';msg='Keep going!';stars='⭐⭐';}
+
+  const animalsOk=['1a','1b','1c','1d','1e','2a','2b','2c','2d','3a','3b','3c'].filter(k=>done[k]===true).length;
+  const healthOk=['h1','h2','h3','h4','h5','h6'].filter(k=>done[k]===true).length;
+  const shouldOk=['s1','s2','s3','s4','s5','s6'].filter(k=>done[k]===true).length;
+  const dialogOk=['d1','d2'].filter(k=>done[k]===true).length;
+
+  document.getElementById('sc-t').textContent=em;
+  document.getElementById('sc-n').textContent=fullCorrect+'/'+fullTotal;
+  document.getElementById('sc-stars').textContent=stars;
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('sc-break').innerHTML=
+    `<div class="sc-chip">🐼 Animals: ${animalsOk}/12</div>`+
+    `<div class="sc-chip">🤒 Health: ${healthOk}/6</div>`+
+    `<div class="sc-chip">💊 Should: ${shouldOk}/6</div>`+
+    `<div class="sc-chip">🗣️ Dialogue: ${dialogOk}/2</div>`;
+
+  const box=document.getElementById('scoreBox');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=70) confetti();
+}
+
+function confetti(){
+  const cols=['#86efac','#6ee7b7','#fbbf24','#f87171','#a78bfa','#fff','#34d399'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*8;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*2}s;--dl:${Math.random()*.8}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+</script>
+</body>
+</html>
