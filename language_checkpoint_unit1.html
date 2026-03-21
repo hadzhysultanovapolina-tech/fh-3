@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Checkpoint · Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f5ff; --card:#fff; --border:#e0d5f5;
+  --ink:#1a0a2e; --muted:#6b5a8a; --soft:#f0ebff;
+  --purple:#6d28d9; --blue:#1d4ed8; --teal:#0f766e;
+  --orange:#c2410c; --green:#15803d; --red:#b91c1c;
+  --ok:#15803d; --no:#b91c1c; --gold:#b45309;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(109,40,217,.07),transparent 50%),
+             radial-gradient(ellipse at 95% 95%,rgba(29,78,216,.06),transparent 50%);
+  pointer-events:none;z-index:0;}
+
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:4px;z-index:100;}
+.prog-bar{height:100%;background:linear-gradient(90deg,#6d28d9,#1d4ed8,#0f766e);width:0%;transition:width .4s;}
+
+.app{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 16px 80px;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1e0a3c,#4c1d95,#1e3a8a);border-radius:0 0 36px 36px;padding:48px 28px 44px;text-align:center;margin:0 -16px 32px;position:relative;overflow:hidden;animation:hin .7s cubic-bezier(.22,1,.36,1) both;}
+@keyframes hin{from{opacity:0;transform:translateY(-22px);}to{opacity:1;transform:translateY(0);}}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(255,255,255,.07),transparent 55%);}
+.hero-badge{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:14px;}
+.hero h1{position:relative;font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,54px);color:#fff;line-height:1.05;margin-bottom:6px;}
+.hero h1 em{font-style:normal;color:#c4b5fd;}
+.hero-sub{position:relative;font-size:14px;color:rgba(255,255,255,.6);font-weight:500;margin-bottom:20px;}
+.hero-chips{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hc{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:6px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.8);}
+
+/* SEC DIVIDERS */
+.sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 16px;}
+.sec-div .sl{flex:1;height:1px;}
+.sec-div .st{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;padding:6px 18px;border-radius:20px;border:1.5px solid;white-space:nowrap;}
+.sd-purple .sl{background:linear-gradient(90deg,transparent,rgba(109,40,217,.4));}
+.sd-purple .sl:last-child{background:linear-gradient(90deg,rgba(109,40,217,.4),transparent);}
+.sd-purple .st{color:var(--purple);border-color:rgba(109,40,217,.35);background:rgba(109,40,217,.06);}
+.sd-blue .sl{background:linear-gradient(90deg,transparent,rgba(29,78,216,.4));}
+.sd-blue .sl:last-child{background:linear-gradient(90deg,rgba(29,78,216,.4),transparent);}
+.sd-blue .st{color:var(--blue);border-color:rgba(29,78,216,.35);background:rgba(29,78,216,.06);}
+.sd-teal .sl{background:linear-gradient(90deg,transparent,rgba(15,118,110,.4));}
+.sd-teal .sl:last-child{background:linear-gradient(90deg,rgba(15,118,110,.4),transparent);}
+.sd-teal .st{color:var(--teal);border-color:rgba(15,118,110,.35);background:rgba(15,118,110,.06);}
+.sd-orange .sl{background:linear-gradient(90deg,transparent,rgba(194,65,12,.4));}
+.sd-orange .sl:last-child{background:linear-gradient(90deg,rgba(194,65,12,.4),transparent);}
+.sd-orange .st{color:var(--orange);border-color:rgba(194,65,12,.35);background:rgba(194,65,12,.06);}
+.sd-green .sl{background:linear-gradient(90deg,transparent,rgba(21,128,61,.4));}
+.sd-green .sl:last-child{background:linear-gradient(90deg,rgba(21,128,61,.4),transparent);}
+.sd-green .st{color:var(--green);border-color:rgba(21,128,61,.35);background:rgba(21,128,61,.06);}
+
+/* GRAMMAR REF BOX */
+.gram-ref{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;margin-bottom:16px;}
+.gram-ref h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:520px){.rule-grid{grid-template-columns:1fr;}}
+.rule-box{background:var(--soft);border-radius:12px;padding:12px 14px;border:1px solid var(--border);}
+.rule-box .rb-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.rule-box .rb-row{font-size:13px;font-weight:600;color:var(--ink);padding:3px 0;border-bottom:1px dashed #e5e7eb;}
+.rule-box .rb-row:last-child{border:none;}
+.rule-box .rb-row em{color:var(--purple);font-style:normal;font-weight:700;}
+
+/* TASK CARD */
+.task{background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:22px 24px;margin-bottom:14px;animation:up .4s ease both;transition:transform .2s,box-shadow .2s;}
+.task:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(109,40,217,.08);}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.task-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.tnum{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
+.ttype{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.tq{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:12px;line-height:1.6;}
+.thint{font-size:13px;color:var(--muted);margin-bottom:12px;font-style:italic;}
+
+/* GAP */
+.gap-s{display:inline-block;min-width:120px;border-bottom:2px solid var(--purple);color:var(--purple);font-weight:700;text-align:center;padding:0 6px;margin:0 4px;transition:all .2s;}
+.gap-s.ok{border-bottom-color:var(--ok);color:var(--ok);}
+.gap-s.no{border-bottom-color:var(--no);color:var(--no);}
+
+/* OPTS */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.opt{padding:9px 18px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .18s;}
+.opt:hover{border-color:var(--purple);background:#ede9fe;color:var(--purple);}
+.opt.ok{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.no{background:#fee2e2;border-color:var(--no);color:var(--no);pointer-events:none;}
+.opt.reveal{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.dis{opacity:.35;pointer-events:none;}
+
+/* FB */
+.fb{font-size:13px;font-weight:600;min-height:18px;margin-bottom:10px;}
+.fb.ok{color:var(--ok);}
+.fb.no{color:var(--no);}
+
+/* SENTENCE BLOCK */
+.sent-block{background:#faf5ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.sent-block .sb-q{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.6;}
+
+/* DO/MAKE GRID */
+.dm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dm-box{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px;}
+.dm-box h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.dm-box .dm-w{display:inline-block;background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:600;margin:3px;}
+
+/* VOCAB CHIPS */
+.vocab-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.vchip{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;background:var(--soft);border:1px solid var(--border);color:var(--ink);}
+
+/* SCORE */
+.check-all{display:block;width:100%;padding:16px;border-radius:18px;border:none;font-family:'Playfair Display',serif;font-size:21px;font-weight:700;background:linear-gradient(135deg,#1e0a3c,#4c1d95);color:#fff;cursor:pointer;box-shadow:0 5px 20px rgba(109,40,217,.35);transition:all .22s;margin-top:28px;}
+.check-all:hover{transform:translateY(-2px);filter:brightness(1.08);}
+.score-box{display:none;background:linear-gradient(135deg,#1e0a3c,#4c1d95,#1e3a8a);border-radius:26px;padding:40px 28px;text-align:center;margin-top:28px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.sc-t{font-size:64px;margin-bottom:10px;animation:bob 1s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.sc-n{font-family:'Playfair Display',serif;font-size:clamp(50px,12vw,82px);background:linear-gradient(135deg,#c4b5fd,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.sc-stars{font-size:30px;letter-spacing:5px;margin:8px 0;}
+.sc-msg{font-size:18px;font-weight:600;color:#fff;margin-bottom:16px;}
+.sc-break{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.sc-chip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);}
+.rebtn{display:inline-flex;align-items:center;gap:7px;padding:12px 28px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;background:linear-gradient(135deg,#b45309,#fbbf24);color:#1a0800;cursor:pointer;transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📘 Language Checkpoint · Unit 1</div>
+  <h1>Grammar & <em>Vocabulary</em></h1>
+  <p class="hero-sub">Present Perfect · Gerunds & Infinitives · University Vocabulary</p>
+  <div class="hero-chips">
+    <div class="hc">✅ Present Perfect Simple</div>
+    <div class="hc">⏳ Present Perfect Continuous</div>
+    <div class="hc">🔤 Gerund / Infinitive</div>
+    <div class="hc">🎓 University</div>
+    <div class="hc">🔧 do / make</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   GRAMMAR REF — PRESENT PERFECT
+══════════════════════════════ -->
+<div class="sec-div sd-purple"><div class="sl"></div><div class="st">📌 Grammar Reference</div><div class="sl"></div></div>
+
+<div class="gram-ref">
+  <h3 style="color:var(--purple)">⚡ Present Perfect Simple vs Continuous</h3>
+  <div class="rule-grid">
+    <div class="rule-box">
+      <div class="rb-title" style="color:var(--purple)">Present Perfect Simple</div>
+      <div class="rb-row">Experience: <em>I've seen that film.</em></div>
+      <div class="rb-row">Recent result: <em>She's lost her bag.</em></div>
+      <div class="rb-row">Just finished: <em>They've just had an accident.</em></div>
+      <div class="rb-row">How many times: <em>I've seen it three times.</em></div>
+    </div>
+    <div class="rule-box">
+      <div class="rb-title" style="color:var(--blue)">Present Perfect Continuous</div>
+      <div class="rb-row">Duration/process: <em>I've been studying for 2 hrs.</em></div>
+      <div class="rb-row">Recently finished: <em>I've been washing dishes.</em></div>
+      <div class="rb-row">NOT for short actions: <em>I've broken the window. ✓</em></div>
+      <div class="rb-row">with: <em>for, since, how long, all day</em></div>
+    </div>
+  </div>
+</div>
+
+<div class="gram-ref" style="margin-bottom:16px;">
+  <h3 style="color:var(--teal)">🔤 Gerund (-ing) vs Infinitive (to + verb)</h3>
+  <div class="rule-grid">
+    <div class="rule-box">
+      <div class="rb-title" style="color:var(--teal)">Use GERUND (-ing) after:</div>
+      <div class="rb-row">prepositions: <em>interested in studying</em></div>
+      <div class="rb-row">like / love / enjoy / hate: <em>I enjoy watching TV</em></div>
+      <div class="rb-row">go + activity: <em>go swimming / running</em></div>
+      <div class="rb-row">admit / avoid / suggest: <em>I suggest reading</em></div>
+    </div>
+    <div class="rule-box">
+      <div class="rb-title" style="color:var(--orange)">Use INFINITIVE (to+verb) after:</div>
+      <div class="rb-row">want / hope / decide / need: <em>I want to work</em></div>
+      <div class="rb-row">adjectives: <em>It's good to revise</em></div>
+      <div class="rb-row">too / enough: <em>It's too cold to go out</em></div>
+      <div class="rb-row">to explain why: <em>He went to study</em></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 1 — PRES PERFECT SIMPLE vs CONTINUOUS
+══════════════════════════════ -->
+<div class="sec-div sd-purple"><div class="sl"></div><div class="st">✏️ Activity 1 — Simple or Continuous?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.05s">
+  <div class="task-head"><div class="tnum" style="background:#6d28d9">1</div><div><div class="ttype">Present Perfect · Choose the correct tense</div></div></div>
+  <p class="thint">💡 Click: Present Perfect Simple (PPS) or Continuous (PPC)?</p>
+
+  <div class="sent-block">
+    <div class="sb-q">I <span class="gap-s" id="g1a">___</span> (study) for this exam all morning. My hands are tired!</div>
+    <div class="opts" id="o1a">
+      <button class="opt" data-val="have studied" onclick="pg('1a',this,'have been studying')">have studied</button>
+      <button class="opt" data-val="have been studying" onclick="pg('1a',this,'have been studying')">have been studying</button>
+    </div>
+    <div class="fb" id="fb1a"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">She <span class="gap-s" id="g1b">___</span> (lose) her student card. She can't get in!</div>
+    <div class="opts" id="o1b">
+      <button class="opt" data-val="has lost" onclick="pg('1b',this,'has lost')">has lost</button>
+      <button class="opt" data-val="has been losing" onclick="pg('1b',this,'has lost')">has been losing</button>
+    </div>
+    <div class="fb" id="fb1b"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">Mark <span class="gap-s" id="g1c">___</span> (live) here for ten years and he still lives here now.</div>
+    <div class="opts" id="o1c">
+      <button class="opt" data-val="has lived" onclick="pg('1c',this,'has lived')">has lived</button>
+      <button class="opt" data-val="has been living" onclick="pg('1c',this,'has lived')">has been living</button>
+    </div>
+    <div class="fb" id="fb1c"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">They <span class="gap-s" id="g1d">___</span> (just / have) an accident. Call an ambulance!</div>
+    <div class="opts" id="o1d">
+      <button class="opt" data-val="have just had" onclick="pg('1d',this,'have just had')">have just had</button>
+      <button class="opt" data-val="have just been having" onclick="pg('1d',this,'have just had')">have just been having</button>
+    </div>
+    <div class="fb" id="fb1d"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">How long <span class="gap-s" id="g1e">___</span> (you / wait) for the lecture to start?</div>
+    <div class="opts" id="o1e">
+      <button class="opt" data-val="have you waited" onclick="pg('1e',this,'have you been waiting')">have you waited</button>
+      <button class="opt" data-val="have you been waiting" onclick="pg('1e',this,'have you been waiting')">have you been waiting</button>
+    </div>
+    <div class="fb" id="fb1e"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">I <span class="gap-s" id="g1f">___</span> (see) that film three times. It's amazing!</div>
+    <div class="opts" id="o1f">
+      <button class="opt" data-val="have seen" onclick="pg('1f',this,'have seen')">have seen</button>
+      <button class="opt" data-val="have been seeing" onclick="pg('1f',this,'have seen')">have been seeing</button>
+    </div>
+    <div class="fb" id="fb1f"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 2 — PRESENT PERFECT WHY?
+══════════════════════════════ -->
+<div class="sec-div sd-blue"><div class="sl"></div><div class="st">🎯 Activity 2 — Why Present Perfect Simple?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.1s">
+  <div class="task-head"><div class="tnum" style="background:#1d4ed8">2</div><div><div class="ttype">Present Perfect Simple · Choose the reason</div></div></div>
+  <p class="thint">💡 Why do we use Present Perfect Simple here?</p>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--purple)">"I've seen Beyoncé in concert."</div>
+    <div class="opts" id="o2a">
+      <button class="opt" data-val="recent result" onclick="pg('2a',this,'past experience')">recent result in present</button>
+      <button class="opt" data-val="past experience" onclick="pg('2a',this,'past experience')">past experience (unspecified time)</button>
+      <button class="opt" data-val="duration" onclick="pg('2a',this,'past experience')">duration of action</button>
+    </div>
+    <div class="fb" id="fb2a"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--purple)">"She's lost her bag. She hasn't got it now."</div>
+    <div class="opts" id="o2b">
+      <button class="opt" data-val="past experience" onclick="pg('2b',this,'recent result')">past experience</button>
+      <button class="opt" data-val="recent result" onclick="pg('2b',this,'recent result')">recent event with result in present</button>
+      <button class="opt" data-val="duration" onclick="pg('2b',this,'recent result')">duration of action</button>
+    </div>
+    <div class="fb" id="fb2b"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--purple)">"They've just had an accident."</div>
+    <div class="opts" id="o2c">
+      <button class="opt" data-val="past experience" onclick="pg('2c',this,'action finished very recently')">past experience</button>
+      <button class="opt" data-val="duration" onclick="pg('2c',this,'action finished very recently')">duration of action</button>
+      <button class="opt" data-val="action finished very recently" onclick="pg('2c',this,'action finished very recently')">action finished very recently</button>
+    </div>
+    <div class="fb" id="fb2c"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 3 — GERUND OR INFINITIVE
+══════════════════════════════ -->
+<div class="sec-div sd-teal"><div class="sl"></div><div class="st">🔤 Activity 3 — Gerund or Infinitive?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.15s">
+  <div class="task-head"><div class="tnum" style="background:#0f766e">3</div><div><div class="ttype">Gerund / Infinitive · Click the correct form</div></div></div>
+
+  <div class="sent-block">
+    <div class="sb-q">I enjoy <span class="gap-s" id="g3a">___</span> (watch) TV after lectures.</div>
+    <div class="opts" id="o3a">
+      <button class="opt" data-val="to watch" onclick="pg('3a',this,'watching')">to watch</button>
+      <button class="opt" data-val="watching" onclick="pg('3a',this,'watching')">watching</button>
+    </div>
+    <div class="fb" id="fb3a"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">She wants <span class="gap-s" id="g3b">___</span> (work) for a newspaper after university.</div>
+    <div class="opts" id="o3b">
+      <button class="opt" data-val="working" onclick="pg('3b',this,'to work')">working</button>
+      <button class="opt" data-val="to work" onclick="pg('3b',this,'to work')">to work</button>
+    </div>
+    <div class="fb" id="fb3b"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">I'm interested in <span class="gap-s" id="g3c">___</span> (study) history at university.</div>
+    <div class="opts" id="o3c">
+      <button class="opt" data-val="studying" onclick="pg('3c',this,'studying')">studying</button>
+      <button class="opt" data-val="to study" onclick="pg('3c',this,'studying')">to study</button>
+    </div>
+    <div class="fb" id="fb3c"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">He decided <span class="gap-s" id="g3d">___</span> (take) a gap year before university.</div>
+    <div class="opts" id="o3d">
+      <button class="opt" data-val="taking" onclick="pg('3d',this,'to take')">taking</button>
+      <button class="opt" data-val="to take" onclick="pg('3d',this,'to take')">to take</button>
+    </div>
+    <div class="fb" id="fb3d"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">I suggest <span class="gap-s" id="g3e">___</span> (read) this book before the exam.</div>
+    <div class="opts" id="o3e">
+      <button class="opt" data-val="reading" onclick="pg('3e',this,'reading')">reading</button>
+      <button class="opt" data-val="to read" onclick="pg('3e',this,'reading')">to read</button>
+    </div>
+    <div class="fb" id="fb3e"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">It's good <span class="gap-s" id="g3f">___</span> (revise) with other people.</div>
+    <div class="opts" id="o3f">
+      <button class="opt" data-val="revising" onclick="pg('3f',this,'to revise')">revising</button>
+      <button class="opt" data-val="to revise" onclick="pg('3f',this,'to revise')">to revise</button>
+    </div>
+    <div class="fb" id="fb3f"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">She avoids <span class="gap-s" id="g3g">___</span> (talk) to her tutor when she's late.</div>
+    <div class="opts" id="o3g">
+      <button class="opt" data-val="talking" onclick="pg('3g',this,'talking')">talking</button>
+      <button class="opt" data-val="to talk" onclick="pg('3g',this,'talking')">to talk</button>
+    </div>
+    <div class="fb" id="fb3g"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">Why did he go to university? <span class="gap-s" id="g3h">___</span> (study) medicine.</div>
+    <div class="opts" id="o3h">
+      <button class="opt" data-val="Studying" onclick="pg('3h',this,'To study')">Studying</button>
+      <button class="opt" data-val="To study" onclick="pg('3h',this,'To study')">To study</button>
+    </div>
+    <div class="fb" id="fb3h"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 4 — GERUND/INF RULE MATCH
+══════════════════════════════ -->
+<div class="sec-div sd-teal"><div class="sl"></div><div class="st">📋 Activity 4 — Why gerund or infinitive?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.2s">
+  <div class="task-head"><div class="tnum" style="background:#0f766e">4</div><div><div class="ttype">Gerund / Infinitive · Choose the rule</div></div></div>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--teal)">"I'm interested in studying history."</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Why do we use -ing here?</div>
+    <div class="opts" id="o4a">
+      <button class="opt" data-val="after adjective" onclick="pg('4a',this,'after preposition')">after adjective</button>
+      <button class="opt" data-val="after preposition" onclick="pg('4a',this,'after preposition')">after preposition (in)</button>
+      <button class="opt" data-val="after want" onclick="pg('4a',this,'after preposition')">after verb "want"</button>
+    </div>
+    <div class="fb" id="fb4a"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--teal)">"It's too cold to go out."</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Why do we use infinitive here?</div>
+    <div class="opts" id="o4b">
+      <button class="opt" data-val="after enjoy" onclick="pg('4b',this,'after too')">after "enjoy"</button>
+      <button class="opt" data-val="after too" onclick="pg('4b',this,'after too')">after "too" (expression)</button>
+      <button class="opt" data-val="after preposition" onclick="pg('4b',this,'after too')">after preposition</button>
+    </div>
+    <div class="fb" id="fb4b"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q" style="font-style:italic;color:var(--teal)">"go swimming / go running / go cycling"</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Why do we use -ing here?</div>
+    <div class="opts" id="o4c">
+      <button class="opt" data-val="after want" onclick="pg('4c',this,'with go + activity')">after "want"</button>
+      <button class="opt" data-val="with go + activity" onclick="pg('4c',this,'with go + activity')">with "go" + physical activity</button>
+      <button class="opt" data-val="after adjective" onclick="pg('4c',this,'with go + activity')">after adjective</button>
+    </div>
+    <div class="fb" id="fb4c"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 5 — UNIVERSITY VOCAB
+══════════════════════════════ -->
+<div class="sec-div sd-orange"><div class="sl"></div><div class="st">🎓 Activity 5 — University Vocabulary</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.25s">
+  <div class="task-head"><div class="tnum" style="background:#c2410c">5</div><div><div class="ttype">Vocabulary · University · Choose the correct word</div></div></div>
+
+  <div class="sent-block">
+    <div class="sb-q">At the end of your degree, you <span class="gap-s" id="v1">___</span> from university.</div>
+    <div class="opts" id="ov1">
+      <button class="opt" data-val="fail" onclick="pg('v1',this,'graduate')">fail</button>
+      <button class="opt" data-val="graduate" onclick="pg('v1',this,'graduate')">graduate</button>
+      <button class="opt" data-val="resit" onclick="pg('v1',this,'graduate')">resit</button>
+    </div>
+    <div class="fb" id="fbv1"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">If you fail an exam, you can <span class="gap-s" id="v2">___</span> it next semester.</div>
+    <div class="opts" id="ov2">
+      <button class="opt" data-val="graduate" onclick="pg('v2',this,'resit')">graduate</button>
+      <button class="opt" data-val="pass" onclick="pg('v2',this,'resit')">pass</button>
+      <button class="opt" data-val="resit" onclick="pg('v2',this,'resit')">resit</button>
+    </div>
+    <div class="fb" id="fbv2"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">A piece of work you write for a university course is called an <span class="gap-s" id="v3">___</span>.</div>
+    <div class="opts" id="ov3">
+      <button class="opt" data-val="lecture" onclick="pg('v3',this,'assignment')">lecture</button>
+      <button class="opt" data-val="assignment" onclick="pg('v3',this,'assignment')">assignment</button>
+      <button class="opt" data-val="tutorial" onclick="pg('v3',this,'assignment')">tutorial</button>
+    </div>
+    <div class="fb" id="fbv3"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">Students pay a <span class="gap-s" id="v4">___</span> to cover their tuition and living costs.</div>
+    <div class="opts" id="ov4">
+      <button class="opt" data-val="student loan" onclick="pg('v4',this,'student loan')">student loan</button>
+      <button class="opt" data-val="coursework" onclick="pg('v4',this,'student loan')">coursework</button>
+      <button class="opt" data-val="master's" onclick="pg('v4',this,'student loan')">master's</button>
+    </div>
+    <div class="fb" id="fbv4"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">A <span class="gap-s" id="v5">___</span> is a small class where a tutor teaches a few students.</div>
+    <div class="opts" id="ov5">
+      <button class="opt" data-val="lecture" onclick="pg('v5',this,'tutorial')">lecture</button>
+      <button class="opt" data-val="tutorial" onclick="pg('v5',this,'tutorial')">tutorial</button>
+      <button class="opt" data-val="degree" onclick="pg('v5',this,'tutorial')">degree</button>
+    </div>
+    <div class="fb" id="fbv5"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">Before the final exam, you should <span class="gap-s" id="v6">___</span> all your notes carefully.</div>
+    <div class="opts" id="ov6">
+      <button class="opt" data-val="pass" onclick="pg('v6',this,'revise')">pass</button>
+      <button class="opt" data-val="revise" onclick="pg('v6',this,'revise')">revise</button>
+      <button class="opt" data-val="fail" onclick="pg('v6',this,'revise')">fail</button>
+    </div>
+    <div class="fb" id="fbv6"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+   ACT 6 — DO or MAKE
+══════════════════════════════ -->
+<div class="sec-div sd-green"><div class="sl"></div><div class="st">🔧 Activity 6 — do or make?</div><div class="sl"></div></div>
+
+<div class="task" style="animation-delay:.3s">
+  <div class="task-head"><div class="tnum" style="background:#15803d">6</div><div><div class="ttype">Vocabulary · do / make · Click the correct verb</div></div></div>
+
+  <div class="dm-grid">
+    <div class="dm-box">
+      <h4 style="color:var(--green)">✅ do + ...</h4>
+      <div class="dm-w">a course</div><div class="dm-w">homework</div>
+      <div class="dm-w">an exam</div><div class="dm-w">business</div>
+      <div class="dm-w">chores</div><div class="dm-w">sport</div>
+      <div class="dm-w">your best</div><div class="dm-w">a favour</div>
+    </div>
+    <div class="dm-box">
+      <h4 style="color:var(--blue)">✅ make + ...</h4>
+      <div class="dm-w">a decision</div><div class="dm-w">a mistake</div>
+      <div class="dm-w">friends</div><div class="dm-w">a plan</div>
+      <div class="dm-w">a suggestion</div><div class="dm-w">progress</div>
+      <div class="dm-w">a phone call</div><div class="dm-w">an effort</div>
+    </div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">She <span class="gap-s" id="dm1">___</span> a lot of progress in her English this year.</div>
+    <div class="opts" id="odm1">
+      <button class="opt" data-val="did" onclick="pg('dm1',this,'made')">did</button>
+      <button class="opt" data-val="made" onclick="pg('dm1',this,'made')">made</button>
+    </div>
+    <div class="fb" id="fbdm1"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">I need to <span class="gap-s" id="dm2">___</span> my homework before the lecture tomorrow.</div>
+    <div class="opts" id="odm2">
+      <button class="opt" data-val="do" onclick="pg('dm2',this,'do')">do</button>
+      <button class="opt" data-val="make" onclick="pg('dm2',this,'do')">make</button>
+    </div>
+    <div class="fb" id="fbdm2"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">He <span class="gap-s" id="dm3">___</span> a mistake in the exam but still passed.</div>
+    <div class="opts" id="odm3">
+      <button class="opt" data-val="did" onclick="pg('dm3',this,'made')">did</button>
+      <button class="opt" data-val="made" onclick="pg('dm3',this,'made')">made</button>
+    </div>
+    <div class="fb" id="fbdm3"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">They want to <span class="gap-s" id="dm4">___</span> a nursing course at university.</div>
+    <div class="opts" id="odm4">
+      <button class="opt" data-val="do" onclick="pg('dm4',this,'do')">do</button>
+      <button class="opt" data-val="make" onclick="pg('dm4',this,'do')">make</button>
+    </div>
+    <div class="fb" id="fbdm4"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">It's important to <span class="gap-s" id="dm5">___</span> new friends when you study abroad.</div>
+    <div class="opts" id="odm5">
+      <button class="opt" data-val="do" onclick="pg('dm5',this,'make')">do</button>
+      <button class="opt" data-val="make" onclick="pg('dm5',this,'make')">make</button>
+    </div>
+    <div class="fb" id="fbdm5"></div>
+  </div>
+
+  <div class="sent-block">
+    <div class="sb-q">Can you <span class="gap-s" id="dm6">___</span> me a favour and lend me your notes?</div>
+    <div class="opts" id="odm6">
+      <button class="opt" data-val="do" onclick="pg('dm6',this,'do')">do</button>
+      <button class="opt" data-val="make" onclick="pg('dm6',this,'do')">make</button>
+    </div>
+    <div class="fb" id="fbdm6"></div>
+  </div>
+</div>
+
+<!-- CHECK ALL -->
+<button class="check-all" onclick="checkAll()">📘 Check All & See My Score!</button>
+
+<!-- SCORE -->
+<div class="score-box" id="scoreBox">
+  <div class="sc-t" id="sc-t">📘</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:600;">YOUR SCORE</div>
+  <div class="sc-n" id="sc-n">0</div>
+  <div class="sc-stars" id="sc-stars">⭐⭐⭐⭐⭐</div>
+  <div class="sc-msg" id="sc-msg">Well done!</div>
+  <div class="sc-break" id="sc-break"></div>
+  <button class="rebtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div>
+
+<script>
+const done={};
+function upProg(){
+  const allKeys=['1a','1b','1c','1d','1e','1f','2a','2b','2c',
+    '3a','3b','3c','3d','3e','3f','3g','3h','4a','4b','4c',
+    'v1','v2','v3','v4','v5','v6','dm1','dm2','dm3','dm4','dm5','dm6'];
+  document.getElementById('pb').style.width=(Object.keys(done).length/allKeys.length*100)+'%';
+}
+
+function pg(id,btn,correct){
+  const chosen=btn.dataset.val;
+  btn.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.add('dis'));
+  const gap=document.getElementById(id);
+  const fb=document.getElementById('fb'+id);
+  const ok=chosen===correct;
+  if(ok){
+    btn.classList.remove('dis');btn.classList.add('ok');
+    if(gap){gap.textContent=chosen;gap.className='gap-s ok';}
+    fb.className='fb ok';fb.innerHTML='✅ Correct!';
+  } else {
+    btn.classList.remove('dis');btn.classList.add('no');
+    btn.closest('.opts').querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.val===correct){o.classList.remove('dis');o.classList.add('reveal');}
+    });
+    if(gap){gap.textContent=correct;gap.className='gap-s no';}
+    fb.className='fb no';fb.innerHTML='❌ Correct: <b>'+correct+'</b>';
+  }
+  done[id]=ok;upProg();
+}
+
+function checkAll(){
+  const allKeys=['1a','1b','1c','1d','1e','1f','2a','2b','2c',
+    '3a','3b','3c','3d','3e','3f','3g','3h','4a','4b','4c',
+    'v1','v2','v3','v4','v5','v6','dm1','dm2','dm3','dm4','dm5','dm6'];
+  const total=allKeys.length;
+  const correct=allKeys.filter(k=>done[k]===true).length;
+  const pct=Math.round(correct/total*100);
+
+  let em='📖',msg='Keep studying!',stars='⭐';
+  if(pct===100){em='🏆';msg='Perfect! Outstanding work!';stars='⭐⭐⭐⭐⭐';}
+  else if(pct>=80){em='🌟';msg='Excellent work!';stars='⭐⭐⭐⭐';}
+  else if(pct>=60){em='👏';msg='Good job!';stars='⭐⭐⭐';}
+  else if(pct>=40){em='💪';msg='Keep going!';stars='⭐⭐';}
+
+  const pp=['1a','1b','1c','1d','1e','1f'].filter(k=>done[k]===true).length;
+  const why=['2a','2b','2c'].filter(k=>done[k]===true).length;
+  const gi=['3a','3b','3c','3d','3e','3f','3g','3h','4a','4b','4c'].filter(k=>done[k]===true).length;
+  const voc=['v1','v2','v3','v4','v5','v6'].filter(k=>done[k]===true).length;
+  const dm=['dm1','dm2','dm3','dm4','dm5','dm6'].filter(k=>done[k]===true).length;
+
+  document.getElementById('sc-t').textContent=em;
+  document.getElementById('sc-n').textContent=correct+'/'+total;
+  document.getElementById('sc-stars').textContent=stars;
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('sc-break').innerHTML=
+    `<div class="sc-chip">⏰ Present Perfect: ${pp}/6</div>`+
+    `<div class="sc-chip">🎯 Why PPS: ${why}/3</div>`+
+    `<div class="sc-chip">🔤 Ger/Inf: ${gi}/11</div>`+
+    `<div class="sc-chip">🎓 Vocab: ${voc}/6</div>`+
+    `<div class="sc-chip">🔧 do/make: ${dm}/6</div>`;
+
+  const box=document.getElementById('scoreBox');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=70) confetti();
+}
+
+function confetti(){
+  const cols=['#c4b5fd','#93c5fd','#fbbf24','#f87171','#6ee7b7','#fff','#a78bfa'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*8;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*2}s;--dl:${Math.random()*.8}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+</script>
+</body>
+</html>
