@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly High 3 · Lessons 17–20 · Vocabulary Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101e; --bg2:#0a1a30; --card:#0e2340; --border:#174070;
+  --ink:#d6eeff; --muted:#4d80a8;
+  --A:#ff3d5a; --B:#00d97e; --C:#2b8fff; --D:#ffaa00;
+  --gold:#ffd700; --ok:#00d97e; --no:#ff3d5a;
+  --sky:#38bdf8; --lime:#84cc16; --orange:#f97316; --violet:#a78bfa;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── BG ── */
+.bgwrap{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bgwrap .orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.1;}
+.ob1{width:650px;height:650px;background:#1e3a8a;top:-180px;left:-180px;}
+.ob2{width:500px;height:500px;background:#065f46;bottom:-120px;right:-120px;}
+.ob3{width:380px;height:380px;background:#4c1d95;top:38%;left:38%;transform:translate(-50%,-50%);}
+.gridlines{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(56,189,248,.03)1px,transparent 1px),
+  linear-gradient(90deg,rgba(56,189,248,.03)1px,transparent 1px);
+  background-size:48px 48px;}
+.starfield{position:absolute;inset:0;}
+.s{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d,3s) ease-in-out infinite;opacity:var(--o,.2);}
+@keyframes tw{0%,100%{opacity:var(--o,.2);}50%{opacity:calc(var(--o,.2)*4);}}
+
+/* ── APP ── */
+.app{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:26px 16px 80px;}
+
+/* ── HERO ── */
+.hero{text-align:center;margin-bottom:22px;animation:hin .7s cubic-bezier(.22,1,.36,1) both;}
+@keyframes hin{from{opacity:0;transform:translateY(-24px);}to{opacity:1;transform:translateY(0);}}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);
+  border-radius:30px;padding:5px 18px;
+  font-size:12px;font-weight:800;letter-spacing:2px;color:var(--sky);
+  text-transform:uppercase;margin-bottom:16px;
+}
+.hero h1{font-family:'Boogaloo',cursive;font-size:clamp(26px,6vw,56px);color:#fff;line-height:1.05;margin-bottom:6px;text-shadow:0 0 50px rgba(56,189,248,.35);}
+.hero h1 em{font-style:normal;color:var(--gold);}
+.hero-sub{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:16px;}
+.topics{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px;}
+.t1{color:var(--sky);} .t2{color:var(--lime);} .t3{color:var(--orange);} .t4{color:var(--violet);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:10px;justify-content:center;margin:20px 0;}
+.tab-btn{
+  flex:1;max-width:220px;padding:14px 16px;border-radius:18px;border:2px solid transparent;
+  font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.tab-btn.qt.active{background:linear-gradient(135deg,#0c2860,#1d4ed8);color:#fff;box-shadow:0 4px 22px rgba(29,78,216,.5);}
+.tab-btn.mt.active{background:linear-gradient(135deg,#064e3b,#059669);color:#fff;box-shadow:0 4px 22px rgba(5,150,105,.4);}
+.tab-btn:not(.active){background:var(--card);border-color:var(--border);color:var(--muted);}
+.tab-btn:hover{transform:translateY(-2px);}
+
+/* ── PANELS ── */
+.panel{display:none;animation:up .35s ease both;}
+.panel.active{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ════════ QUIZ ════════ */
+.qbox{
+  background:linear-gradient(135deg,#081840,#0e2f90);
+  border-radius:26px;padding:26px 28px;margin-bottom:16px;
+  box-shadow:0 8px 36px rgba(14,47,144,.5);position:relative;overflow:hidden;
+}
+.qbox::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 60%,rgba(255,255,255,.05),transparent 55%);}
+.qmeta{position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.qnum{font-size:12px;font-weight:800;color:rgba(255,255,255,.4);letter-spacing:1px;}
+.qsc{background:rgba(255,255,255,.12);border-radius:12px;padding:5px 16px;font-size:14px;font-weight:800;color:#fff;}
+.tring{position:relative;width:60px;height:60px;margin:0 auto 16px;}
+.tring svg{transform:rotate(-90deg);}
+.tr-t{fill:none;stroke:rgba(255,255,255,.1);stroke-width:5;}
+.tr-f{fill:none;stroke:var(--gold);stroke-width:5;stroke-dasharray:157;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .3s;stroke-linecap:round;}
+.tnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Boogaloo',cursive;font-size:22px;color:#fff;}
+.qtxt{position:relative;font-family:'Boogaloo',cursive;font-size:clamp(17px,3.5vw,25px);color:#fff;line-height:1.3;text-align:center;}
+
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px;}
+@media(max-width:480px){.agrid{grid-template-columns:1fr;}}
+.abtn{
+  display:flex;align-items:center;gap:11px;padding:14px 17px;border-radius:16px;border:none;
+  font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#fff;
+  cursor:pointer;text-align:left;transition:transform .15s,filter .15s,opacity .25s;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.abtn:hover{transform:scale(1.02);filter:brightness(1.1);}
+.abtn:active{transform:scale(.97);}
+.aA{background:linear-gradient(135deg,#7f1d1d,var(--A));}
+.aB{background:linear-gradient(135deg,#064e3b,var(--B));}
+.aC{background:linear-gradient(135deg,#1e3a8a,var(--C));}
+.aD{background:linear-gradient(135deg,#78350f,var(--D));}
+.ashape{width:28px;height:28px;flex-shrink:0;border-radius:7px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;}
+.abtn.ok-a{outline:4px solid #fff;box-shadow:0 0 0 4px var(--ok),0 0 28px var(--ok);animation:cp .4s ease;}
+.abtn.no-a{opacity:.4;transform:scale(.97);}
+@keyframes cp{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+
+.qfb{min-height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:800;padding:10px 18px;transition:all .3s;margin-bottom:12px;}
+.qfb.hi{opacity:0;pointer-events:none;}
+.qfb.ok{background:rgba(0,217,126,.1);border:2px solid var(--ok);color:var(--ok);}
+.qfb.no{background:rgba(255,61,90,.1);border:2px solid var(--no);color:var(--no);}
+
+.nxt{display:block;width:100%;padding:14px;border-radius:14px;border:none;font-family:'Boogaloo',cursive;font-size:20px;background:linear-gradient(135deg,#1d4ed8,#60a5fa);color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(29,78,216,.5);transition:all .2s;}
+.nxt:hover{transform:translateY(-2px);filter:brightness(1.1);}
+.nxt:disabled{opacity:.2;cursor:default;transform:none;}
+
+/* FINAL */
+.final{background:linear-gradient(135deg,#05091a,#0a1850);border-radius:28px;padding:44px 28px;text-align:center;box-shadow:0 8px 40px rgba(14,47,144,.6);animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:scale(1);}}
+.trophy{font-size:70px;margin-bottom:12px;animation:bob 1s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.fscore{font-family:'Boogaloo',cursive;font-size:clamp(50px,12vw,86px);background:linear-gradient(135deg,#ffd700,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.fmsg{font-size:20px;font-weight:800;color:#fff;margin-bottom:18px;}
+.fbreak{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.fchip{background:rgba(255,255,255,.07);border-radius:12px;padding:9px 18px;font-size:13px;font-weight:700;}
+.rebtn{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;border-radius:16px;border:none;font-family:'Boogaloo',cursive;font-size:20px;background:linear-gradient(135deg,#d97706,var(--gold));color:#1a0800;cursor:pointer;box-shadow:0 4px 20px rgba(251,191,36,.3);transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.1);}
+
+/* ════════ MEMORY ════════ */
+.mbar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:16px 22px;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.mstat .sv{font-family:'Boogaloo',cursive;font-size:28px;color:#fff;}
+.mstat .sl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.mrebtn{padding:10px 20px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;background:linear-gradient(135deg,#064e3b,#059669);color:#fff;cursor:pointer;transition:all .2s;}
+.mrebtn:hover{transform:translateY(-2px);}
+
+.mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
+@media(max-width:560px){.mgrid{grid-template-columns:repeat(4,1fr);gap:7px;}}
+
+.mc{aspect-ratio:1/1.18;perspective:700px;cursor:pointer;}
+.mci{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .38s cubic-bezier(.4,0,.2,1);}
+.mc.fl .mci,.mc.ma .mci{transform:rotateY(180deg);}
+.mf{position:absolute;inset:0;border-radius:13px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;font-size:12px;font-weight:800;text-align:center;padding:6px;line-height:1.25;}
+.mback{background:linear-gradient(135deg,#0c1e5e,#1d4ed8);border:2px solid #3b82f6;color:#93c5fd;font-size:20px;}
+.mback::after{content:'?';}
+.mfront{background:linear-gradient(135deg,#052e16,#166534);border:2px solid #22c55e;color:#fff;transform:rotateY(180deg);font-size:11px;}
+.mfront.uk{background:linear-gradient(135deg,#150050,#4c1d95);border:2px solid #8b5cf6;}
+.mc.ma .mback,.mc.ma .mfront{background:linear-gradient(135deg,#052e16,#15803d)!important;border-color:var(--ok)!important;}
+.mc.wf .mci{animation:wsh .4s ease;}
+@keyframes wsh{0%{transform:rotateY(180deg);}25%{transform:rotateY(180deg) translateX(-6px);}75%{transform:rotateY(180deg) translateX(6px);}100%{transform:rotateY(180deg);}}
+
+.mdone{background:linear-gradient(135deg,#052e16,#065f46);border-radius:24px;padding:34px 26px;text-align:center;margin-top:18px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+.mdone h2{font-family:'Boogaloo',cursive;font-size:30px;color:#fff;margin-bottom:8px;}
+.mdone p{font-size:15px;color:#6ee7b7;font-weight:700;}
+
+/* CONFETTI */
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(740deg);opacity:0;}}
+</style>
+</head>
+<body>
+
+<div class="bgwrap">
+  <div class="orb ob1"></div><div class="orb ob2"></div><div class="orb ob3"></div>
+  <div class="gridlines"></div>
+  <div class="starfield" id="sf"></div>
+</div>
+
+<div class="app">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">🐝 Fly High 3 · Unit 5 · Lessons 17–20</div>
+    <h1>Vocabulary <em>Games!</em></h1>
+    <p class="hero-sub">Was / Were · Numbers · Snowy Story · Past Descriptions</p>
+    <div class="topics">
+      <div class="tc t1">🔢 Numbers 30–100</div>
+      <div class="tc t2">❄️ Snowy Story</div>
+      <div class="tc t3">⏰ Was / Were</div>
+      <div class="tc t4">📝 Past descriptions</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn qt active" onclick="switchTab('q')">🎯 Kahoot Quiz</button>
+    <button class="tab-btn mt" onclick="switchTab('m')">🃏 Memory Game</button>
+  </div>
+
+  <!-- QUIZ PANEL -->
+  <div class="panel active" id="qpanel"><div id="qa"></div></div>
+
+  <!-- MEMORY PANEL -->
+  <div class="panel" id="mpanel">
+    <div class="mbar">
+      <div class="mstat"><div class="sv" id="mm">0</div><div class="sl">Moves</div></div>
+      <div class="mstat"><div class="sv" id="mp">0/15</div><div class="sl">Pairs</div></div>
+      <div class="mstat"><div class="sv" id="mt">0:00</div><div class="sl">Time</div></div>
+      <button class="mrebtn" onclick="initMem()">🔄 New Game</button>
+    </div>
+    <div class="mgrid" id="mg"></div>
+    <div id="mcd" style="display:none"></div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+//  VOCABULARY — Fly High 3 · Unit 5 · Lessons 17–20
+//  Topics: Numbers 30–100, was/were, Snowy Story,
+//          past descriptions (3 клас)
+// ════════════════════════════════════════════════════
+const vocab = [
+  // Numbers (Lesson 17–18)
+  { en: 'thirty',       uk: 'тридцять' },
+  { en: 'forty',        uk: 'сорок' },
+  { en: 'fifty',        uk: 'п\'ятдесят' },
+  { en: 'sixty',        uk: 'шістдесят' },
+  { en: 'seventy',      uk: 'сімдесят' },
+  { en: 'eighty',       uk: 'вісімдесят' },
+  { en: 'ninety',       uk: 'дев\'яносто' },
+  { en: 'a hundred',    uk: 'сто' },
+  // Was / Were + Snowy Story context (Lesson 19–20)
+  { en: 'snowy',        uk: 'засніжений / сніжний' },
+  { en: 'mountain',     uk: 'гора' },
+  { en: 'winter',       uk: 'зима' },
+  { en: 'spring',       uk: 'весна' },
+  { en: 'ski',          uk: 'кататися на лижах' },
+  { en: 'year',         uk: 'рік' },
+  { en: 'ready',        uk: 'готовий' },
+];
+
+// ════════════════════════════════════════════════════
+//  STARS
+// ════════════════════════════════════════════════════
+(()=>{
+  const sf=document.getElementById('sf');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');s.className='s';
+    const sz=Math.random()*2.5+.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--o:${.1+Math.random()*.45};animation-delay:${Math.random()*6}s`;
+    sf.appendChild(s);
+  }
+})();
+
+// ════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.'+t+'t').classList.add('active');
+  document.getElementById(t+'panel').classList.add('active');
+}
+
+// ════════════════════════════════════════════════════
+//  KAHOOT QUIZ
+// ════════════════════════════════════════════════════
+const SH=['▲','◆','●','★'];
+let qs=[],qi=0,score=0,correct=0,wrong=0,tmr=null,tl=15;
+
+function shuf(a){return [...a].sort(()=>Math.random()-.5);}
+
+function buildQs(){
+  const out=[];
+  shuf(vocab).forEach((v,i)=>{
+    if(i%2===0){
+      const w=shuf(vocab.filter(x=>x.uk!==v.uk)).slice(0,3).map(x=>x.uk);
+      out.push({q:`What does "<b>${v.en}</b>" mean?`,ans:v.uk,opts:shuf([v.uk,...w])});
+    } else {
+      const w=shuf(vocab.filter(x=>x.en!==v.en)).slice(0,3).map(x=>x.en);
+      out.push({q:`How do you say "<b>${v.uk}</b>" in English?`,ans:v.en,opts:shuf([v.en,...w])});
+    }
+  });
+  return shuf(out);
+}
+
+function initQuiz(){qs=buildQs();qi=0;score=0;correct=0;wrong=0;renderQ();}
+
+function renderQ(){
+  const a=document.getElementById('qa');
+  if(qi>=qs.length){renderFinal(a);return;}
+  const q=qs[qi];
+  const cls=['aA','aB','aC','aD'];
+  a.innerHTML=`
+    <div class="qbox">
+      <div class="qmeta">
+        <div class="qnum">QUESTION ${qi+1} / ${qs.length}</div>
+        <div class="qsc">⭐ ${score} pts</div>
+      </div>
+      <div class="tring">
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <circle class="tr-t" cx="30" cy="30" r="25"/>
+          <circle class="tr-f" id="trf" cx="30" cy="30" r="25"/>
+        </svg>
+        <div class="tnum" id="tnum">15</div>
+      </div>
+      <div class="qtxt">${q.q}</div>
+    </div>
+    <div class="agrid">
+      ${q.opts.map((o,i)=>`
+        <button class="abtn ${cls[i]}" onclick="pick(this,${JSON.stringify(o)})">
+          <span class="ashape">${SH[i]}</span><span>${o}</span>
+        </button>`).join('')}
+    </div>
+    <div class="qfb hi" id="qfb"></div>
+    <button class="nxt" id="nxt" onclick="nextQ()" disabled>
+      ${qi===qs.length-1?'🏆 See Results!':'Next →'}
+    </button>`;
+  startTimer(q.ans);
+}
+
+function startTimer(ans){
+  tl=15;clearInterval(tmr);updT();
+  tmr=setInterval(()=>{tl--;updT();if(tl<=0){clearInterval(tmr);timeOut(ans);}},1000);
+}
+function updT(){
+  const f=document.getElementById('trf'),n=document.getElementById('tnum');
+  if(!f||!n)return;
+  f.style.strokeDashoffset=157*(1-tl/15);
+  f.style.stroke=tl>8?'#ffd700':tl>4?'#f97316':'#ff3d5a';
+  n.textContent=tl;
+}
+function timeOut(ans){
+  disAll();markOk(ans);wrong++;
+  showFb(false,"⏰ Time's up!");
+  document.getElementById('nxt').disabled=false;
+}
+function pick(btn,chosen){
+  clearInterval(tmr);disAll();
+  const q=qs[qi];
+  if(chosen===q.ans){
+    btn.classList.add('ok-a');
+    const pts=Math.max(50,Math.round(500*tl/15));
+    score+=pts;correct++;
+    showFb(true,`✅ Correct! +${pts} pts`);
+  } else {
+    btn.classList.add('no-a');markOk(q.ans);wrong++;
+    showFb(false,'❌ Wrong!');
+  }
+  document.getElementById('nxt').disabled=false;
+}
+function markOk(ans){
+  document.querySelectorAll('.abtn').forEach(b=>{
+    if(b.querySelector('span:last-child').textContent.trim()===ans) b.classList.add('ok-a');
+  });
+}
+function disAll(){document.querySelectorAll('.abtn').forEach(b=>{b.onclick=null;b.style.cursor='default';});}
+function showFb(ok,msg){const f=document.getElementById('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=msg;}
+function nextQ(){qi++;renderQ();}
+
+function renderFinal(a){
+  const pct=Math.round(correct/qs.length*100);
+  let em='😅',msg='Keep practising!';
+  if(pct===100){em='🏆';msg='Perfect Score! Amazing!';}
+  else if(pct>=80){em='🌟';msg='Excellent work!';}
+  else if(pct>=60){em='👏';msg='Good job!';}
+  else if(pct>=40){em='💪';msg='Keep going!';}
+  a.innerHTML=`
+    <div class="final">
+      <div class="trophy">${em}</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:700;">FINAL SCORE</div>
+      <div class="fscore">${score}</div>
+      <div class="fmsg">${msg}</div>
+      <div class="fbreak">
+        <div class="fchip" style="color:var(--ok)">✅ Correct: ${correct}/${qs.length}</div>
+        <div class="fchip" style="color:var(--no)">❌ Wrong: ${wrong}/${qs.length}</div>
+        <div class="fchip" style="color:var(--gold)">🎯 ${pct}%</div>
+      </div>
+      <button class="rebtn" onclick="initQuiz()">🔄 Play Again</button>
+    </div>`;
+  if(pct>=70) confetti();
+}
+
+// ════════════════════════════════════════════════════
+//  MEMORY GAME
+// ════════════════════════════════════════════════════
+let mCards=[],mFlip=[],mMatch=0,mMoves=0,mSecs=0,mTmr=null,mLock=false;
+
+function initMem(){
+  clearInterval(mTmr);
+  mMatch=0;mMoves=0;mSecs=0;mLock=false;mFlip=[];
+  document.getElementById('mm').textContent='0';
+  document.getElementById('mp').textContent='0/15';
+  document.getElementById('mt').textContent='0:00';
+  document.getElementById('mcd').style.display='none';
+
+  const pairs=[];
+  vocab.forEach(v=>{
+    pairs.push({id:v.en,text:v.en,t:'en'});
+    pairs.push({id:v.en,text:v.uk,t:'uk'});
+  });
+  mCards=shuf(pairs);
+
+  const g=document.getElementById('mg');
+  g.innerHTML='';
+  mCards.forEach((c,i)=>{
+    const el=document.createElement('div');
+    el.className='mc';el.dataset.i=i;el.dataset.id=c.id;el.dataset.t=c.t;
+    el.innerHTML=`
+      <div class="mci">
+        <div class="mf mback"></div>
+        <div class="mf mfront${c.t==='uk'?' uk':''}">${c.text}</div>
+      </div>`;
+    el.addEventListener('click',()=>flipCard(el));
+    g.appendChild(el);
+  });
+
+  mTmr=setInterval(()=>{
+    mSecs++;
+    const m=Math.floor(mSecs/60),s=mSecs%60;
+    document.getElementById('mt').textContent=m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+
+function flipCard(el){
+  if(mLock||el.classList.contains('fl')||el.classList.contains('ma'))return;
+  if(mFlip.length===2)return;
+  el.classList.add('fl');mFlip.push(el);
+  if(mFlip.length===2){
+    mMoves++;document.getElementById('mm').textContent=mMoves;
+    mLock=true;
+    const [a,b]=mFlip;
+    if(a.dataset.id===b.dataset.id&&a.dataset.t!==b.dataset.t){
+      setTimeout(()=>{
+        a.classList.add('ma');b.classList.add('ma');
+        mMatch++;document.getElementById('mp').textContent=mMatch+'/15';
+        mFlip=[];mLock=false;
+        if(mMatch===15)memDone();
+      },450);
+    } else {
+      setTimeout(()=>{
+        a.classList.add('wf');b.classList.add('wf');
+        setTimeout(()=>{
+          a.classList.remove('fl','wf');b.classList.remove('fl','wf');
+          mFlip=[];mLock=false;
+        },420);
+      },650);
+    }
+  }
+}
+
+function memDone(){
+  clearInterval(mTmr);
+  const m=Math.floor(mSecs/60),s=mSecs%60;
+  const ts=m+':'+(s<10?'0':'')+s;
+  const box=document.getElementById('mcd');
+  box.style.display='block';
+  box.innerHTML=`
+    <div class="mdone">
+      <h2>🎉 All 15 pairs found!</h2>
+      <p>⏱ Time: ${ts} &nbsp;·&nbsp; 🔄 Moves: ${mMoves}</p>
+      <p style="margin-top:8px;color:#fff;font-size:14px;">
+        ${mMoves<=22?'🏆 Amazing efficiency!':mMoves<=35?'🌟 Great job!':'💪 Well done!'}
+      </p>
+    </div>`;
+  confetti();
+}
+
+// ════════════════════════════════════════════════════
+//  CONFETTI
+// ════════════════════════════════════════════════════
+function confetti(){
+  const cols=['#ffd700','#ff3d5a','#00d97e','#2b8fff','#a78bfa','#f97316','#fff'];
+  for(let i=0;i<90;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*9;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.6+Math.random()*2}s;--dl:${Math.random()*.9}s;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3600);
+  }
+}
+
+// INIT
+initQuiz();
+initMem();
+</script>
+</body>
+</html>

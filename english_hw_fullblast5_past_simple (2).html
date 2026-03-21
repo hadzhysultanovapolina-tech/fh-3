@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Homework — Past Simple · Full Blast 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f1b2d;
+  --bg2:       #162236;
+  --ink:       #e2eaf5;
+  --warm:      #fb923c;
+  --amber:     #fbbf24;
+  --teal:      #2dd4bf;
+  --rose:      #f472b6;
+  --violet:    #a78bfa;
+  --green:     #4ade80;
+  --red:       #f87171;
+  --card:      #1a2d45;
+  --border:    #2a4a6e;
+  --muted:     #7a9cbc;
+  --aff-c:     #2dd4bf;
+  --neg-c:     #f472b6;
+  --que-c:     #a78bfa;
+  --reg-c:     #fb923c;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* grid overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;z-index:0;
+}
+/* orbs */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(244,114,182,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.06) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* progress bar */
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:4px;z-index:200;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--warm),var(--amber),var(--teal));width:0%;transition:width .4s ease;border-radius:0 4px 4px 0;}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#1a0a00 0%,#3b1200 40%,#1a2e2e 100%);
+  padding:56px 24px 52px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 60%,rgba(194,65,12,.35) 0%,transparent 60%),
+             radial-gradient(ellipse at 75% 30%,rgba(15,118,110,.3) 0%,transparent 55%);
+}
+.hero-tag{
+  position:relative;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:30px;padding:6px 20px;
+  font-size:12px;font-weight:700;letter-spacing:2px;
+  color:rgba(255,255,255,.75);text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero h1{
+  position:relative;
+  font-family:'Syne',sans-serif;
+  font-size:clamp(34px,7vw,68px);
+  font-weight:800;
+  line-height:1.0;
+  color:#fff;
+  margin-bottom:8px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(90deg,#fb923c,#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  position:relative;
+  font-size:15px;color:rgba(255,255,255,.55);font-weight:500;
+  margin-bottom:32px;
+}
+.hero-chips{
+  position:relative;
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+}
+.hero-chip{
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:20px;padding:7px 18px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.8);
+  display:flex;align-items:center;gap:6px;
+}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.d-aff{background:#2dd4bf;} .d-neg{background:#f9a8d4;} .d-que{background:#c4b5fd;} .d-reg{background:#fb923c;}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:40px 20px 80px;}
+
+/* ── GRAMMAR CARDS ── */
+.rules-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:18px;
+}
+.rule-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px 24px;
+  position:relative;overflow:hidden;
+  animation:fadeUp .6s ease both;
+}
+.rule-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;
+}
+.rc-aff::after{background:var(--aff-c);}
+.rc-neg::after{background:var(--neg-c);}
+.rc-que::after{background:var(--que-c);}
+.rc-reg{grid-column:1/-1;}
+.rc-reg::after{background:linear-gradient(90deg,var(--warm),var(--amber));}
+
+.rule-tag{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.rc-aff .rule-tag{color:var(--aff-c);}
+.rc-neg .rule-tag{color:var(--neg-c);}
+.rc-que .rule-tag{color:var(--que-c);}
+.rc-reg .rule-tag{color:var(--warm);}
+
+.rule-card h3{
+  font-family:'Syne',sans-serif;font-size:17px;font-weight:800;
+  color:var(--ink);margin-bottom:10px;
+}
+.rule-row{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.05);border-radius:10px;
+  padding:8px 12px;margin-bottom:6px;
+  font-size:13px;font-weight:600;color:var(--muted);
+}
+.rule-row strong{color:var(--ink);font-size:14px;}
+.rule-row em{font-style:italic;opacity:.7;font-size:12px;}
+
+/* ED rules grid */
+.ed-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;margin-top:4px;
+}
+.ed-box{
+  background:rgba(255,255,255,0.05);border-radius:12px;padding:12px 14px;
+  border:1px solid var(--border);
+}
+.ed-box .ed-rule{
+  font-size:11px;font-weight:700;color:var(--warm);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:6px;
+}
+.ed-box .ed-eg{
+  font-size:13px;font-weight:700;color:var(--ink);line-height:1.5;
+}
+.ed-box .ed-eg span{color:var(--teal);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── SECTION DIVIDERS ── */
+.sec-div{
+  display:flex;align-items:center;gap:14px;
+  margin:36px 0 18px;
+}
+.sec-div .sl{flex:1;height:1px;}
+.sec-div .st{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  padding:7px 20px;border-radius:20px;border:1.5px solid;
+  white-space:nowrap;
+}
+.sd-aff .sl{background:linear-gradient(90deg,transparent,rgba(45,212,191,0.5));}
+.sd-aff .sl:last-child{background:linear-gradient(90deg,rgba(45,212,191,0.5),transparent);}
+.sd-aff .st{color:var(--aff-c);border-color:rgba(45,212,191,0.4);background:rgba(45,212,191,0.08);}
+.sd-neg .sl{background:linear-gradient(90deg,transparent,rgba(244,114,182,0.5));}
+.sd-neg .sl:last-child{background:linear-gradient(90deg,rgba(244,114,182,0.5),transparent);}
+.sd-neg .st{color:var(--neg-c);border-color:rgba(244,114,182,0.4);background:rgba(244,114,182,0.08);}
+.sd-que .sl{background:linear-gradient(90deg,transparent,rgba(167,139,250,0.5));}
+.sd-que .sl:last-child{background:linear-gradient(90deg,rgba(167,139,250,0.5),transparent);}
+.sd-que .st{color:var(--que-c);border-color:rgba(167,139,250,0.4);background:rgba(167,139,250,0.08);}
+.sd-reg .sl{background:linear-gradient(90deg,transparent,rgba(251,146,60,0.5));}
+.sd-reg .sl:last-child{background:linear-gradient(90deg,rgba(251,146,60,0.5),transparent);}
+.sd-reg .st{color:var(--warm);border-color:rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);}
+
+/* ── TASK CARDS ── */
+.task{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:22px;
+  padding:26px 28px;
+  margin-bottom:14px;
+  transition:transform .2s,box-shadow .2s;
+  animation:fadeUp .5s ease both;
+  position:relative;
+}
+.task:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3);}
+
+.task-t-aff{border-left:4px solid var(--aff-c);}
+.task-t-neg{border-left:4px solid var(--neg-c);}
+.task-t-que{border-left:4px solid var(--que-c);}
+.task-t-reg{border-left:4px solid var(--warm);}
+
+.task-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.num-badge{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:800;
+  color:#fff;flex-shrink:0;
+}
+.task-t-aff .num-badge{background:var(--aff-c);}
+.task-t-neg .num-badge{background:var(--neg-c);}
+.task-t-que .num-badge{background:var(--que-c);}
+.task-t-reg .num-badge{background:var(--warm);}
+
+.task-type{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.task-t-aff .task-type{color:var(--aff-c);}
+.task-t-neg .task-type{color:var(--neg-c);}
+.task-t-que .task-type{color:var(--que-c);}
+.task-t-reg .task-type{color:var(--warm);}
+
+.sentence{
+  font-size:18px;font-weight:600;color:var(--ink);
+  line-height:1.6;margin-bottom:10px;
+}
+.verb-hint{
+  display:inline-block;
+  background:rgba(255,255,255,0.08);border:1px solid var(--border);
+  border-radius:8px;padding:1px 10px;
+  font-size:13px;font-weight:700;color:var(--muted);margin:0 3px;
+}
+.hint-txt{
+  font-size:13px;color:var(--muted);margin-bottom:16px;
+  display:none;align-items:center;gap:6px;
+  animation:fadeUp .35s ease both;
+}
+.hint-txt.revealed{display:flex;}
+.hint-pill{
+  background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);
+  border-radius:8px;padding:2px 10px;
+  font-size:12px;font-weight:700;color:var(--teal);
+}
+
+/* Input */
+.inp-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.inp-lbl{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;}
+input[type=text]{
+  background:var(--bg2);
+  border:2px solid var(--border);
+  border-radius:12px;
+  padding:10px 16px;
+  font-family:'DM Sans',sans-serif;
+  font-size:16px;font-weight:600;
+  color:var(--ink);
+  width:200px;outline:none;
+  transition:all .25s;
+}
+input[type=text]:focus{
+  border-color:var(--amber);
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 0 0 3px rgba(251,191,36,.15);
+}
+input[type=text].ok{
+  border-color:var(--green);background:rgba(74,222,128,0.08);
+  color:var(--green);box-shadow:0 0 0 3px rgba(74,222,128,.12);
+}
+input[type=text].no{
+  border-color:var(--red);background:rgba(248,113,113,0.08);
+  color:var(--red);box-shadow:0 0 0 3px rgba(248,113,113,.12);
+}
+.fb{
+  font-size:13px;font-weight:600;min-height:20px;
+  margin-bottom:12px;display:flex;align-items:flex-start;gap:6px;
+}
+.fb.ok{color:var(--green);}
+.fb.no{color:var(--red);}
+
+/* Buttons */
+.chk-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;border-radius:12px;border:none;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+}
+.task-t-aff .chk-btn{background:var(--aff-c);color:#fff;box-shadow:0 4px 14px rgba(15,118,110,.3);}
+.task-t-neg .chk-btn{background:var(--neg-c);color:#fff;box-shadow:0 4px 14px rgba(190,24,93,.3);}
+.task-t-que .chk-btn{background:var(--que-c);color:#fff;box-shadow:0 4px 14px rgba(91,33,182,.3);}
+.task-t-reg .chk-btn{background:var(--warm);color:#fff;box-shadow:0 4px 14px rgba(194,65,12,.3);}
+.chk-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.chk-btn.done{background:var(--green)!important;box-shadow:0 4px 14px rgba(21,128,61,.3)!important;}
+
+/* ── FINAL ── */
+.final-btn{
+  display:block;width:100%;margin:36px 0 0;
+  background:linear-gradient(135deg,#92400e,#d97706,#fbbf24);
+  color:#1a0800;
+  border:none;border-radius:18px;
+  padding:18px 32px;
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+  cursor:pointer;
+  box-shadow:0 6px 28px rgba(217,119,6,.35);
+  transition:all .25s;
+  animation:fadeUp .5s ease 1.2s both;
+}
+.final-btn:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(217,119,6,.45);}
+
+/* ── SCORE ── */
+.score{
+  display:none;
+  background:linear-gradient(135deg,#1a0a00,#2d1a00,#002020);
+  border-radius:26px;padding:44px 36px;
+  margin-top:28px;text-align:center;
+  animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  position:relative;overflow:hidden;
+}
+.score::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(194,65,12,.2),transparent 60%),
+             radial-gradient(ellipse at 75% 50%,rgba(15,118,110,.2),transparent 60%);
+}
+@keyframes popIn{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.score-lbl{position:relative;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:10px;}
+.score-num{
+  position:relative;
+  font-family:'Syne',sans-serif;font-size:72px;font-weight:800;
+  background:linear-gradient(135deg,#fb923c,#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin:8px 0;
+}
+.score-stars{position:relative;font-size:34px;letter-spacing:6px;margin:10px 0;}
+.score-msg{position:relative;font-family:'Syne',sans-serif;font-size:20px;color:#fff;margin-top:8px;}
+.score-break{
+  position:relative;
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px;
+}
+.sc-chip{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:8px 18px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.8);
+}
+.reset-btn{
+  position:relative;
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:22px;padding:11px 26px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;color:rgba(255,255,255,.6);
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.reset-btn:hover{background:rgba(255,255,255,.14);color:#fff;}
+
+footer{
+  text-align:center;margin-top:50px;
+  font-size:12px;color:#3a5a7a;font-weight:600;
+}
+
+@media(max-width:600px){
+  .rules-grid{grid-template-columns:1fr;}
+  .ed-grid{grid-template-columns:1fr 1fr;}
+  input[type=text]{width:160px;}
+  .score-num{font-size:56px;}
+}
+@keyframes pop{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
+.pop{animation:pop .3s ease;}
+</style>
+</head>
+<body>
+
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">📗 Full Blast 5 · Unit: What an Experience!</div>
+  <h1>Past Simple<br><em>Was / Were</em> + Regular Verbs</h1>
+  <p class="hero-sub">English Homework · Affirmative · Negative · Questions · -ed Rules</p>
+  <div class="hero-chips">
+    <div class="hero-chip"><span class="dot d-aff"></span> 5 Affirmative</div>
+    <div class="hero-chip"><span class="dot d-neg"></span> 4 Negative</div>
+    <div class="hero-chip"><span class="dot d-que"></span> 4 Questions</div>
+    <div class="hero-chip"><span class="dot d-reg"></span> 5 Regular Verbs</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- GRAMMAR SECTION -->
+  <div class="sec-div sd-reg" style="margin-top:0">
+    <div class="sl"></div><div class="st">📖 Grammar Reference</div><div class="sl"></div>
+  </div>
+
+  <div class="rules-grid">
+    <!-- Affirmative -->
+    <div class="rule-card rc-aff" style="animation-delay:.1s">
+      <div class="rule-tag">✅ Affirmative</div>
+      <h3>Was / Were</h3>
+      <div class="rule-row"><strong>I / He / She / It</strong> → <strong>WAS</strong> <em>She was happy.</em></div>
+      <div class="rule-row"><strong>You / We / They</strong> → <strong>WERE</strong> <em>They were tired.</em></div>
+    </div>
+    <!-- Negative -->
+    <div class="rule-card rc-neg" style="animation-delay:.15s">
+      <div class="rule-tag">❌ Negative</div>
+      <h3>Wasn't / Weren't</h3>
+      <div class="rule-row"><strong>He</strong> → <strong>wasn't</strong> <em>He wasn't scared.</em></div>
+      <div class="rule-row"><strong>We</strong> → <strong>weren't</strong> <em>We weren't ready.</em></div>
+    </div>
+    <!-- Question -->
+    <div class="rule-card rc-que" style="animation-delay:.2s">
+      <div class="rule-tag">❓ Question</div>
+      <h3>Was / Were + subject</h3>
+      <div class="rule-row"><strong>Was</strong> + I/he/she/it…? <em>Was it fun?</em></div>
+      <div class="rule-row"><strong>Were</strong> + you/we/they…? <em>Were they late?</em></div>
+    </div>
+    <!-- ED Rules -->
+    <div class="rule-card rc-reg" style="animation-delay:.25s">
+      <div class="rule-tag">📝 Rules for adding -ED to Regular Verbs</div>
+      <h3>How to form the Past Simple</h3>
+      <div class="ed-grid">
+        <div class="ed-box">
+          <div class="ed-rule">Rule 1 · Most verbs</div>
+          <div class="ed-eg">+ <span>-ed</span><br>walk → walk<span>ed</span><br>visit → visit<span>ed</span></div>
+        </div>
+        <div class="ed-box">
+          <div class="ed-rule">Rule 2 · Ends in -e</div>
+          <div class="ed-eg">+ <span>-d</span> only<br>love → lov<span>ed</span><br>arrive → arriv<span>ed</span></div>
+        </div>
+        <div class="ed-box">
+          <div class="ed-rule">Rule 3 · CVC short</div>
+          <div class="ed-eg">Double + <span>-ed</span><br>stop → stop<span>ped</span><br>plan → plan<span>ned</span></div>
+        </div>
+        <div class="ed-box">
+          <div class="ed-rule">Rule 4 · Ends in -y</div>
+          <div class="ed-eg">y → <span>i</span> + <span>-ed</span><br>study → stud<span>ied</span><br>carry → carr<span>ied</span></div>
+        </div>
+        <div class="ed-box">
+          <div class="ed-rule">Negat. form</div>
+          <div class="ed-eg">didn't + <span>verb</span><br>She didn't <span>walk</span>.<br>They didn't <span>stop</span>.</div>
+        </div>
+        <div class="ed-box">
+          <div class="ed-rule">Question form</div>
+          <div class="ed-eg">Did + sub + <span>verb</span>?<br>Did he <span>arrive</span>?<br>Did they <span>study</span>?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ AFFIRMATIVE ══════════════════ -->
+  <div class="sec-div sd-aff"><div class="sl"></div><div class="st">✅ Part 1 — Affirmative: Was / Were</div><div class="sl"></div></div>
+
+  <!-- T1 -->
+  <div class="task task-t-aff" style="animation-delay:.3s" id="c1">
+    <div class="task-head"><div class="num-badge">1</div><div><div class="task-type">Affirmative · Was / Were</div></div></div>
+    <div class="sentence">The trip to the mountains <span class="verb-hint">___</span> amazing!</div>
+    <div class="hint-txt">💡 <span class="hint-pill">trip = it → WAS</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i1" placeholder="was / were" autocomplete="off"></div>
+    <div class="fb" id="f1"></div>
+    <button class="chk-btn" onclick="ck(1,'was','The trip to the mountains <b>was</b> amazing!')">✔ Check</button>
+  </div>
+
+  <!-- T2 -->
+  <div class="task task-t-aff" style="animation-delay:.35s" id="c2">
+    <div class="task-head"><div class="num-badge">2</div><div><div class="task-type">Affirmative · Was / Were</div></div></div>
+    <div class="sentence">The children <span class="verb-hint">___</span> excited about the adventure.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">children = they → WERE</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i2" placeholder="was / were" autocomplete="off"></div>
+    <div class="fb" id="f2"></div>
+    <button class="chk-btn" onclick="ck(2,'were','The children <b>were</b> excited about the adventure.')">✔ Check</button>
+  </div>
+
+  <!-- T3 -->
+  <div class="task task-t-aff" style="animation-delay:.4s" id="c3">
+    <div class="task-head"><div class="num-badge">3</div><div><div class="task-type">Affirmative · Was / Were</div></div></div>
+    <div class="sentence">I <span class="verb-hint">___</span> really tired after the hike.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">I = I → WAS</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i3" placeholder="was / were" autocomplete="off"></div>
+    <div class="fb" id="f3"></div>
+    <button class="chk-btn" onclick="ck(3,'was','I <b>was</b> really tired after the hike.')">✔ Check</button>
+  </div>
+
+  <!-- T4 -->
+  <div class="task task-t-aff" style="animation-delay:.45s" id="c4">
+    <div class="task-head"><div class="num-badge">4</div><div><div class="task-type">Affirmative · Was / Were</div></div></div>
+    <div class="sentence">The weather <span class="verb-hint">___</span> perfect last weekend.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">weather = it → WAS</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i4" placeholder="was / were" autocomplete="off"></div>
+    <div class="fb" id="f4"></div>
+    <button class="chk-btn" onclick="ck(4,'was','The weather <b>was</b> perfect last weekend.')">✔ Check</button>
+  </div>
+
+  <!-- T5 -->
+  <div class="task task-t-aff" style="animation-delay:.5s" id="c5">
+    <div class="task-head"><div class="num-badge">5</div><div><div class="task-type">Affirmative · Was / Were</div></div></div>
+    <div class="sentence">We <span class="verb-hint">___</span> the first to arrive at the camp.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">we = we → WERE</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i5" placeholder="was / were" autocomplete="off"></div>
+    <div class="fb" id="f5"></div>
+    <button class="chk-btn" onclick="ck(5,'were','We <b>were</b> the first to arrive at the camp.')">✔ Check</button>
+  </div>
+
+  <!-- ══════════════════ NEGATIVE ══════════════════ -->
+  <div class="sec-div sd-neg"><div class="sl"></div><div class="st">❌ Part 2 — Negative: Wasn't / Weren't</div><div class="sl"></div></div>
+
+  <!-- T6 -->
+  <div class="task task-t-neg" style="animation-delay:.55s" id="c6">
+    <div class="task-head"><div class="num-badge">6</div><div><div class="task-type">Negative · wasn't / weren't</div></div></div>
+    <div class="sentence">The hotel <span class="verb-hint">___</span> near the beach — it was far away.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">hotel = it → WASN'T</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i6" placeholder="wasn't / weren't" autocomplete="off"></div>
+    <div class="fb" id="f6"></div>
+    <button class="chk-btn" onclick="ck(6,`wasn't`,'The hotel <b>wasn\'t</b> near the beach — it was far away.')">✔ Check</button>
+  </div>
+
+  <!-- T7 -->
+  <div class="task task-t-neg" style="animation-delay:.6s" id="c7">
+    <div class="task-head"><div class="num-badge">7</div><div><div class="task-type">Negative · wasn't / weren't</div></div></div>
+    <div class="sentence">The students <span class="verb-hint">___</span> afraid of the challenge.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">students = they → WEREN'T</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i7" placeholder="wasn't / weren't" autocomplete="off"></div>
+    <div class="fb" id="f7"></div>
+    <button class="chk-btn" onclick="ck(7,`weren't`,'The students <b>weren\'t</b> afraid of the challenge.')">✔ Check</button>
+  </div>
+
+  <!-- T8 -->
+  <div class="task task-t-neg" style="animation-delay:.65s" id="c8">
+    <div class="task-head"><div class="num-badge">8</div><div><div class="task-type">Negative · wasn't / weren't</div></div></div>
+    <div class="sentence">She <span class="verb-hint">___</span> happy with the result of the game.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">she = she → WASN'T</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i8" placeholder="wasn't / weren't" autocomplete="off"></div>
+    <div class="fb" id="f8"></div>
+    <button class="chk-btn" onclick="ck(8,`wasn't`,'She <b>wasn\'t</b> happy with the result of the game.')">✔ Check</button>
+  </div>
+
+  <!-- T9 -->
+  <div class="task task-t-neg" style="animation-delay:.7s" id="c9">
+    <div class="task-head"><div class="num-badge">9</div><div><div class="task-type">Negative · wasn't / weren't</div></div></div>
+    <div class="sentence">They <span class="verb-hint">___</span> ready for the surprise.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">they = they → WEREN'T</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i9" placeholder="wasn't / weren't" autocomplete="off"></div>
+    <div class="fb" id="f9"></div>
+    <button class="chk-btn" onclick="ck(9,`weren't`,'They <b>weren\'t</b> ready for the surprise.')">✔ Check</button>
+  </div>
+
+  <!-- ══════════════════ QUESTIONS ══════════════════ -->
+  <div class="sec-div sd-que"><div class="sl"></div><div class="st">❓ Part 3 — Questions: Was / Were…?</div><div class="sl"></div></div>
+
+  <!-- T10 -->
+  <div class="task task-t-que" style="animation-delay:.75s" id="c10">
+    <div class="task-head"><div class="num-badge">10</div><div><div class="task-type">Question · Was / Were + subject</div></div></div>
+    <div class="sentence"><span class="verb-hint">___</span> the experience unforgettable for you?</div>
+    <div class="hint-txt">💡 <span class="hint-pill">experience = it → WAS</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i10" placeholder="Was / Were" autocomplete="off"></div>
+    <div class="fb" id="f10"></div>
+    <button class="chk-btn" onclick="ck(10,'was','<b>Was</b> the experience unforgettable for you?')">✔ Check</button>
+  </div>
+
+  <!-- T11 -->
+  <div class="task task-t-que" style="animation-delay:.8s" id="c11">
+    <div class="task-head"><div class="num-badge">11</div><div><div class="task-type">Question · Was / Were + subject</div></div></div>
+    <div class="sentence"><span class="verb-hint">___</span> your friends scared during the storm?</div>
+    <div class="hint-txt">💡 <span class="hint-pill">friends = they → WERE</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i11" placeholder="Was / Were" autocomplete="off"></div>
+    <div class="fb" id="f11"></div>
+    <button class="chk-btn" onclick="ck(11,'were','<b>Were</b> your friends scared during the storm?')">✔ Check</button>
+  </div>
+
+  <!-- T12 -->
+  <div class="task task-t-que" style="animation-delay:.85s" id="c12">
+    <div class="task-head"><div class="num-badge">12</div><div><div class="task-type">Question · Was / Were + subject</div></div></div>
+    <div class="sentence"><span class="verb-hint">___</span> it the best holiday of your life?</div>
+    <div class="hint-txt">💡 <span class="hint-pill">it = it → WAS</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i12" placeholder="Was / Were" autocomplete="off"></div>
+    <div class="fb" id="f12"></div>
+    <button class="chk-btn" onclick="ck(12,'was','<b>Was</b> it the best holiday of your life?')">✔ Check</button>
+  </div>
+
+  <!-- T13 -->
+  <div class="task task-t-que" style="animation-delay:.9s" id="c13">
+    <div class="task-head"><div class="num-badge">13</div><div><div class="task-type">Question · Was / Were + subject</div></div></div>
+    <div class="sentence"><span class="verb-hint">___</span> you nervous before the performance?</div>
+    <div class="hint-txt">💡 <span class="hint-pill">you = you → WERE</span></div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i13" placeholder="Was / Were" autocomplete="off"></div>
+    <div class="fb" id="f13"></div>
+    <button class="chk-btn" onclick="ck(13,'were','<b>Were</b> you nervous before the performance?')">✔ Check</button>
+  </div>
+
+  <!-- ══════════════════ REGULAR VERBS ══════════════════ -->
+  <div class="sec-div sd-reg"><div class="sl"></div><div class="st">📝 Part 4 — Regular Verbs: Past Simple -ED</div><div class="sl"></div></div>
+
+  <!-- T14 -->
+  <div class="task task-t-reg" style="animation-delay:.95s" id="c14">
+    <div class="task-head"><div class="num-badge">14</div><div><div class="task-type">Regular Verb · + ed</div></div></div>
+    <div class="sentence">They <span class="verb-hint">___</span> (visit) the old castle on Saturday.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">visit → visited</span> (Rule 1: just add -ed)</div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i14" placeholder="past form" autocomplete="off"></div>
+    <div class="fb" id="f14"></div>
+    <button class="chk-btn" onclick="ck(14,'visited','They <b>visited</b> the old castle on Saturday.')">✔ Check</button>
+  </div>
+
+  <!-- T15 -->
+  <div class="task task-t-reg" style="animation-delay:1s" id="c15">
+    <div class="task-head"><div class="num-badge">15</div><div><div class="task-type">Regular Verb · + d</div></div></div>
+    <div class="sentence">She <span class="verb-hint">___</span> (arrive) late to the party.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">arrive → arrived</span> (Rule 2: ends in -e, add -d)</div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i15" placeholder="past form" autocomplete="off"></div>
+    <div class="fb" id="f15"></div>
+    <button class="chk-btn" onclick="ck(15,'arrived','She <b>arrived</b> late to the party.')">✔ Check</button>
+  </div>
+
+  <!-- T16 -->
+  <div class="task task-t-reg" style="animation-delay:1.05s" id="c16">
+    <div class="task-head"><div class="num-badge">16</div><div><div class="task-type">Regular Verb · double + ed</div></div></div>
+    <div class="sentence">The rain <span class="verb-hint">___</span> (stop) just before the show.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">stop → stopped</span> (Rule 3: CVC → double final consonant)</div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i16" placeholder="past form" autocomplete="off"></div>
+    <div class="fb" id="f16"></div>
+    <button class="chk-btn" onclick="ck(16,'stopped','The rain <b>stopped</b> just before the show.')">✔ Check</button>
+  </div>
+
+  <!-- T17 -->
+  <div class="task task-t-reg" style="animation-delay:1.1s" id="c17">
+    <div class="task-head"><div class="num-badge">17</div><div><div class="task-type">Regular Verb · y → ied</div></div></div>
+    <div class="sentence">He <span class="verb-hint">___</span> (carry) the heavy backpack all day.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">carry → carried</span> (Rule 4: consonant + y → ied)</div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i17" placeholder="past form" autocomplete="off"></div>
+    <div class="fb" id="f17"></div>
+    <button class="chk-btn" onclick="ck(17,'carried','He <b>carried</b> the heavy backpack all day.')">✔ Check</button>
+  </div>
+
+  <!-- T18 -->
+  <div class="task task-t-reg" style="animation-delay:1.15s" id="c18">
+    <div class="task-head"><div class="num-badge">18</div><div><div class="task-type">Regular Verb · + ed</div></div></div>
+    <div class="sentence">We <span class="verb-hint">___</span> (walk) for three hours without a break.</div>
+    <div class="hint-txt">💡 <span class="hint-pill">walk → walked</span> (Rule 1: just add -ed)</div>
+    <div class="inp-row"><span class="inp-lbl">Answer:</span><input type="text" id="i18" placeholder="past form" autocomplete="off"></div>
+    <div class="fb" id="f18"></div>
+    <button class="chk-btn" onclick="ck(18,'walked','We <b>walked</b> for three hours without a break.')">✔ Check</button>
+  </div>
+
+  <!-- FINAL -->
+  <button class="final-btn" onclick="checkAll()">🏆 Check All Answers & See My Score!</button>
+
+  <!-- SCORE -->
+  <div class="score" id="scoreBox">
+    <div class="score-lbl">Your Final Score</div>
+    <div class="score-num" id="sNum">0/18</div>
+    <div class="score-stars" id="sStars">⭐⭐⭐⭐⭐</div>
+    <div class="score-msg" id="sMsg">Amazing!</div>
+    <div class="score-break" id="sBrk"></div>
+    <button class="reset-btn" onclick="resetAll()">🔄 Try Again</button>
+  </div>
+
+  <footer>📗 Full Blast 5 · What an Experience! · Past Simple: Was/Were + Regular Verbs</footer>
+</div>
+
+<script>
+const KEYS={
+  1:'was',2:'were',3:'was',4:'was',5:'were',
+  6:"wasn't",7:"weren't",8:"wasn't",9:"weren't",
+  10:'was',11:'were',12:'was',13:'were',
+  14:'visited',15:'arrived',16:'stopped',17:'carried',18:'walked'
+};
+const SENT={
+  1:'The trip to the mountains <b>was</b> amazing!',
+  2:'The children <b>were</b> excited about the adventure.',
+  3:'I <b>was</b> really tired after the hike.',
+  4:'The weather <b>was</b> perfect last weekend.',
+  5:'We <b>were</b> the first to arrive at the camp.',
+  6:"The hotel <b>wasn't</b> near the beach — it was far away.",
+  7:"The students <b>weren't</b> afraid of the challenge.",
+  8:"She <b>wasn't</b> happy with the result of the game.",
+  9:"They <b>weren't</b> ready for the surprise.",
+  10:'<b>Was</b> the experience unforgettable for you?',
+  11:'<b>Were</b> your friends scared during the storm?',
+  12:'<b>Was</b> it the best holiday of your life?',
+  13:'<b>Were</b> you nervous before the performance?',
+  14:'They <b>visited</b> the old castle on Saturday.',
+  15:'She <b>arrived</b> late to the party.',
+  16:'The rain <b>stopped</b> just before the show.',
+  17:'He <b>carried</b> the heavy backpack all day.',
+  18:'We <b>walked</b> for three hours without a break.'
+};
+const done={};
+
+function ck(n,ans,sent){
+  const inp=document.getElementById('i'+n);
+  const fb=document.getElementById('f'+n);
+  const btn=document.querySelector('#c'+n+' .chk-btn');
+  const hint=document.querySelector('#c'+n+' .hint-txt');
+  const v=inp.value.trim().toLowerCase().replace(/'/g,"'");
+  const a=ans.toLowerCase().replace(/'/g,"'");
+  if(!v){fb.className='fb no';fb.innerHTML='⚠️ Please type your answer!';return;}
+  // reveal hint after first check
+  if(hint) hint.classList.add('revealed');
+  if(v===a){
+    inp.className='ok';inp.classList.add('pop');
+    setTimeout(()=>inp.classList.remove('pop'),350);
+    fb.className='fb ok';fb.innerHTML='✅ Correct!';
+    btn.classList.add('done');btn.innerHTML='✅ Correct!';
+    done[n]=true;
+  } else {
+    inp.className='no';
+    fb.className='fb no';fb.innerHTML='❌ Incorrect. Try again!';
+    btn.classList.remove('done');btn.innerHTML='✔ Check';
+    done[n]=false;
+  }
+  prog();
+}
+
+function prog(){
+  const c=Object.keys(done).length;
+  document.getElementById('pb').style.width=(c/18*100)+'%';
+}
+
+function checkAll(){
+  for(let i=1;i<=18;i++){
+    if(!(i in done)){
+      const v=document.getElementById('i'+i).value.trim();
+      if(v) ck(i,KEYS[i],SENT[i]);
+      else {
+        document.getElementById('i'+i).className='no';
+        document.getElementById('f'+i).className='fb no';
+        document.getElementById('f'+i).innerHTML='❌ Empty! Please write your answer.';
+        const hint=document.querySelector('#c'+i+' .hint-txt');
+        if(hint) hint.classList.add('revealed');
+        done[i]=false;
+      }
+    }
+  }
+  prog();
+  let total=0,aff=0,neg=0,que=0,reg=0;
+  for(let i=1;i<=18;i++) if(done[i]) total++;
+  for(let i=1;i<=5;i++) if(done[i]) aff++;
+  for(let i=6;i<=9;i++) if(done[i]) neg++;
+  for(let i=10;i<=13;i++) if(done[i]) que++;
+  for(let i=14;i<=18;i++) if(done[i]) reg++;
+
+  document.getElementById('sNum').textContent=total+'/18';
+  let st='',msg='';
+  if(total===18){st='⭐⭐⭐⭐⭐';msg='🏆 Outstanding! You nailed it!';}
+  else if(total>=15){st='⭐⭐⭐⭐';msg='🎉 Excellent! Almost perfect!';}
+  else if(total>=12){st='⭐⭐⭐';msg='👏 Great job! Keep practising!';}
+  else if(total>=8){st='⭐⭐';msg='💪 Good effort! Review the rules!';}
+  else{st='⭐';msg='📚 Study the grammar and try again!';}
+  document.getElementById('sStars').textContent=st;
+  document.getElementById('sMsg').textContent=msg;
+  document.getElementById('sBrk').innerHTML=
+    `<div class="sc-chip" style="color:#2dd4bf">✅ Affirmative: ${aff}/5</div>`+
+    `<div class="sc-chip" style="color:#f9a8d4">❌ Negative: ${neg}/4</div>`+
+    `<div class="sc-chip" style="color:#c4b5fd">❓ Questions: ${que}/4</div>`+
+    `<div class="sc-chip" style="color:#fb923c">📝 Regular: ${reg}/5</div>`;
+
+  const sb=document.getElementById('scoreBox');
+  sb.style.display='block';
+  sb.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetAll(){
+  for(let i=1;i<=18;i++){
+    const inp=document.getElementById('i'+i);
+    inp.value='';inp.className='';
+    document.getElementById('f'+i).className='fb';
+    document.getElementById('f'+i).innerHTML='';
+    const btn=document.querySelector('#c'+i+' .chk-btn');
+    btn.classList.remove('done');btn.innerHTML='✔ Check';
+    const hint=document.querySelector('#c'+i+' .hint-txt');
+    if(hint) hint.classList.remove('revealed');
+    delete done[i];
+  }
+  document.getElementById('pb').style.width='0%';
+  document.getElementById('scoreBox').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('input[type=text]').forEach((inp,idx)=>{
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){const n=idx+1;ck(n,KEYS[n],SENT[n]);}
+  });
+});
+</script>
+</body>
+</html>

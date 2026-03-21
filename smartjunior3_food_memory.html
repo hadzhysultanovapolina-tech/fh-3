@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Junior 3 · Food Memory Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8f0; --card:#ffffff; --border:#fde8d0;
+  --ink:#2d1a0e; --muted:#a0836a; --soft:#fff3e8;
+  --orange:#ea580c; --green:#16a34a; --red:#dc2626;
+  --blue:#2563eb; --purple:#7c3aed; --teal:#0d9488;
+  --gold:#d97706; --ok:#16a34a; --no:#dc2626;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 15% 15%,rgba(234,88,12,.06),transparent 50%),
+             radial-gradient(ellipse at 85% 85%,rgba(13,148,136,.06),transparent 50%);
+  pointer-events:none;z-index:0;}
+
+.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:24px 14px 70px;}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:22px;animation:hin .6s cubic-bezier(.22,1,.36,1) both;}
+@keyframes hin{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(234,88,12,.1);border:1px solid rgba(234,88,12,.25);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--orange);text-transform:uppercase;margin-bottom:12px;}
+.hero h1{font-family:'Baloo 2',cursive;font-size:clamp(26px,6vw,50px);color:var(--ink);line-height:1.05;margin-bottom:4px;}
+.hero h1 em{font-style:normal;color:var(--orange);}
+.hero-sub{font-size:14px;color:var(--muted);font-weight:600;}
+
+/* TOP BAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:14px 20px;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.mstat .sv{font-family:'Baloo 2',cursive;font-size:26px;color:var(--ink);}
+.mstat .sl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.level-btns{display:flex;gap:8px;}
+.lvl-btn{padding:8px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--soft);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .18s;}
+.lvl-btn.active{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 3px 12px rgba(234,88,12,.3);}
+.lvl-btn:hover:not(.active){border-color:var(--orange);color:var(--orange);}
+.restart-btn{padding:9px 20px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--orange),#f97316);color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(234,88,12,.3);transition:all .18s;}
+.restart-btn:hover{transform:translateY(-1px);filter:brightness(1.08);}
+
+/* GRID */
+.mgrid{display:grid;gap:10px;margin-bottom:20px;}
+.g-12{grid-template-columns:repeat(6,1fr);}
+.g-16{grid-template-columns:repeat(8,1fr);}
+@media(max-width:600px){.g-12{grid-template-columns:repeat(4,1fr);}.g-16{grid-template-columns:repeat(5,1fr);}}
+@media(max-width:380px){.g-12{grid-template-columns:repeat(3,1fr);}.g-16{grid-template-columns:repeat(4,1fr);}}
+
+/* CARDS */
+.mc{aspect-ratio:1/1.1;perspective:600px;cursor:pointer;}
+.mci{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .36s cubic-bezier(.4,0,.2,1);}
+.mc.fl .mci,.mc.ma .mci{transform:rotateY(180deg);}
+.mf{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:4px;border:2px solid;}
+
+/* BACK */
+.mback{
+  background:linear-gradient(135deg,#fff7ed,#fed7aa);
+  border-color:#fdba74;
+  color:#c2410c;font-size:22px;
+}
+.mback::after{content:'?';font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:#ea580c;}
+
+/* EMOJI FRONT */
+.mfront-emoji{
+  background:linear-gradient(135deg,#fffbeb,#fef3c7);
+  border-color:#fcd34d;
+  transform:rotateY(180deg);
+  font-size:clamp(20px,5vw,32px);
+  gap:3px;
+}
+.mfront-emoji .card-label{font-size:10px;font-weight:700;color:#92400e;text-align:center;line-height:1.2;}
+
+/* WORD FRONT */
+.mfront-word{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border-color:#93c5fd;
+  transform:rotateY(180deg);
+  font-size:clamp(9px,2.2vw,13px);font-weight:800;color:#1e40af;text-align:center;padding:6px;
+}
+
+/* MATCHED */
+.mc.ma .mback,.mc.ma .mfront-emoji,.mc.ma .mfront-word{
+  background:linear-gradient(135deg,#dcfce7,#bbf7d0)!important;
+  border-color:#4ade80!important;
+}
+.mc.ma .card-label{color:#166534!important;}
+.mc.ma .mfront-word{color:#166534!important;}
+
+/* WRONG FLASH */
+.mc.wf .mci{animation:wsh .4s ease;}
+@keyframes wsh{0%{transform:rotateY(180deg);}25%{transform:rotateY(180deg) translateX(-5px);}75%{transform:rotateY(180deg) translateX(5px);}100%{transform:rotateY(180deg);}}
+
+/* COMPLETE */
+.complete{display:none;background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:26px;padding:36px 28px;text-align:center;margin-top:10px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.84);}to{opacity:1;transform:scale(1);}}
+.ct{font-size:64px;margin-bottom:10px;animation:bob 1s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.cscore{font-family:'Baloo 2',cursive;font-size:clamp(44px,10vw,72px);background:linear-gradient(135deg,#ffd700,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.cmsg{font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;}
+.cstars{font-size:30px;letter-spacing:5px;margin:8px 0;}
+.cbreak{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.cchip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
+.crebtn{display:inline-flex;align-items:center;gap:6px;padding:12px 28px;border-radius:14px;border:none;font-family:'Baloo 2',cursive;font-size:18px;background:linear-gradient(135deg,#d97706,#fbbf24);color:#1a0800;cursor:pointer;box-shadow:0 4px 16px rgba(251,191,36,.3);transition:all .2s;}
+.crebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* CONFETTI */
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">🌟 Smart Junior 3 · Now I Can</div>
+  <h1>Food <em>Memory Game!</em></h1>
+  <p class="hero-sub">Match the picture with the word · 23 food words</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="mstat"><div class="sv" id="mm">0</div><div class="sl">Moves</div></div>
+  <div class="mstat"><div class="sv" id="mp">0</div><div class="sl">Pairs ✅</div></div>
+  <div class="mstat"><div class="sv" id="mt">0:00</div><div class="sl">Time</div></div>
+  <div class="level-btns">
+    <button class="lvl-btn active" onclick="setLevel(12,this)">Easy (12)</button>
+    <button class="lvl-btn" onclick="setLevel(16,this)">Medium (16)</button>
+    <button class="lvl-btn" onclick="setLevel(23,this)">Hard (23)</button>
+  </div>
+  <button class="restart-btn" onclick="initGame()">🔄 Restart</button>
+</div>
+
+<!-- GRID -->
+<div class="mgrid g-12" id="mg"></div>
+
+<!-- COMPLETE -->
+<div class="complete" id="cdone">
+  <div class="ct" id="ct">🏆</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.45);font-weight:700;">RESULT</div>
+  <div class="cscore" id="cscore">0</div>
+  <div class="cstars" id="cstars">⭐⭐⭐⭐⭐</div>
+  <div class="cmsg" id="cmsg">Amazing!</div>
+  <div class="cbreak" id="cbreak"></div>
+  <button class="crebtn" onclick="initGame()">🔄 Play Again</button>
+</div>
+
+</div>
+<script>
+// ═══════════════════════════════════════════════════
+//  ALL VOCABULARY — Smart Junior 3 "Now I Can" page
+// ═══════════════════════════════════════════════════
+const allWords = [
+  {word:'onions',     emoji:'🧅'},
+  {word:'lettuce',    emoji:'🥬'},
+  {word:'chocolate',  emoji:'🍫'},
+  {word:'biscuits',   emoji:'🍪'},
+  {word:'flour',      emoji:'🌾'},
+  {word:'omelette',   emoji:'🍳'},
+  {word:'peas',       emoji:'🫛'},
+  {word:'pancake',    emoji:'🥞'},
+  {word:'pineapple',  emoji:'🍍'},
+  {word:'peppers',    emoji:'🫑'},
+  {word:'coconut',    emoji:'🥥'},
+  {word:'fried chicken', emoji:'🍗'},
+  {word:'jam',        emoji:'🫙'},
+  {word:'butter',     emoji:'🧈'},
+  {word:'noodles',    emoji:'🍜'},
+  {word:'soup',       emoji:'🍲'},
+  {word:'cheeseburger',emoji:'🍔'},
+  {word:'crepe',      emoji:'🫔'},
+  {word:'lemonade',   emoji:'🍋'},
+  {word:'vegetables', emoji:'🥦'},
+  {word:'garlic',     emoji:'🧄'},
+  {word:'glass',      emoji:'🥛'},
+  {word:'bottle',     emoji:'🍶'},
+];
+
+let currentLevel=12, cards=[], flipped=[], matched=0, moves=0, secs=0, tmr=null, locked=false;
+
+function shuf(a){return [...a].sort(()=>Math.random()-.5);}
+
+function setLevel(n, btn){
+  currentLevel=n;
+  document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const g=document.getElementById('mg');
+  g.className='mgrid '+(n<=12?'g-12':'g-16');
+  initGame();
+}
+
+function initGame(){
+  clearInterval(tmr);
+  flipped=[];matched=0;moves=0;secs=0;locked=false;
+  document.getElementById('mm').textContent='0';
+  document.getElementById('mp').textContent='0';
+  document.getElementById('mt').textContent='0:00';
+  document.getElementById('cdone').style.display='none';
+
+  const pool=shuf(allWords).slice(0,currentLevel);
+  const pairs=[];
+  pool.forEach(v=>{
+    pairs.push({id:v.word, text:v.emoji+'\n'+v.word, type:'emoji', display:v.emoji, label:v.word});
+    pairs.push({id:v.word, text:v.word, type:'word', display:v.word});
+  });
+  cards=shuf(pairs);
+
+  const g=document.getElementById('mg');
+  g.innerHTML='';
+  cards.forEach((c,i)=>{
+    const el=document.createElement('div');
+    el.className='mc';
+    el.dataset.i=i;el.dataset.id=c.id;el.dataset.t=c.type;
+    if(c.type==='emoji'){
+      el.innerHTML=`<div class="mci">
+        <div class="mf mback"></div>
+        <div class="mf mfront-emoji">${c.display}<span class="card-label">${c.label}</span></div>
+      </div>`;
+    } else {
+      el.innerHTML=`<div class="mci">
+        <div class="mf mback"></div>
+        <div class="mf mfront-word">${c.display}</div>
+      </div>`;
+    }
+    el.addEventListener('click',()=>flip(el));
+    g.appendChild(el);
+  });
+
+  tmr=setInterval(()=>{
+    secs++;
+    const m=Math.floor(secs/60),s=secs%60;
+    document.getElementById('mt').textContent=m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+
+function flip(el){
+  if(locked||el.classList.contains('fl')||el.classList.contains('ma')) return;
+  if(flipped.length===2) return;
+  el.classList.add('fl');
+  flipped.push(el);
+  if(flipped.length===2){
+    moves++;
+    document.getElementById('mm').textContent=moves;
+    locked=true;
+    const [a,b]=flipped;
+    if(a.dataset.id===b.dataset.id && a.dataset.t!==b.dataset.t){
+      // MATCH
+      setTimeout(()=>{
+        a.classList.add('ma');b.classList.add('ma');
+        matched++;
+        document.getElementById('mp').textContent=matched;
+        flipped=[];locked=false;
+        if(matched===currentLevel) gameOver();
+      },420);
+    } else {
+      // NO MATCH
+      setTimeout(()=>{
+        a.classList.add('wf');b.classList.add('wf');
+        setTimeout(()=>{
+          a.classList.remove('fl','wf');
+          b.classList.remove('fl','wf');
+          flipped=[];locked=false;
+        },400);
+      },700);
+    }
+  }
+}
+
+function gameOver(){
+  clearInterval(tmr);
+  const m=Math.floor(secs/60),s=secs%60;
+  const ts=m+':'+(s<10?'0':'')+s;
+  let emoji='🏆',msg='Amazing!',stars='⭐⭐⭐⭐⭐';
+  if(moves<=currentLevel+4){emoji='🏆';msg='Incredible! You have a great memory!';stars='⭐⭐⭐⭐⭐';}
+  else if(moves<=currentLevel+10){emoji='🌟';msg='Excellent work!';stars='⭐⭐⭐⭐';}
+  else if(moves<=currentLevel+18){emoji='👏';msg='Good job!';stars='⭐⭐⭐';}
+  else {emoji='💪';msg='Well done! Keep practising!';stars='⭐⭐';}
+
+  document.getElementById('ct').textContent=emoji;
+  document.getElementById('cscore').textContent=moves+' moves';
+  document.getElementById('cstars').textContent=stars;
+  document.getElementById('cmsg').textContent=msg;
+  document.getElementById('cbreak').innerHTML=
+    `<div class="cchip">⏱ Time: ${ts}</div>`+
+    `<div class="cchip">🔄 Moves: ${moves}</div>`+
+    `<div class="cchip">✅ Pairs: ${matched}/${currentLevel}</div>`;
+
+  const box=document.getElementById('cdone');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  confetti();
+}
+
+function confetti(){
+  const cols=['#ffd700','#ff4060','#00d97e','#2b8fff','#a78bfa','#f97316','#fff','#ff80ab'];
+  for(let i=0;i<90;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*9;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.6+Math.random()*2}s;--dl:${Math.random()*.9}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+
+// Start!
+initGame();
+</script>
+</body>
+</html>
