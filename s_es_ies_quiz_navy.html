@@ -1,0 +1,119 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.quiz-wrap { padding: 1.5rem 0; max-width: 680px; font-family: var(--font-sans); }
+.progress-bar-bg { height: 6px; background: #2D3561; border-radius: 99px; margin-bottom: 1.5rem; }
+.progress-bar-fill { height: 6px; background: #FFD166; border-radius: 99px; transition: width 0.4s ease; }
+.score-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #8B9DC3; margin-bottom: 1.5rem; }
+.score-badge span { font-weight: 500; color: #E8EDFF; }
+.question-card { background: #1E2761; border: 1px solid #2D3A6B; border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; }
+.q-number { font-size: 12px; color: #8B9DC3; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+.q-sentence { font-size: 19px; font-weight: 500; color: #E8EDFF; margin-bottom: 1.25rem; line-height: 1.5; }
+.q-sentence em { font-style: normal; color: #FFD166; font-weight: 700; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn { background: #252E6A; border: 1px solid #3A4580; border-radius: 10px; padding: 13px 18px; font-size: 15px; font-weight: 500; color: #C8D3F5; cursor: pointer; text-align: left; transition: background 0.15s, border-color 0.15s; }
+.opt-btn:hover:not(:disabled) { background: #2D3A7A; border-color: #FFD166; color: #FFD166; }
+.opt-btn.correct { background: #0E3D2F; border-color: #1D9E75; color: #5DCAA5; }
+.opt-btn.wrong { background: #3D1515; border-color: #E24B4A; color: #F09595; }
+.opt-btn:disabled { cursor: default; }
+.rule-box { border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1rem; border-left: 3px solid; }
+.rule-box.success { background: #0A2E22; border-color: #1D9E75; }
+.rule-box.error { background: #2E1010; border-color: #E24B4A; }
+.rule-title { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+.rule-box.success .rule-title { color: #5DCAA5; }
+.rule-box.error .rule-title { color: #F09595; }
+.rule-text { font-size: 13px; line-height: 1.65; }
+.rule-box.success .rule-text { color: #9FE1CB; }
+.rule-box.error .rule-text { color: #F5C4B3; }
+.next-btn { margin-top: 1rem; background: #FFD166; border: none; border-radius: 10px; padding: 11px 24px; font-size: 14px; font-weight: 500; color: #1B1F3B; cursor: pointer; transition: background 0.15s; }
+.next-btn:hover { background: #FFDE8A; }
+.result-card { background: #1E2761; border: 1px solid #2D3A6B; border-radius: 14px; padding: 2rem; text-align: center; }
+.result-score { font-size: 40px; font-weight: 500; color: #FFD166; margin-bottom: 0.25rem; }
+.result-msg { font-size: 15px; color: #8B9DC3; margin-bottom: 1.5rem; }
+.stars { font-size: 30px; margin-bottom: 1rem; letter-spacing: 4px; }
+.mistakes-title { font-size: 13px; color: #8B9DC3; text-align: left; margin-bottom: 0.75rem; font-weight: 500; }
+.mistake-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; border-top: 1px solid #2D3A6B; text-align: left; font-size: 13px; color: #C8D3F5; }
+.mistake-wrong { color: #F09595; }
+.mistake-right { color: #5DCAA5; }
+.restart-btn { margin-top: 1.5rem; background: #252E6A; border: 1px solid #3A4580; border-radius: 10px; padding: 12px 28px; font-size: 14px; font-weight: 500; color: #C8D3F5; cursor: pointer; transition: background 0.15s; }
+.restart-btn:hover { background: #2D3A7A; color: #FFD166; border-color: #FFD166; }
+</style>
+
+<h2 class="sr-only">Інтерактивне завдання: правила додавання -s, -es, -ies до дієслів</h2>
+
+<div class="quiz-wrap" id="app"></div>
+
+<script>
+const questions = [
+  { sentence: "She ___ English every day.", verb: "study", options: ["studys","studies","studyes"], correct: "studies", ruleTitle: "Правило: приголосна + Y → IES", ruleText: "Якщо дієслово закінчується на приголосну + Y, прибираємо Y і додаємо -IES.\nstudy → studi + es = studies ✓" },
+  { sentence: "He ___ football on weekends.", verb: "play", options: ["plays","playes","plaies"], correct: "plays", ruleTitle: "Правило: голосна + Y → просто +S", ruleText: "Якщо перед Y стоїть голосна (a, e, i, o, u), просто додаємо -S.\nplay → play + s = plays ✓" },
+  { sentence: "My cat ___ birds every morning.", verb: "watch", options: ["watchs","watches","watchies"], correct: "watches", ruleTitle: "Правило: -ch, -sh, -s, -x, -o → +ES", ruleText: "Якщо дієслово закінчується на -ch, -sh, -s, -x або -o, додаємо -ES.\nwatch → watch + es = watches ✓" },
+  { sentence: "He ___ to school by bus.", verb: "go", options: ["gos","goes","goies"], correct: "goes", ruleTitle: "Правило: закінчення -o → +ES", ruleText: "Дієслова на -o отримують -ES.\ngo → go + es = goes ✓" },
+  { sentence: "She ___ pizza for lunch.", verb: "eat", options: ["eats","eates","eatses"], correct: "eats", ruleTitle: "Правило: більшість дієслів → просто +S", ruleText: "Більшість дієслів просто отримують -S.\neat → eat + s = eats ✓" },
+  { sentence: "Tom ___ his hands before dinner.", verb: "wash", options: ["washs","washes","washies"], correct: "washes", ruleTitle: "Правило: закінчення -sh → +ES", ruleText: "Дієслова на -sh отримують -ES.\nwash → wash + es = washes ✓" },
+  { sentence: "She ___ to Kyiv once a month.", verb: "fly", options: ["flys","flies","flyes"], correct: "flies", ruleTitle: "Правило: приголосна + Y → IES", ruleText: "fly: приголосна L + Y → прибираємо Y, додаємо -IES.\nfly → fli + es = flies ✓" },
+  { sentence: "It ___ the colours together.", verb: "mix", options: ["mixes","mixs","mixies"], correct: "mixes", ruleTitle: "Правило: закінчення -x → +ES", ruleText: "Дієслова на -x отримують -ES.\nmix → mix + es = mixes ✓" },
+  { sentence: "My dad ___ books every night.", verb: "read", options: ["reads","reades","readies"], correct: "reads", ruleTitle: "Правило: більшість дієслів → +S", ruleText: "read закінчується на звичайну приголосну — просто +S.\nread → reads ✓" },
+  { sentence: "She ___ her homework quickly.", verb: "finish", options: ["finishs","finishes","finishies"], correct: "finishes", ruleTitle: "Правило: закінчення -sh → +ES", ruleText: "finish закінчується на -sh, тому +ES.\nfinish → finish + es = finishes ✓" }
+];
+
+let current=0, score=0, answered=false, mistakes=[];
+
+function stars(s,t){ const p=s/t; return p>=0.9?"★★★★★":p>=0.7?"★★★★☆":p>=0.5?"★★★☆☆":p>=0.3?"★★☆☆☆":"★☆☆☆☆"; }
+function msg(s,t){ const p=s/t; return p>=0.9?"Ти справжній детектив! Секретна літера S підкорена!":p>=0.7?"Дуже добре! Ще трохи практики — і будеш експертом!":p>=0.5?"Непогано! Повторимо правила ще раз?":"Спробуй ще раз — ти впораєшся!"; }
+
+function render(){
+  const app=document.getElementById('app');
+  if(current>=questions.length){ renderResult(app); return; }
+  const q=questions[current];
+  const pct=Math.round(current/questions.length*100);
+  app.innerHTML=`
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="score-badge">Питання <span>${current+1} / ${questions.length}</span> &nbsp;·&nbsp; Балів: <span id="sc">${score}</span></div>
+    <div class="question-card">
+      <div class="q-number">Оберіть правильну форму дієслова (he / she / it):</div>
+      <div class="q-sentence">${q.sentence.replace('___','<em>___</em>')}</div>
+      <div class="options" id="opts">${q.options.map(o=>`<button class="opt-btn" onclick="choose('${o}')">${o}</button>`).join('')}</div>
+      <div id="feedback"></div>
+      <div id="next-area"></div>
+    </div>`;
+}
+
+function choose(val){
+  if(answered) return;
+  answered=true;
+  const q=questions[current];
+  const ok=val===q.correct;
+  if(ok) score++;
+  else mistakes.push({s:q.sentence,wrong:val,right:q.correct});
+  document.querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.correct) b.classList.add('correct');
+    else if(b.textContent===val&&!ok) b.classList.add('wrong');
+  });
+  document.getElementById('sc').textContent=score;
+  const cls=ok?'success':'error';
+  const head=ok?`Правильно! ✓ ${q.correct}`:`Правильна відповідь: ${q.correct}`;
+  document.getElementById('feedback').innerHTML=`<div class="rule-box ${cls}"><div class="rule-title">${head}</div><div class="rule-text">${q.ruleTitle}<br>${q.ruleText}</div></div>`;
+  document.getElementById('next-area').innerHTML=`<button class="next-btn" onclick="next()">${current+1<questions.length?'Наступне →':'Результат →'}</button>`;
+}
+
+function next(){ current++; answered=false; render(); }
+
+function renderResult(app){
+  const t=questions.length;
+  const mHtml=mistakes.length===0?'<p style="font-size:13px;color:#5DCAA5;">Жодної помилки! Ідеальний результат! 🎉</p>':
+    `<div class="mistakes-title">Повтори ці правила:</div>`+
+    mistakes.map(m=>`<div class="mistake-item"><div><div>${m.s}</div><div style="margin-top:3px"><span class="mistake-wrong">✗ ${m.wrong}</span> &nbsp; <span class="mistake-right">✓ ${m.right}</span></div></div></div>`).join('');
+  app.innerHTML=`<div class="result-card">
+    <div class="stars">${stars(score,t)}</div>
+    <div class="result-score">${score} / ${t}</div>
+    <div class="result-msg">${msg(score,t)}</div>
+    <div style="margin-bottom:1.5rem">${mHtml}</div>
+    <button class="restart-btn" onclick="restart()">Спробувати ще раз</button>
+  </div>`;
+}
+
+function restart(){ current=0; score=0; answered=false; mistakes=[]; render(); }
+render();
+</script>
