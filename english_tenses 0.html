@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Англійські часи — картки</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f5f3ee;
+    padding: 32px 20px;
+    color: #1a1a1a;
+  }
+  h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 28px;
+  }
+
+  .legend-bar {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0ddd6;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .legend-title { font-size: 13px; color: #888; font-weight: 600; font-family: Arial, sans-serif; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: Arial, sans-serif; }
+  .badge-s {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #ddeeff; color: #1a5fa8; font-size: 13px; font-weight: 700;
+    border-bottom: 2px solid #378ADD;
+  }
+  .badge-v {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #fde8d8; color: #993C1D; font-size: 13px; font-weight: 700;
+    border-bottom: 3px double #D85A30;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e0ddd6;
+    border-radius: 14px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+
+  .card-header {
+    padding: 13px 18px 11px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-emoji { font-size: 20px; }
+  .card-title { font-size: 17px; font-weight: 700; color: #1a1a1a; font-family: Arial, sans-serif; }
+  .card-body { padding: 0 18px 16px; font-family: Arial, sans-serif; }
+
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: #aaa; text-transform: uppercase;
+    margin: 11px 0 6px;
+  }
+
+  .formula-row {
+    display: flex; align-items: baseline; gap: 6px;
+    font-size: 13px; margin-bottom: 5px; flex-wrap: wrap;
+  }
+  .sign {
+    font-size: 11px; font-weight: 700;
+    width: 20px; min-width: 20px; text-align: center;
+    border-radius: 4px; padding: 2px 0;
+  }
+  .sign-plus { background: #eaf3de; color: #3B6D11; }
+  .sign-minus { background: #fceaea; color: #A32D2D; }
+  .sign-q { background: #ddeeff; color: #185FA5; }
+
+  .tok-s {
+    background: #ddeeff; color: #185FA5;
+    border-radius: 4px; padding: 1px 6px;
+    border-bottom: 2px solid #378ADD;
+    font-weight: 700; font-size: 13px;
+  }
+  .tok-v {
+    background: #fde8d8; color: #993C1D;
+    border-radius: 4px; padding: 1px 6px;
+    border-bottom: 3px double #D85A30;
+    font-weight: 700; font-size: 13px;
+  }
+  .tok-plain { color: #555; font-size: 13px; }
+
+  .example-row {
+    font-size: 13px; line-height: 1.7; margin-bottom: 3px;
+    color: #1a1a1a;
+  }
+  .ex-sign { font-weight: 700; margin-right: 4px; }
+  .ex-plus { color: #3B6D11; }
+  .ex-minus { color: #A32D2D; }
+  .ex-q { color: #185FA5; }
+
+  .s-line { text-decoration: underline; text-decoration-thickness: 1.5px; }
+  .v-line { text-decoration: underline; text-decoration-style: double; text-decoration-color: #D85A30; }
+
+  .markers { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .marker-tag {
+    font-size: 11px; padding: 3px 9px;
+    border-radius: 20px;
+    background: #f5f3ee;
+    color: #666;
+    border: 1px solid #e0ddd6;
+  }
+  .divider { height: 1px; background: #f0ede6; margin: 9px 0; }
+
+  .h-blue  { background: #ddeeff; }
+  .h-green { background: #d8f5e8; }
+  .h-amber { background: #fef3d8; }
+  .h-pink  { background: #fde8f0; }
+  .h-purple{ background: #eeebfe; }
+  .h-teal  { background: #d8f5f0; }
+
+  @media print {
+    body { background: #fff; padding: 16px; }
+    .cards-grid { gap: 14px; }
+    .card { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<h1>English Tenses 📚</h1>
+<p class="subtitle">Основні часи англійської мови — схеми, приклади, маркери</p>
+
+<div class="legend-bar">
+  <span class="legend-title">Позначення:</span>
+  <div class="legend-item"><span class="badge-s">S</span> підмет — <strong>хто / що</strong> виконує дію (She, I, They…)</div>
+  <div class="legend-item"><span class="badge-v">V</span> дієслово — <strong>що робить</strong> (lives, called, will go…)</div>
+  <div class="legend-item" style="font-size:12px; color:#999;">
+    <u>S</u> — одна риска &nbsp;|&nbsp; <span style="text-decoration:underline;text-decoration-style:double;text-decoration-color:#D85A30;">V</span> — дві риски
+  </div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- 1. Present Simple -->
+  <div class="card">
+    <div class="card-header h-blue">
+      <span class="card-emoji">🔵</span>
+      <span class="card-title">Present Simple</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V(s/es)</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">don't / doesn't + V</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Do / Does</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">lives</span> in London.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">doesn't live</span> in London.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Does</span> <span class="s-line">she</span> <span class="v-line">live</span> in London?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">always</span><span class="marker-tag">usually</span><span class="marker-tag">often</span><span class="marker-tag">every day</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Present Continuous -->
+  <div class="card">
+    <div class="card-header h-green">
+      <span class="card-emoji">🟢</span>
+      <span class="card-title">Present Continuous</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">am/is/are + V-ing</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">am not/isn't/aren't + V-ing</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Am/Is/Are</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V-ing?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">is speaking</span> English now.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">isn't speaking</span> English now.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Is</span> <span class="s-line">she</span> <span class="v-line">speaking</span> English now?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">now</span><span class="marker-tag">at the moment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Present Perfect -->
+  <div class="card">
+    <div class="card-header h-amber">
+      <span class="card-emoji">🟡</span>
+      <span class="card-title">Present Perfect</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">have/has + V3/ed</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">haven't/hasn't + V3/ed</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Have/Has</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V3/ed?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">has visited</span> Paris.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">hasn't visited</span> Paris yet.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Has</span> <span class="s-line">she</span> ever <span class="v-line">visited</span> Paris?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">already</span><span class="marker-tag">yet</span><span class="marker-tag">just</span><span class="marker-tag">ever</span><span class="marker-tag">never</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Past Continuous -->
+  <div class="card">
+    <div class="card-header" style="background:#fdf3e0;">
+      <span class="card-emoji">🟠</span>
+      <span class="card-title">Past Continuous</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">was/were + V-ing</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">wasn't/weren't + V-ing</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Was/Were</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V-ing?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">was reading</span> a book at 7 pm.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">wasn't reading</span> a book at 7 pm.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Was</span> <span class="s-line">she</span> <span class="v-line">reading</span> a book at 7 pm?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">at that moment</span><span class="marker-tag">while</span><span class="marker-tag">when</span><span class="marker-tag">all day</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Past Simple -->
+  <div class="card">
+    <div class="card-header h-pink">
+      <span class="card-emoji">🩷</span>
+      <span class="card-title">Past Simple</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V2/ed</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">didn't + V</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Did</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">watched</span> a movie yesterday.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">didn't watch</span> a movie yesterday.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Did</span> <span class="s-line">she</span> <span class="v-line">watch</span> a movie yesterday?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">yesterday</span><span class="marker-tag">last week</span><span class="marker-tag">ago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Past Perfect -->
+  <div class="card">
+    <div class="card-header h-purple">
+      <span class="card-emoji">🟣</span>
+      <span class="card-title">Past Perfect</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">had + V3/ed</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">hadn't + V3/ed</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Had</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V3/ed?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">had cooked</span> dinner before they came.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">hadn't cooked</span> dinner before they came.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Had</span> <span class="s-line">she</span> <span class="v-line">cooked</span> dinner before they came?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">by the time</span><span class="marker-tag">before</span><span class="marker-tag">after</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Future Simple -->
+  <div class="card">
+    <div class="card-header h-teal">
+      <span class="card-emoji">🩵</span>
+      <span class="card-title">Future Simple</span>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Схема</div>
+      <div class="formula-row"><span class="sign sign-plus">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">will + V</span></div>
+      <div class="formula-row"><span class="sign sign-minus">–</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">won't + V</span></div>
+      <div class="formula-row"><span class="sign sign-q">?</span><span class="tok-v">Will</span><span class="tok-plain">+</span><span class="tok-s">S</span><span class="tok-plain">+</span><span class="tok-v">V?</span></div>
+      <div class="divider"></div>
+      <div class="section-label">Приклади</div>
+      <div class="example-row"><span class="ex-sign ex-plus">+</span><span class="s-line">She</span> <span class="v-line">will call</span> you tomorrow.</div>
+      <div class="example-row"><span class="ex-sign ex-minus">–</span><span class="s-line">She</span> <span class="v-line">won't call</span> you tomorrow.</div>
+      <div class="example-row"><span class="ex-sign ex-q">?</span><span class="v-line">Will</span> <span class="s-line">she</span> <span class="v-line">call</span> you tomorrow?</div>
+      <div class="divider"></div>
+      <div class="section-label">Маркери часу</div>
+      <div class="markers">
+        <span class="marker-tag">tomorrow</span><span class="marker-tag">next week</span><span class="marker-tag">soon</span><span class="marker-tag">in the future</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
