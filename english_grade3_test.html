@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English — Grade 3 🎓</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #6C5CE7;
+    --purple-light: #a29bfe;
+    --purple-pale: #f0eeff;
+    --green: #00b894;
+    --green-light: #55efc4;
+    --green-pale: #e8fff8;
+    --red: #d63031;
+    --red-pale: #fff0f0;
+    --yellow: #fdcb6e;
+    --yellow-pale: #fffbf0;
+    --bg: #f7f5ff;
+    --card: #ffffff;
+    --text: #2d3436;
+    --muted: #636e72;
+    --border: #e0d9ff;
+    --radius: 14px;
+    --radius-lg: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--purple) 0%, #a29bfe 100%);
+    padding: 28px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #fff;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+  header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV TABS */
+  .nav-wrap {
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(108,92,231,0.08);
+  }
+  .nav-tabs {
+    display: flex;
+    max-width: 700px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex: 1;
+    padding: 14px 10px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    min-width: 110px;
+  }
+  .nav-tab:hover { color: var(--purple); }
+  .nav-tab.active { color: var(--purple); border-bottom-color: var(--purple); }
+
+  /* MAIN */
+  main { max-width: 700px; margin: 0 auto; padding: 24px 16px 0; }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SCORE BAR */
+  .score-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .score-item { text-align: center; }
+  .score-num { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--purple); line-height: 1; }
+  .score-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .restart-btn {
+    margin-left: auto;
+    padding: 7px 16px;
+    border-radius: 30px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .restart-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* SUB TABS */
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .sub-tab {
+    padding: 7px 16px;
+    border-radius: 30px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sub-tab.active, .sub-tab:hover { background: var(--purple-pale); color: var(--purple); border-color: var(--purple-light); }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s;
+  }
+  .q-card:hover { box-shadow: 0 4px 20px rgba(108,92,231,0.08); }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .q-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    background: var(--purple-pale);
+    color: var(--purple);
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .opt-btn {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .opt-btn:hover:not(:disabled) { background: var(--purple-pale); border-color: var(--purple-light); color: var(--purple); transform: translateY(-1px); }
+  .opt-btn.correct { background: var(--green-pale); border-color: var(--green); color: #006d54; }
+  .opt-btn.wrong { background: var(--red-pale); border-color: var(--red); color: var(--red); }
+  .opt-btn:disabled { cursor: default; transform: none; }
+  .feedback {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-height: 18px;
+  }
+  .feedback.ok { color: var(--green); }
+  .feedback.no { color: var(--red); }
+
+  /* MEMORY GAME */
+  .mem-stats {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .mem-stat { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
+  .mem-stat span { color: var(--purple); }
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .mem-card {
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    padding: 6px;
+    transition: transform 0.2s, background 0.2s;
+    user-select: none;
+    line-height: 1.3;
+  }
+  .mem-card:hover:not(.matched):not(.flipped) { transform: scale(1.04); }
+  .mem-card.flipped {
+    background: var(--card);
+    color: var(--text);
+    border-color: var(--purple-light);
+    font-size: 0.72rem;
+  }
+  .mem-card.matched {
+    background: var(--green-pale);
+    color: #006d54;
+    border-color: var(--green);
+    cursor: default;
+  }
+  .mem-win {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--green);
+    display: none;
+  }
+
+  /* VERBS */
+  .verb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 500px) {
+    .verb-grid { grid-template-columns: repeat(2, 1fr); }
+    .memory-grid { grid-template-columns: repeat(4, 1fr); }
+    .options { grid-template-columns: 1fr; }
+  }
+  .verb-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+  }
+  .verb-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .verb-base {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--purple);
+    margin-bottom: 10px;
+  }
+  .verb-opts { display: flex; flex-direction: column; gap: 6px; }
+  .verb-opt {
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .verb-opt:hover:not(:disabled) { background: var(--purple-pale); border-color: var(--purple-light); color: var(--purple); }
+  .verb-opt.correct { background: var(--green-pale); border-color: var(--green); color: #006d54; }
+  .verb-opt.wrong { background: var(--red-pale); border-color: var(--red); color: var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 English — Grade 3</h1>
+  <p>Choose a game and start learning!</p>
+</header>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('quiz',this)">📝 Quiz</button>
+    <button class="nav-tab" onclick="showSection('memory',this)">🃏 Memory game</button>
+    <button class="nav-tab" onclick="showSection('verbs',this)">⚡ Irregular verbs</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="section active">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="loadQuiz('grammar',this)">Grammar</button>
+      <button class="sub-tab" onclick="loadQuiz('vocab',this)">Vocabulary</button>
+      <button class="sub-tab" onclick="loadQuiz('places',this)">Was / Were</button>
+    </div>
+    <div class="score-bar">
+      <div class="score-item"><div class="score-num" id="q-score">0</div><div class="score-label">correct</div></div>
+      <div class="score-item"><div class="score-num" id="q-total">0</div><div class="score-label">answered</div></div>
+      <button class="restart-btn" onclick="resetQuiz()">🔄 Restart</button>
+    </div>
+    <div id="quiz-questions"></div>
+  </div>
+
+  <!-- MEMORY -->
+  <div id="memory" class="section">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="loadMemory('nature',this)">🌿 Nature</button>
+      <button class="sub-tab" onclick="loadMemory('actions',this)">🏃 Actions</button>
+    </div>
+    <div class="mem-stats">
+      <div class="mem-stat">Moves: <span id="m-moves">0</span></div>
+      <div class="mem-stat">Matched: <span id="m-matched">0</span> / 8</div>
+      <button class="restart-btn" onclick="initMemory()">🔄 New game</button>
+    </div>
+    <div class="memory-grid" id="mem-grid"></div>
+    <div class="mem-win" id="mem-win"></div>
+  </div>
+
+  <!-- VERBS -->
+  <div id="verbs" class="section">
+    <div class="score-bar">
+      <div class="score-item"><div class="score-num" id="v-score">0</div><div class="score-label">correct</div></div>
+      <div class="score-item"><div class="score-num" id="v-total">0</div><div class="score-label">answered</div></div>
+      <button class="restart-btn" onclick="resetVerbs()">🔄 Restart</button>
+    </div>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px; font-weight:600;">Choose the correct past tense form 👇</p>
+    <div class="verb-grid" id="verb-grid"></div>
+  </div>
+
+</main>
+
+<script>
+const quizData = {
+  grammar: [
+    { q: "Is there ___ milk in the fridge?", opts: ["some","any","a","an"], a: "any" },
+    { q: "There ___ some sugar on the table.", opts: ["is","are","am","be"], a: "is" },
+    { q: "Are there ___ oranges?", opts: ["some","any","a","much"], a: "any" },
+    { q: "___ the film funny? Yes, it was!", opts: ["Was","Were","Is","Are"], a: "Was" },
+    { q: "Whose shirt ___ this?", opts: ["is","are","was","were"], a: "is" },
+    { q: "There ___ some books on the shelf.", opts: ["are","is","am","be"], a: "are" },
+    { q: "How ___ milk is there?", opts: ["much","many","some","any"], a: "much" },
+    { q: "How ___ peppers are there?", opts: ["many","much","some","any"], a: "many" },
+    { q: "There ___ a mat on the floor.", opts: ["is","are","am","were"], a: "is" },
+    { q: "There aren't ___ paintings on the wall.", opts: ["any","some","a","an"], a: "any" },
+  ],
+  vocab: [
+    { q: "What is this? 🌊", opts: ["sea","river","lake","island"], a: "sea" },
+    { q: "What is this? 🌋", opts: ["volcano","mountain","hill","forest"], a: "volcano" },
+    { q: "What is this? 🏝️", opts: ["island","sea","cave","forest"], a: "island" },
+    { q: "What do you call hot liquid from a volcano?", opts: ["lava","river","rain","sea"], a: "lava" },
+    { q: "Where do bears live in the wild? 🐻", opts: ["forest","shop","cinema","theatre"], a: "forest" },
+    { q: "You sleep here in nature 🏕️", opts: ["cave","mountain","gift shop","park"], a: "cave" },
+    { q: "The baby bear is called a ___.", opts: ["cub","bee","vet","pack"], a: "cub" },
+    { q: "Who looks after sick animals? 🩺", opts: ["vet","cub","bee","boat"], a: "vet" },
+    { q: "You can buy presents here:", opts: ["gift shop","volcano","forest","cave"], a: "gift shop" },
+    { q: "What do you call this? 🐝", opts: ["bee","cub","vet","fish"], a: "bee" },
+  ],
+  places: [
+    { q: "I ___ at the shopping centre yesterday.", opts: ["was","were","wasn't","weren't"], a: "was" },
+    { q: "Ben and I ___ at the park yesterday.", opts: ["were","was","wasn't","weren't"], a: "were" },
+    { q: "___ Mum and Dad at the theatre?", opts: ["Were","Was","Is","Are"], a: "Were" },
+    { q: "No, they ___. They were at the cinema.", opts: ["weren't","wasn't","are not","is not"], a: "weren't" },
+    { q: "Julie ___ at the circus on Tuesday.", opts: ["was","were","is","are"], a: "was" },
+    { q: "Where ___ you yesterday morning?", opts: ["were","was","are","is"], a: "were" },
+    { q: "He ___ at home. He was at school.", opts: ["wasn't","weren't","isn't","aren't"], a: "wasn't" },
+    { q: "They ___ at the beach last Sunday.", opts: ["were","was","are","is"], a: "were" },
+    { q: "She ___ at the zoo. She was at the park.", opts: ["wasn't","weren't","isn't","aren't"], a: "wasn't" },
+    { q: "Where ___ Tom yesterday?", opts: ["was","were","is","are"], a: "was" },
+  ]
+};
+
+const verbData = [
+  { base:"go", past:"went", wrong:["goed","goes","gone"] },
+  { base:"have", past:"had", wrong:["haved","has","having"] },
+  { base:"take", past:"took", wrong:["taked","takes","taken"] },
+  { base:"swim", past:"swam", wrong:["swimmed","swimed","swims"] },
+  { base:"catch", past:"caught", wrong:["catched","caugth","catches"] },
+  { base:"make", past:"made", wrong:["maked","makes","maden"] },
+  { base:"eat", past:"ate", wrong:["eated","eaten","eats"] },
+  { base:"see", past:"saw", wrong:["seed","seen","sees"] },
+  { base:"pick", past:"picked", wrong:["pock","puck","pikked"] },
+  { base:"buy", past:"bought", wrong:["buyed","buyd","buied"] },
+  { base:"pack", past:"packed", wrong:["pocked","packt","packd"] },
+  { base:"listen", past:"listened", wrong:["listned","listend","lstened"] },
+];
+
+const memSets = {
+  nature: [
+    {en:"sea 🌊",ua:"море"},{en:"island 🏝️",ua:"острів"},{en:"forest 🌲",ua:"ліс"},
+    {en:"river 🏞️",ua:"річка"},{en:"volcano 🌋",ua:"вулкан"},{en:"cave 🕳️",ua:"печера"},
+    {en:"mountain ⛰️",ua:"гора"},{en:"lava 🔴",ua:"лава"},
+  ],
+  actions: [
+    {en:"buy postcards",ua:"купувати листівки"},{en:"make a fire 🔥",ua:"розпалити вогонь"},
+    {en:"catch fish 🐟",ua:"ловити рибу"},{en:"pick flowers 🌸",ua:"зривати квіти"},
+    {en:"look at stars ⭐",ua:"дивитись на зорі"},{en:"listen to music 🎵",ua:"слухати музику"},
+    {en:"pack a bag 🎒",ua:"пакувати сумку"},{en:"ride a boat 🚣",ua:"плисти на човні"},
+  ]
+};
+
+let qState = {scores:{grammar:0,vocab:0,places:0}, totals:{grammar:0,vocab:0,places:0}};
+let currentQuiz = 'grammar';
+let memCards=[], memFlipped=[], memMatched=0, memMoves=0, memLocked=false, currentMemSet='nature';
+let vState = {score:0,total:0};
+
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function loadQuiz(type, btn) {
+  currentQuiz = type;
+  document.querySelectorAll('#quiz .sub-tab').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  updateQScore();
+  renderQuestions();
+}
+
+function updateQScore() {
+  document.getElementById('q-score').textContent = qState.scores[currentQuiz];
+  document.getElementById('q-total').textContent = qState.totals[currentQuiz];
+}
+
+function renderQuestions() {
+  const c = document.getElementById('quiz-questions');
+  c.innerHTML = '';
+  quizData[currentQuiz].forEach((q,i) => {
+    const shuffled = [...q.opts].sort(() => Math.random()-0.5);
+    const div = document.createElement('div');
+    div.className = 'q-card';
+    div.id = 'q-'+i;
+    div.innerHTML = `<div class="q-text"><span class="q-num">${i+1}</span>${q.q}</div>
+      <div class="options">${shuffled.map(o=>`<button class="opt-btn" onclick="checkQ(${i},'${o.replace(/'/g,"\\'")}','${q.a.replace(/'/g,"\\'")}',this)">${o}</button>`).join('')}</div>
+      <div class="feedback" id="fb-${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function checkQ(i, chosen, correct, btn) {
+  const block = document.getElementById('q-'+i);
+  block.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('fb-'+i);
+  qState.totals[currentQuiz]++;
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✅ Correct!'; fb.className = 'feedback ok';
+    qState.scores[currentQuiz]++;
+  } else {
+    btn.classList.add('wrong');
+    block.querySelectorAll('.opt-btn').forEach(b => { if(b.textContent===correct) b.classList.add('correct'); });
+    fb.textContent = '❌ Answer: ' + correct; fb.className = 'feedback no';
+  }
+  updateQScore();
+}
+
+function resetQuiz() {
+  qState.scores[currentQuiz]=0; qState.totals[currentQuiz]=0;
+  updateQScore(); renderQuestions();
+}
+
+function loadMemory(set, btn) {
+  currentMemSet = set;
+  document.querySelectorAll('#memory .sub-tab').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  initMemory();
+}
+
+function initMemory() {
+  memFlipped=[]; memMatched=0; memMoves=0; memLocked=false;
+  document.getElementById('m-moves').textContent=0;
+  document.getElementById('m-matched').textContent='0';
+  document.getElementById('mem-win').style.display='none';
+  let cards=[];
+  memSets[currentMemSet].forEach((p,i) => {
+    cards.push({id:i*2, pairId:i, text:p.en});
+    cards.push({id:i*2+1, pairId:i, text:p.ua});
+  });
+  cards.sort(()=>Math.random()-0.5);
+  memCards=cards;
+  const grid=document.getElementById('mem-grid');
+  grid.innerHTML='';
+  cards.forEach((card,idx) => {
+    const div=document.createElement('div');
+    div.className='mem-card';
+    div.dataset.idx=idx;
+    div.textContent='?';
+    div.onclick=()=>flipCard(idx,div);
+    grid.appendChild(div);
+  });
+}
+
+function flipCard(idx,el) {
+  if(memLocked||el.classList.contains('matched')||el.classList.contains('flipped')) return;
+  el.classList.add('flipped'); el.textContent=memCards[idx].text;
+  memFlipped.push({idx,el});
+  if(memFlipped.length===2) {
+    memMoves++; document.getElementById('m-moves').textContent=memMoves;
+    memLocked=true;
+    const [a,b]=memFlipped;
+    if(memCards[a.idx].pairId===memCards[b.idx].pairId && a.idx!==b.idx) {
+      a.el.classList.add('matched'); b.el.classList.add('matched');
+      memMatched++; document.getElementById('m-matched').textContent=memMatched;
+      memFlipped=[]; memLocked=false;
+      if(memMatched===8) {
+        const w=document.getElementById('mem-win');
+        w.textContent='🎉 Amazing! All matched in '+memMoves+' moves!';
+        w.style.display='block';
+      }
+    } else {
+      setTimeout(()=>{
+        a.el.classList.remove('flipped'); a.el.textContent='?';
+        b.el.classList.remove('flipped'); b.el.textContent='?';
+        memFlipped=[]; memLocked=false;
+      }, 900);
+    }
+  }
+}
+
+function resetVerbs() {
+  vState={score:0,total:0};
+  document.getElementById('v-score').textContent=0;
+  document.getElementById('v-total').textContent=0;
+  renderVerbs();
+}
+
+function renderVerbs() {
+  const grid=document.getElementById('verb-grid');
+  grid.innerHTML='';
+  const shuffled=[...verbData].sort(()=>Math.random()-0.5).slice(0,9);
+  shuffled.forEach((v,i) => {
+    const opts=[v.past,...v.wrong.slice(0,2)].sort(()=>Math.random()-0.5);
+    const div=document.createElement('div');
+    div.className='verb-card';
+    div.id='vq-'+i;
+    div.innerHTML=`<div class="verb-label">past tense of</div>
+      <div class="verb-base">${v.base}</div>
+      <div class="verb-opts">${opts.map(o=>`<button class="verb-opt" onclick="checkVerb(${i},'${o}','${v.past}',this)">${o}</button>`).join('')}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+function checkVerb(i,chosen,correct,btn) {
+  document.getElementById('vq-'+i).querySelectorAll('.verb-opt').forEach(b=>b.disabled=true);
+  vState.total++;
+  if(chosen===correct) { btn.classList.add('correct'); vState.score++; }
+  else {
+    btn.classList.add('wrong');
+    document.getElementById('vq-'+i).querySelectorAll('.verb-opt').forEach(b=>{ if(b.textContent===correct) b.classList.add('correct'); });
+  }
+  document.getElementById('v-score').textContent=vState.score;
+  document.getElementById('v-total').textContent=vState.total;
+}
+
+renderQuestions();
+renderVerbs();
+initMemory();
+</script>
+</body>
+</html>
