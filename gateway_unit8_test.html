@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gateway A1+ · Unit 8 Test</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #F5F4F0;
+    color: #2C2C2A;
+    padding: 24px 16px 60px;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  header {
+    background: #185FA5;
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  header h1 { font-size: 22px; font-weight: 700; }
+  header p { font-size: 14px; opacity: 0.8; margin-top: 4px; }
+  .header-meta { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.18);
+    font-size: 12px; font-weight: 600;
+    border-radius: 20px; padding: 4px 12px;
+  }
+
+  .section { margin-bottom: 28px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-num {
+    background: #185FA5; color: #fff;
+    font-size: 13px; font-weight: 700;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 16px; font-weight: 700; color: #2C2C2A; }
+  .section-pts {
+    margin-left: auto; font-size: 12px; font-weight: 600;
+    color: #5F5E5A; background: #E8E7E2;
+    border-radius: 20px; padding: 3px 10px;
+  }
+  .section-desc {
+    font-size: 13px; color: #5F5E5A;
+    margin-bottom: 12px; padding-left: 38px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #E0DED6;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+  }
+
+  .task-label {
+    font-size: 13px; color: #888780;
+    margin-bottom: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  .sentence-row {
+    display: flex; align-items: center;
+    gap: 6px; flex-wrap: wrap;
+    font-size: 15px; line-height: 2;
+  }
+
+  input.blank {
+    border: none;
+    border-bottom: 2px solid #B4B2A9;
+    background: transparent;
+    font-size: 15px; font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: #2C2C2A;
+    outline: none;
+    padding: 0 4px;
+    min-width: 80px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  input.blank:focus { border-bottom-color: #185FA5; }
+  input.blank.correct { border-bottom-color: #3B6D11; color: #3B6D11; }
+  input.blank.wrong { border-bottom-color: #A32D2D; color: #A32D2D; }
+  input.blank.shown { border-bottom-color: #BA7517; color: #BA7517; }
+
+  .ua-hint { color: #888780; font-size: 13px; margin-bottom: 8px; }
+
+  .irreg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .irreg-item {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .irreg-inf {
+    font-size: 14px; font-style: italic; min-width: 44px; font-weight: 700;
+  }
+  .arrow { color: #B4B2A9; font-size: 14px; }
+
+  .options-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .opt-btn {
+    padding: 6px 16px; font-size: 14px; font-weight: 600;
+    border: 1.5px solid #D3D1C7;
+    border-radius: 20px; cursor: pointer;
+    background: #F5F4F0;
+    color: #2C2C2A;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.15s;
+  }
+  .opt-btn:hover { background: #E8E7E2; border-color: #888780; }
+  .opt-btn.selected { background: #E6F1FB; border-color: #185FA5; color: #0C447C; }
+  .opt-btn.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; }
+  .opt-btn.wrong { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; }
+
+  .trans-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+  .trans-num { font-size: 13px; color: #888780; min-width: 20px; font-weight: 700; }
+  .trans-ua { font-size: 14px; font-weight: 600; color: #2C2C2A; min-width: 170px; }
+
+  .check-area { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-check {
+    flex: 1; padding: 14px;
+    font-size: 16px; font-weight: 700;
+    background: #185FA5; color: #fff;
+    border: none; border-radius: 14px;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn-check:hover { background: #0C447C; }
+  .btn-show {
+    padding: 14px 20px;
+    font-size: 15px; font-weight: 700;
+    background: #fff; color: #185FA5;
+    border: 1.5px solid #185FA5;
+    border-radius: 14px; cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-show:hover { background: #E6F1FB; }
+
+  .result-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #E0DED6;
+    padding: 24px 28px;
+    margin-top: 20px;
+    display: none;
+  }
+  .result-card.show { display: block; }
+  .result-score { font-size: 36px; font-weight: 700; color: #185FA5; }
+  .result-label { font-size: 14px; color: #888780; margin-top: 2px; }
+  .result-bar-wrap { margin-top: 16px; background: #F5F4F0; border-radius: 8px; height: 12px; overflow: hidden; }
+  .result-bar { height: 100%; background: #1D9E75; border-radius: 8px; transition: width 0.8s ease; width: 0%; }
+  .result-msg { font-size: 16px; font-weight: 600; margin-top: 14px; color: #2C2C2A; }
+
+  .hint-tag {
+    font-size: 11px; background: #FAEEDA; color: #854F0B;
+    border-radius: 20px; padding: 2px 8px; font-weight: 600;
+    display: inline-block; margin-left: 6px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .check-area, .result-card { display: none !important; }
+    .btn-check, .btn-show { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Gateway A1+ · Unit 8 Test</h1>
+    <p>Past Simple · Jobs &amp; Adjectives</p>
+    <div class="header-meta">
+      <span class="badge">📝 6 розділів</span>
+      <span class="badge">⭐ 50 балів</span>
+      <span class="badge">🕐 ~20 хвилин</span>
+    </div>
+  </header>
+
+  <!-- SECTION 1: TRANSLATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Переклад слів — Jobs &amp; Adjectives</div>
+      <div class="section-pts">10 балів</div>
+    </div>
+    <div class="section-desc">Перекладіть слова з української на англійську.</div>
+    <div class="card">
+      <div id="trans-container"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: AFFIRMATIVE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Розповідні речення (+)</div>
+      <div class="section-pts">8 балів</div>
+    </div>
+    <div class="section-desc">Поставте дієслово у Past Simple.</div>
+    <div id="affirm-container"></div>
+  </div>
+
+  <!-- SECTION 3: NEGATIVE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Заперечні речення (−)</div>
+      <div class="section-pts">6 балів</div>
+    </div>
+    <div class="section-desc">Допишіть didn't / wasn't / weren't.</div>
+    <div id="neg-container"></div>
+  </div>
+
+  <!-- SECTION 4: QUESTIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Питальні речення (?)</div>
+      <div class="section-pts">6 балів</div>
+    </div>
+    <div class="section-desc">Складіть питальне речення — допишіть Did / did / Was / were.</div>
+    <div id="quest-container"></div>
+  </div>
+
+  <!-- SECTION 5: IRREGULAR VERBS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Неправильні дієслова ⚡</div>
+      <div class="section-pts">10 балів</div>
+    </div>
+    <div class="section-desc">Напишіть форму Past Simple (2-га форма дієслова).</div>
+    <div class="card">
+      <div class="irreg-grid" id="irreg-container"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: CHOOSE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Оберіть правильний варіант</div>
+      <div class="section-pts">10 балів</div>
+    </div>
+    <div class="section-desc">Клацніть на правильну відповідь.</div>
+    <div id="choose-container"></div>
+  </div>
+
+  <div class="check-area">
+    <button class="btn-check" onclick="checkAll()">Перевірити відповіді ✓</button>
+    <button class="btn-show" onclick="showAll()">Показати відповіді</button>
+  </div>
+
+  <div class="result-card" id="result-card">
+    <div class="result-score" id="result-score">0/50</div>
+    <div class="result-label">Твій результат</div>
+    <div class="result-bar-wrap"><div class="result-bar" id="result-bar"></div></div>
+    <div class="result-msg" id="result-msg"></div>
+  </div>
+
+</div>
+
+<script>
+const transData = [
+  { ua: "медсестра / медбрат", en: ["nurse"] },
+  { ua: "кухар", en: ["chef"] },
+  { ua: "інженер", en: ["engineer"] },
+  { ua: "водій автобуса", en: ["bus driver"] },
+  { ua: "перукар", en: ["hairdresser"] },
+  { ua: "механік", en: ["mechanic"] },
+  { ua: "будівельник", en: ["builder"] },
+  { ua: "відповідальний", en: ["responsible"] },
+  { ua: "кваліфікований", en: ["skilled"] },
+  { ua: "неповний робочий день", en: ["part-time"] }
+];
+
+const affirmData = [
+  { ua: "Вона працювала в ресторані.", before: "She", inf: "work", after: "in a restaurant.", answer: "worked" },
+  { ua: "Він пішов на роботу вчора.", before: "He", inf: "go ⚡", after: "to work yesterday.", answer: "went" },
+  { ua: "Вони знайшли нову роботу.", before: "They", inf: "find ⚡", after: "a new job.", answer: "found" },
+  { ua: "Я навчився готувати.", before: "I", inf: "learn", after: "to cook.", answer: "learned" },
+  { ua: "Кухар приготував вечерю.", before: "The chef", inf: "make ⚡", after: "dinner.", answer: "made" },
+  { ua: "Вона отримала нову роботу.", before: "She", inf: "get ⚡", after: "a new job.", answer: "got" },
+  { ua: "Вони прийшли пізно вчора.", before: "They", inf: "come ⚡", after: "late yesterday.", answer: "came" },
+  { ua: "Механік перевірив машину.", before: "The mechanic", inf: "check", after: "the car.", answer: "checked" }
+];
+
+const negData = [
+  { ua: "Він не любив свою роботу.", before: "He", blank: "didn't", after: "like his job.", answer: "didn't" },
+  { ua: "Вони не пішли на роботу.", before: "They", blank: "didn't", after: "go to work.", answer: "didn't" },
+  { ua: "Я не був механіком.", before: "I", blank: "wasn't", after: "a mechanic.", answer: "wasn't" },
+  { ua: "Ми не знайшли роботу.", before: "We", blank: "didn't", after: "find a job.", answer: "didn't" },
+  { ua: "Вона не приготувала вечерю.", before: "She", blank: "didn't", after: "make dinner.", answer: "didn't" },
+  { ua: "Вони не були кваліфікованими.", before: "They", blank: "weren't", after: "skilled.", answer: "weren't" }
+];
+
+const questData = [
+  { ua: "Ти працював у ресторані?", q: "Did", before: "", after: "you work in a restaurant?", answer: "Did" },
+  { ua: "Він любив свою роботу?", q: "Did", before: "", after: "he like the job?", answer: "Did" },
+  { ua: "Де вона працювала?", q: "did", before: "Where", after: "she work?", answer: "did" },
+  { ua: "Вони пішли на роботу вчора?", q: "Did", before: "", after: "they go to work yesterday?", answer: "Did" },
+  { ua: "Він відповів? — Так, він відповів.", q: "did", before: "Yes, he", after: ".", answer: "did" },
+  { ua: "Вона відповіла? — Ні, не відповіла.", q: "didn't", before: "No, she", after: ".", answer: "didn't" }
+];
+
+const irregData = [
+  { inf: "go", past: "went" },
+  { inf: "come", past: "came" },
+  { inf: "find", past: "found" },
+  { inf: "take", past: "took" },
+  { inf: "have", past: "had" },
+  { inf: "make", past: "made" },
+  { inf: "give", past: "gave" },
+  { inf: "see", past: "saw" },
+  { inf: "get", past: "got" },
+  { inf: "know", past: "knew" }
+];
+
+const chooseData = [
+  { sentence: "___ she work in a restaurant last year?", answer: "Did", opts: ["Do","Does","Did","Was"] },
+  { sentence: "They ___ go to work yesterday.", answer: "didn't", opts: ["didn't","don't","wasn't","not"] },
+  { sentence: "She ___ a nurse two years ago.", answer: "was", opts: ["is","was","were","be"] },
+  { sentence: "Yes, I ___.", answer: "did", opts: ["did","do","was","didn't"] },
+  { sentence: "No, he ___.", answer: "didn't", opts: ["don't","isn't","didn't","does"] },
+  { sentence: "The builder ___ the house last summer.", answer: "built", opts: ["build","builded","built","builds"] },
+  { sentence: "After did/didn't we use the verb ___ 'to'.", answer: "without", opts: ["with","without","after","before"] },
+  { sentence: "She ___ (not/be) a hairdresser.", answer: "wasn't", opts: ["wasn't","didn't was","not was","isn't"] },
+  { sentence: "We ___ (find) a skilled engineer.", answer: "found", opts: ["finded","found","find","finds"] },
+  { sentence: "I ___ (go) to the shop yesterday.", answer: "went", opts: ["goed","go","goes","went"] }
+];
+
+const selectedOpts = {};
+
+function buildTrans() {
+  const c = document.getElementById("trans-container");
+  transData.forEach((item, i) => {
+    const row = document.createElement("div");
+    row.className = "trans-row";
+    row.innerHTML = `
+      <span class="trans-num">${i+1}.</span>
+      <span class="trans-ua">${item.ua}</span>
+      <input class="blank" id="tr${i}" placeholder="…" data-answers="${item.en.join("|")}" style="min-width:120px;">
+    `;
+    c.appendChild(row);
+  });
+}
+
+function buildAffirm() {
+  const c = document.getElementById("affirm-container");
+  affirmData.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="ua-hint">${item.ua}</div>
+      <div class="sentence-row">
+        <span>${item.before}</span>
+        <input class="blank" id="af${i}" placeholder="${item.inf}" data-answer="${item.answer}" style="min-width:90px;">
+        <span>${item.after}</span>
+      </div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function buildNeg() {
+  const c = document.getElementById("neg-container");
+  negData.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="ua-hint">${item.ua}</div>
+      <div class="sentence-row">
+        <span>${item.before}</span>
+        <input class="blank" id="ng${i}" placeholder="didn't/wasn't/weren't" data-answer="${item.answer}" style="min-width:100px;">
+        <span>${item.after}</span>
+      </div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function buildQuest() {
+  const c = document.getElementById("quest-container");
+  questData.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="ua-hint">${item.ua}</div>
+      <div class="sentence-row">
+        <input class="blank" id="qu${i}" placeholder="Did/did/didn't" data-answer="${item.answer}" style="min-width:90px;">
+        ${item.before ? `<span>${item.before}</span>` : ""}
+        <span>${item.after}</span>
+      </div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function buildIrreg() {
+  const c = document.getElementById("irreg-container");
+  irregData.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "irreg-item";
+    div.innerHTML = `
+      <span class="irreg-inf">${item.inf}</span>
+      <span class="arrow">→</span>
+      <input class="blank" id="ir${i}" placeholder="…" data-answer="${item.past}" style="min-width:72px;">
+    `;
+    c.appendChild(div);
+  });
+}
+
+function buildChoose() {
+  const c = document.getElementById("choose-container");
+  chooseData.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    const parts = item.sentence.split("___");
+    card.innerHTML = `
+      <div class="sentence-row" style="margin-bottom:6px;">
+        ${parts[0]}<span id="cho-fill-${i}" style="display:inline-block;min-width:70px;text-align:center;border-bottom:2px solid #B4B2A9;height:26px;line-height:26px;font-size:15px;font-weight:700;margin:0 4px;color:#185FA5;">___</span>${parts[1]}
+      </div>
+      <div class="options-row" id="cho-opts-${i}"></div>
+    `;
+    c.appendChild(card);
+    item.opts.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        document.querySelectorAll(`#cho-opts-${i} .opt-btn`).forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedOpts[i] = opt;
+        document.getElementById(`cho-fill-${i}`).textContent = opt;
+      };
+      document.getElementById(`cho-opts-${i}`).appendChild(btn);
+    });
+  });
+}
+
+function checkInput(el, answer, answers) {
+  const val = el.value.trim().toLowerCase();
+  const allAnswers = answers ? answers.split("|") : [answer];
+  const ok = allAnswers.some(a => val === a.toLowerCase());
+  el.classList.remove("correct","wrong","shown");
+  el.classList.add(ok ? "correct" : "wrong");
+  return ok ? 1 : 0;
+}
+
+function checkAll() {
+  let total = 0;
+
+  transData.forEach((_, i) => {
+    const el = document.getElementById("tr"+i);
+    total += checkInput(el, null, el.dataset.answers);
+  });
+  affirmData.forEach((_, i) => {
+    const el = document.getElementById("af"+i);
+    total += checkInput(el, el.dataset.answer);
+  });
+  negData.forEach((_, i) => {
+    const el = document.getElementById("ng"+i);
+    total += checkInput(el, el.dataset.answer);
+  });
+  questData.forEach((_, i) => {
+    const el = document.getElementById("qu"+i);
+    total += checkInput(el, el.dataset.answer);
+  });
+  irregData.forEach((_, i) => {
+    const el = document.getElementById("ir"+i);
+    total += checkInput(el, el.dataset.answer);
+  });
+  chooseData.forEach((item, i) => {
+    const picked = selectedOpts[i];
+    const ok = picked === item.answer;
+    document.querySelectorAll(`#cho-opts-${i} .opt-btn`).forEach(btn => {
+      btn.classList.remove("selected","correct","wrong");
+      if (btn.textContent === item.answer) btn.classList.add("correct");
+      else if (btn.textContent === picked && !ok) btn.classList.add("wrong");
+    });
+    if (ok) total++;
+  });
+
+  const max = 50;
+  const pct = Math.round(total / max * 100);
+  const rc = document.getElementById("result-card");
+  rc.classList.add("show");
+  document.getElementById("result-score").textContent = total + "/" + max;
+  setTimeout(() => { document.getElementById("result-bar").style.width = pct + "%"; }, 100);
+  const msgs = [
+    "Не засмучуйся, спробуй ще! 💪",
+    "Гарний старт! Повтори правила. 📚",
+    "Непогано! Ти на правильному шляху. 👍",
+    "Добре! Ще трохи практики — і ти ідеальний! 🌟",
+    "Чудово! Ти знаєш Past Simple! 🏆"
+  ];
+  document.getElementById("result-msg").textContent = pct < 40 ? msgs[0] : pct < 60 ? msgs[1] : pct < 75 ? msgs[2] : pct < 90 ? msgs[3] : msgs[4];
+  rc.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function showAll() {
+  transData.forEach((item, i) => {
+    const el = document.getElementById("tr"+i);
+    if (!el.classList.contains("correct")) { el.value = item.en[0]; el.classList.add("shown"); }
+  });
+  affirmData.forEach((_, i) => {
+    const el = document.getElementById("af"+i);
+    if (!el.classList.contains("correct")) { el.value = el.dataset.answer; el.classList.add("shown"); }
+  });
+  negData.forEach((_, i) => {
+    const el = document.getElementById("ng"+i);
+    if (!el.classList.contains("correct")) { el.value = el.dataset.answer; el.classList.add("shown"); }
+  });
+  questData.forEach((_, i) => {
+    const el = document.getElementById("qu"+i);
+    if (!el.classList.contains("correct")) { el.value = el.dataset.answer; el.classList.add("shown"); }
+  });
+  irregData.forEach((_, i) => {
+    const el = document.getElementById("ir"+i);
+    if (!el.classList.contains("correct")) { el.value = el.dataset.answer; el.classList.add("shown"); }
+  });
+  chooseData.forEach((item, i) => {
+    document.querySelectorAll(`#cho-opts-${i} .opt-btn`).forEach(btn => {
+      btn.classList.remove("selected","wrong");
+      if (btn.textContent === item.answer) btn.classList.add("correct");
+    });
+  });
+}
+
+buildTrans();
+buildAffirm();
+buildNeg();
+buildQuest();
+buildIrreg();
+buildChoose();
+</script>
+</body>
+</html>
