@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly High 3 – Units 25–27</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ocean:#0277BD;--ocean2:#0288D1;--ocean3:#29B6F6;--ocean-l:#E1F5FE;
+  --sand:#F9A825;--sand2:#F57F17;--sand-l:#FFF8E1;
+  --green:#2E7D32;--green-l:#E8F5E9;--green-b:#43A047;
+  --red:#C62828;--red-l:#FFEBEE;--red-b:#E53935;
+  --purple:#6A1B9A;--purple-l:#F3E5F5;--purple-b:#8E24AA;
+  --teal:#00695C;--teal-l:#E0F2F1;--teal-b:#00897B;
+  --bg:#F0F9FF;--card:#fff;--text:#0D1B2A;--muted:#546E7A;
+  --border:#B3E0F7;--r:16px;--rs:10px
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#01579B 0%,#0277BD 55%,#0288D1 100%);padding:1.6rem 1rem 0;text-align:center;position:relative;overflow:hidden}
+.hdr::after{content:'🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊';font-size:1.4rem;display:block;letter-spacing:-4px;opacity:.25;position:absolute;bottom:28px;left:0;right:0;white-space:nowrap}
+.logo{font-family:'Baloo 2',cursive;font-size:clamp(1.7rem,5vw,2.6rem);font-weight:900;color:#fff;position:relative;z-index:1}
+.logo em{color:var(--sand);font-style:normal}
+.tagline{color:rgba(255,255,255,.75);font-size:.85rem;font-weight:600;margin:.25rem 0 1.1rem;position:relative;z-index:1}
+.tabs{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;position:relative;z-index:1}
+.tab{padding:.5rem 1.1rem;border:2px solid rgba(255,255,255,.4);border-bottom:none;border-radius:11px 11px 0 0;background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .17s}
+.tab:hover{background:rgba(255,255,255,.28);color:#fff}
+.tab.on{background:#fff;color:var(--ocean);border-color:#fff}
+
+/* MAIN */
+main{max-width:800px;margin:0 auto;padding:1.4rem 1rem 4rem}
+.sec{display:none}.sec.on{display:block;animation:pop .28s ease}
+@keyframes pop{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+
+.sec-title{font-family:'Baloo 2',cursive;font-size:1.45rem;font-weight:800;color:var(--text);margin-bottom:.2rem}
+.sec-sub{font-size:.85rem;color:var(--muted);font-weight:600;margin-bottom:1.1rem}
+
+/* PROGRESS */
+.prog{display:flex;align-items:center;gap:9px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:.65rem 1rem;margin-bottom:1.1rem}
+.prog-lbl{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.prog-track{flex:1;height:8px;background:var(--border);border-radius:8px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--ocean),var(--ocean3));border-radius:8px;transition:width .4s ease}
+.prog-sc{font-size:1.2rem;font-weight:900;color:var(--ocean);white-space:nowrap}
+
+/* QUESTION */
+.qcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;box-shadow:0 2px 10px rgba(2,119,189,.07)}
+.qbadge{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:2px 9px;border-radius:20px;margin-bottom:.7rem;background:var(--ocean-l);color:var(--ocean2)}
+.qtext{font-family:'Baloo 2',cursive;font-size:clamp(1rem,2.7vw,1.25rem);font-weight:700;line-height:1.45;margin-bottom:1.1rem}
+.blank{display:inline-block;min-width:55px;border-bottom:2.5px solid var(--ocean3);color:var(--ocean);font-style:italic}
+
+/* OPTIONS */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;align-items:center;gap:8px;padding:.7rem .9rem;background:var(--bg);border:2px solid var(--border);border-radius:var(--rs);font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:700;color:var(--text);cursor:pointer;text-align:left;transition:all .13s;line-height:1.3}
+.opt:hover:not(:disabled){border-color:var(--ocean2);background:var(--ocean-l);transform:translateY(-1px);box-shadow:0 3px 7px rgba(2,119,189,.11)}
+.opt .ltr{min-width:24px;height:24px;border-radius:50%;background:var(--ocean2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.opt.ok{border-color:var(--green-b);background:var(--green-l)}.opt.ok .ltr{background:var(--green-b)}
+.opt.bad{border-color:var(--red-b);background:var(--red-l)}.opt.bad .ltr{background:var(--red-b)}
+.opt:disabled{cursor:default;transform:none}
+
+/* FEEDBACK */
+.fb{margin-top:.8rem;padding:.6rem .9rem;border-radius:var(--rs);font-weight:700;font-size:.9rem;display:none;align-items:center;gap:7px}
+.fb.show{display:flex}
+.fb.ok{background:var(--green-l);color:var(--green);border:1.5px solid rgba(67,160,71,.3)}
+.fb.bad{background:var(--red-l);color:var(--red);border:1.5px solid rgba(229,57,53,.3)}
+
+/* NEXT */
+.nxt{display:none;margin:.8rem auto 0;padding:.65rem 2rem;background:var(--ocean);color:#fff;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:800;cursor:pointer;transition:all .14s;box-shadow:0 3px 9px rgba(2,119,189,.28)}
+.nxt.show{display:block}
+.nxt:hover{background:var(--ocean2);transform:translateY(-2px)}
+
+/* RESULT */
+.result{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;display:none;box-shadow:0 4px 16px rgba(2,119,189,.09)}
+.result.show{display:block;animation:pop .4s ease}
+.r-em{font-size:3.2rem;margin-bottom:.7rem}
+.r-title{font-family:'Baloo 2',cursive;font-size:1.8rem;font-weight:900;margin-bottom:.4rem}
+.r-sub{font-size:.9rem;color:var(--muted);font-weight:600;margin-bottom:.8rem}
+.r-big{font-size:2.6rem;font-weight:900;color:var(--ocean);margin-bottom:.2rem}
+.retry{margin-top:.9rem;padding:.7rem 2rem;background:var(--ocean);color:#fff;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .14s;box-shadow:0 3px 9px rgba(2,119,189,.28)}
+.retry:hover{background:var(--ocean2);transform:translateY(-2px)}
+
+/* MATCH */
+.mwrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:1.3rem;margin-bottom:1.1rem;box-shadow:0 2px 10px rgba(2,119,189,.07)}
+.m-stabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.9rem}
+.mstab{padding:.38rem .85rem;border:1.5px solid var(--border);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;color:var(--muted);background:var(--bg);cursor:pointer;transition:all .13s}
+.mstab:hover{border-color:var(--ocean3);color:var(--ocean)}
+.mstab.on{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.m-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:.4rem}
+.m-info{font-size:.84rem;font-weight:700;color:var(--muted)}
+.m-rst{padding:.35rem .9rem;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .13s}
+.m-rst:hover{border-color:var(--ocean3);color:var(--ocean)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mcol{display:flex;flex-direction:column;gap:7px}
+.mclbl{text-align:center;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px}
+.mi{padding:.6rem .85rem;background:var(--bg);border:2px solid var(--border);border-radius:var(--rs);font-weight:700;font-size:.88rem;text-align:center;cursor:pointer;transition:all .13s;user-select:none;line-height:1.3}
+.mi:hover:not(.matched):not(.dis){border-color:var(--ocean3);transform:translateY(-2px);box-shadow:0 3px 7px rgba(2,119,189,.11)}
+.mi.sel{border-color:var(--purple-b);background:var(--purple-l);box-shadow:0 0 0 3px rgba(142,36,170,.18)}
+.mi.matched{border-color:var(--green-b);background:var(--green-l);cursor:default;opacity:.75}
+.mi.bad-flash{border-color:var(--red-b);background:var(--red-l);animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+@media(max-width:490px){.opts{grid-template-columns:1fr}.mi{font-size:.8rem;padding:.5rem .65rem}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">🏖️ Fly <em>High 3</em> — Quiz</div>
+  <div class="tagline">Lessons 25 · 26 · 27 — Vocabulary &amp; Grammar</div>
+  <div class="tabs">
+    <button class="tab on"  onclick="showTab('l25',this)">🏖️ L25 – Beach</button>
+    <button class="tab"     onclick="showTab('l26',this)">😨 L26 – Brave</button>
+    <button class="tab"     onclick="showTab('l27',this)">🎣 L27 – Safe</button>
+    <button class="tab"     onclick="showTab('gram',this)">📝 Grammar</button>
+    <button class="tab"     onclick="showTab('match',this)">🔗 Match!</button>
+  </div>
+</div>
+
+<main>
+  <div class="sec on" id="sec-l25"></div>
+  <div class="sec"    id="sec-l26"></div>
+  <div class="sec"    id="sec-l27"></div>
+  <div class="sec"    id="sec-gram"></div>
+  <div class="sec"    id="sec-match"></div>
+</main>
+
+<script>
+/* ══════════════════════ QUIZ DATA ══════════════════════ */
+const DATA={
+  l25:{
+    title:"🏖️ Lesson 25 – Can we make a sandcastle?",
+    sub:"Beach vocabulary + can / can't",
+    badge:"Beach Words",
+    qs:[
+      {q:"Діти роблять <span class='blank'>___</span> з піску на пляжі. (замок із піску)",
+       a:"sandcastle",opts:["sandcastle","bucket","spade","armbands"]},
+      {q:"Маленькі діти носять <span class='blank'>___</span> на руках, щоб плавати. (нарукавники)",
+       a:"armbands",opts:["armbands","flippers","swimsuit","spade"]},
+      {q:"Я копаю пісок <span class='blank'>___</span>. (лопата)",
+       a:"spade",opts:["spade","bucket","armbands","sandcastle"]},
+      {q:"Я несу пісок у <span class='blank'>___</span>. (відро)",
+       a:"bucket",opts:["bucket","spade","boat","sun"]},
+      {q:"<span class='blank'>___</span> is shining today. It's hot! (сонце)",
+       a:"The sun",opts:["The sun","The boat","The whale","The fish"]},
+      {q:"'<span class='blank'>___</span> I go swimming, please?' — asking permission",
+       a:"Can",opts:["Can","Must","Will","Should"]},
+      {q:"'Yes, you <span class='blank'>___</span>.' — giving permission",
+       a:"can",opts:["can","must","will","should"]},
+      {q:"'No, you <span class='blank'>___</span>.' — refusing permission",
+       a:"can't",opts:["can't","mustn't","won't","don't"]},
+      {q:"Sam: '<span class='blank'>___</span> we go to the shops now?' — suggestion",
+       a:"Can",opts:["Can","Must","Will","Are"]},
+      {q:"Dad: 'No, I'm sorry, we <span class='blank'>___</span>. I'm working now.'",
+       a:"can't",opts:["can't","mustn't","won't","don't"]},
+      {q:"She's wearing a <span class='blank'>___</span> because she's going swimming. (купальник)",
+       a:"swimsuit",opts:["swimsuit","armbands","flippers","bucket"]},
+      {q:"He's wearing <span class='blank'>___</span> to swim faster. (ласти)",
+       a:"flippers",opts:["flippers","armbands","swimsuit","spade"]},
+    ]
+  },
+  l26:{
+    title:"😨 Lesson 26 – You must be brave!",
+    sub:"Feelings & rules vocabulary + must / mustn't",
+    badge:"Brave & Rules",
+    qs:[
+      {q:"The child is <span class='blank'>___</span> because she can't find her mum. (схвильований)",
+       a:"worried",opts:["worried","scared","stuck","brave"]},
+      {q:"He is <span class='blank'>___</span> of the big dog. (наляканий)",
+       a:"scared",opts:["scared","worried","stuck","safe"]},
+      {q:"The cat is <span class='blank'>___</span> in the tree. It can't get down. (застряглий)",
+       a:"stuck",opts:["stuck","scared","worried","lost"]},
+      {q:"Don't go too <span class='blank'>___</span> from the beach! (далеко)",
+       a:"far",opts:["far","near","safe","lost"]},
+      {q:"Stay <span class='blank'>___</span> the lifeguard. (близько)",
+       a:"near",opts:["near","far","safe","away"]},
+      {q:"There's a <span class='blank'>___</span> in the water! Run! (монстр)",
+       a:"monster",opts:["monster","whale","fisherman","shark"]},
+      {q:"'You <span class='blank'>___</span> be quiet in a library.' — it is necessary",
+       a:"must",opts:["must","can","will","should"]},
+      {q:"'You <span class='blank'>___</span> throw litter.' — it is NOT allowed",
+       a:"mustn't",opts:["mustn't","can't","won't","don't"]},
+      {q:"'You <span class='blank'>___</span> drink lots of water in the mountains.' (необхідно)",
+       a:"must",opts:["must","can","will","mustn't"]},
+      {q:"'You <span class='blank'>___</span> go far from your friends.' (заборонено)",
+       a:"mustn't",opts:["mustn't","can't","must","won't"]},
+      {q:"'You <span class='blank'>___</span> take a map.' (треба / необхідно)",
+       a:"must",opts:["must","can","mustn't","will"]},
+      {q:"'You <span class='blank'>___</span> throw litter in the mountains.' (заборонено)",
+       a:"mustn't",opts:["mustn't","must","can't","won't"]},
+    ]
+  },
+  l27:{
+    title:"🎣 Lesson 27 – You're safe with us, Carrie!",
+    sub:"Rescue & sea vocabulary + will / won't",
+    badge:"Safe & Rescue",
+    qs:[
+      {q:"Everyone is <span class='blank'>___</span> now — nobody is hurt. (безпечний)",
+       a:"safe",opts:["safe","scared","stuck","worried"]},
+      {q:"The <span class='blank'>___</span> is fishing in a boat on the sea. (рибалка)",
+       a:"fisherman",opts:["fisherman","sailor","lifeguard","swimmer"]},
+      {q:"Let me <span class='blank'>___</span> you a question. (запитувати)",
+       a:"ask",opts:["ask","tell","say","talk"]},
+      {q:"The lifeguard is going to <span class='blank'>___</span> the child! (врятувати)",
+       a:"save",opts:["save","help","catch","find"]},
+      {q:"'It <span class='blank'>___</span> be great!' — she is sure it will be good. (буде)",
+       a:"will",opts:["will","won't","shall","can"]},
+      {q:"'My cousins <span class='blank'>___</span> visit us this summer.' — they ARE coming.",
+       a:"will",opts:["will","won't","can","must"]},
+      {q:"'We <span class='blank'>___</span> go to the beach.' — we ARE going. (future plan)",
+       a:"'ll go",opts:["'ll go","won't go","can go","must go"]},
+      {q:"'I <span class='blank'>___</span> buy new flippers — I'll use my brother's.' (NOT buy)",
+       a:"won't buy",opts:["won't buy","will buy","can't buy","mustn't buy"]},
+      {q:"'We <span class='blank'>___</span> home in August.' — returning home.",
+       a:"'ll come",opts:["'ll come","won't come","can come","came"]},
+      {q:"He isn't <span class='blank'>___</span> from the beach. (близько)",
+       a:"far",opts:["far","near","safe","lost"]},
+      {q:"He's a photo of <span class='blank'>___</span> under the water. (he — object pronoun)",
+       a:"him",opts:["him","her","them","me"]},
+      {q:"'Look at Rob. Can you see <span class='blank'>___</span>?' (he → object)",
+       a:"him",opts:["him","her","it","them"]},
+    ]
+  },
+  gram:{
+    title:"📝 Grammar Mix – Pronouns & Tenses",
+    sub:"Object pronouns · can/can't · must/mustn't · will/won't",
+    badge:"Grammar",
+    qs:[
+      {q:"Hi, Sue. I'm bored! Do you want to come home with <span class='blank'>___</span>? (I → object)",
+       a:"me",opts:["me","my","I","mine"]},
+      {q:"Hi, Mum. This is Mary. <span class='blank'>___</span>'s my friend. (she → subject)",
+       a:"She",opts:["She","Her","They","He"]},
+      {q:"I sit next to <span class='blank'>___</span> at school. (she → object)",
+       a:"her",opts:["her","she","him","them"]},
+      {q:"Nice to meet <span class='blank'>___</span>, Mary. (you → object)",
+       a:"you",opts:["you","your","me","them"]},
+      {q:"Mum, where's my football? I can't find <span class='blank'>___</span>. (it → object)",
+       a:"it",opts:["it","him","them","her"]},
+      {q:"That's Tom. <span class='blank'>___</span>'s my brother. (he → subject)",
+       a:"He",opts:["He","Him","She","They"]},
+      {q:"I like <span class='blank'>___</span>. (he → object)",
+       a:"him",opts:["him","her","them","it"]},
+      {q:"These football boots are for <span class='blank'>___</span>, Tom. Happy Birthday! (you)",
+       a:"you",opts:["you","him","her","them"]},
+      {q:"Thanks, Dad. <span class='blank'>___</span>'re great! Can I wear <span class='blank'>___</span> today? (they → subject, they → object)",
+       a:"They / them",opts:["They / them","He / him","She / her","It / it"]},
+      {q:"'<span class='blank'>___</span> I buy him a present?' — asking for permission",
+       a:"Can",opts:["Can","Must","Will","Shall"]},
+      {q:"'Of course you <span class='blank'>___</span>.' — giving permission",
+       a:"can",opts:["can","must","will","should"]},
+      {q:"'I'll <span class='blank'>___</span> a firefighter when I grow up.' (future dream)",
+       a:"be",opts:["be","am","was","become"]},
+    ]
+  }
+};
+
+/* ══════════════════════ MATCH SETS ══════════════════════ */
+const MSETS=[
+  {
+    title:"L25 – Beach",col1:"English",col2:"Українська",
+    pairs:[
+      {a:"sandcastle",b:"замок із піску"},
+      {a:"armbands",  b:"нарукавники"},
+      {a:"bucket",    b:"відро"},
+      {a:"spade",     b:"лопата"},
+      {a:"flippers",  b:"ласти"},
+      {a:"swimsuit",  b:"купальник"},
+    ]
+  },
+  {
+    title:"L26 – Feelings",col1:"English",col2:"Українська",
+    pairs:[
+      {a:"worried",  b:"схвильований"},
+      {a:"scared",   b:"наляканий"},
+      {a:"stuck",    b:"застряглий"},
+      {a:"far",      b:"далеко"},
+      {a:"near",     b:"близько"},
+      {a:"monster",  b:"монстр"},
+    ]
+  },
+  {
+    title:"L27 – Rescue",col1:"English",col2:"Українська",
+    pairs:[
+      {a:"safe",      b:"безпечний"},
+      {a:"fisherman", b:"рибалка"},
+      {a:"to ask",    b:"запитувати"},
+      {a:"to save",   b:"врятувати"},
+      {a:"stuck",     b:"застряглий"},
+      {a:"worried",   b:"схвильований"},
+    ]
+  },
+  {
+    title:"Grammar – Rules",col1:"Situation",col2:"Correct form",
+    pairs:[
+      {a:"permission ✅",      b:"You CAN go."},
+      {a:"no permission ❌",   b:"You CAN'T go."},
+      {a:"obligation 📌",      b:"You MUST be quiet."},
+      {a:"prohibition 🚫",     b:"You MUSTN'T throw litter."},
+      {a:"future plan 📅",     b:"I WILL / I'LL go."},
+      {a:"future negative ❌",  b:"I WON'T buy it."},
+    ]
+  }
+];
+
+/* ══════════════════════ ENGINE ══════════════════════ */
+const ST={};
+function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+
+function initQ(id){
+  ST[id]={qs:shuffle(DATA[id].qs),cur:0,score:0,done:false};
+  renderQ(id);
+}
+
+function renderQ(id){
+  const el=document.getElementById('sec-'+id);
+  const s=ST[id],d=DATA[id];
+  if(s.done){
+    const p=Math.round(s.score/s.qs.length*100);
+    const em=p>=80?'🌟':p>=55?'😊':'💪';
+    const msg=p>=80?'Brilliant! Super work!':p>=55?'Good job! Keep going!':'Keep practising — you got this!';
+    el.innerHTML=`<div class='sec-title'>${d.title}</div>
+    <div class='result show'><div class='r-em'>${em}</div><div class='r-title'>${msg}</div>
+    <div class='r-sub'>Your score:</div><div class='r-big'>${s.score}/${s.qs.length}</div>
+    <div class='r-sub'>${p}% correct</div>
+    <button class='retry' onclick="initQ('${id}')">🔄 Try Again</button></div>`;
+    return;
+  }
+  const q=s.qs[s.cur];
+  const pct=s.cur/s.qs.length*100;
+  const opts=shuffle(q.opts);
+  const L=['A','B','C','D'];
+  el.innerHTML=`
+    <div class='sec-title'>${d.title}</div><div class='sec-sub'>${d.sub}</div>
+    <div class='prog'>
+      <div class='prog-lbl'>Q${s.cur+1}/${s.qs.length}</div>
+      <div class='prog-track'><div class='prog-fill' style='width:${pct}%'></div></div>
+      <div class='prog-sc'>⭐${s.score}</div>
+    </div>
+    <div class='qcard'>
+      <div class='qbadge'>${d.badge}</div>
+      <div class='qtext'>${q.q}</div>
+      <div class='opts' id='o-${id}'></div>
+      <div class='fb' id='fb-${id}'></div>
+      <div style='text-align:center'>
+        <button class='nxt' id='nx-${id}' style='display:none' onclick="nxt('${id}')">
+          ${s.cur+1<s.qs.length?'Next →':'Results 🏆'}
+        </button>
+      </div>
+    </div>`;
+
+  // Build option buttons with addEventListener (avoids quote-escaping bugs)
+  const optsEl = document.getElementById('o-'+id);
+  const correctAns = q.a;
+  opts.forEach((o,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="ltr">${L[i]}</span>`;
+    btn.appendChild(document.createTextNode(o));
+    btn.addEventListener('click', function(){
+      // Disable all buttons
+      document.querySelectorAll('#o-'+id+' .opt').forEach(b=>b.disabled=true);
+      const fb = document.getElementById('fb-'+id);
+      const nx = document.getElementById('nx-'+id);
+      if(o === correctAns){
+        btn.classList.add('ok');
+        fb.textContent = '✅ Correct! Well done!';
+        fb.className = 'fb show ok';
+        ST[id].score++;
+      } else {
+        btn.classList.add('bad');
+        fb.textContent = '❌ The correct answer is: ' + correctAns;
+        fb.className = 'fb show bad';
+        document.querySelectorAll('#o-'+id+' .opt').forEach(b=>{
+          if(b.textContent.trim() === correctAns) b.classList.add('ok');
+        });
+      }
+      nx.style.display = 'inline-block';
+    });
+    optsEl.appendChild(btn);
+  });
+}
+
+function nxt(id){const s=ST[id];s.cur++;if(s.cur>=s.qs.length)s.done=true;renderQ(id);}
+
+/* ══════════════════════ MATCH ══════════════════════ */
+let MS={idx:0,selA:null,selB:null,matched:0,errors:0,pairs:[]};
+
+function initM(idx){
+  MS={idx,selA:null,selB:null,matched:0,errors:0,pairs:[]};
+  renderM();
+}
+
+function renderM(){
+  const el=document.getElementById('sec-match');
+  const set=MSETS[MS.idx];
+  MS.pairs=shuffle(set.pairs);
+  MS.colA=shuffle(MS.pairs.map(p=>p.a));
+  MS.colB=shuffle(MS.pairs.map(p=>p.b));
+  MS.elA=null; MS.elB=null;
+
+  // Build HTML skeleton
+  el.innerHTML=`
+    <div class='sec-title'>🔗 Matching Game</div>
+    <div class='sec-sub'>Click a word on the left, then its match on the right!</div>
+    <div class='mwrap'>
+      <div class='m-stabs' id='mstabs'></div>
+      <div class='m-toolbar'>
+        <div class='m-info' id='mi'>Matched: 0/${MS.pairs.length} · Errors: 0</div>
+        <button class='m-rst' id='mrst'>🔄 Restart</button>
+      </div>
+      <div class='mgrid'>
+        <div class='mcol'>
+          <div class='mclbl'>${set.col1}</div>
+          <div id='colA'></div>
+        </div>
+        <div class='mcol'>
+          <div class='mclbl'>${set.col2}</div>
+          <div id='colB'></div>
+        </div>
+      </div>
+      <div class='result' id='md'>
+        <div class='r-em'>🎉</div><div class='r-title'>All matched!</div>
+        <div class='r-sub' id='me-info'>Errors: 0</div>
+        <button class='retry' id='mretry'>🔄 Play Again</button>
+      </div>
+    </div>`;
+
+  document.getElementById('mrst').addEventListener('click',()=>initM(MS.idx));
+  document.getElementById('mretry').addEventListener('click',()=>initM(MS.idx));
+
+  // Set tabs
+  const stContainer = document.getElementById('mstabs');
+  MSETS.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='mstab'+(i===MS.idx?' on':'');
+    b.textContent=s.title;
+    b.addEventListener('click',()=>initM(i));
+    stContainer.appendChild(b);
+  });
+
+  // Build word items
+  const cA=document.getElementById('colA');
+  const cB=document.getElementById('colB');
+
+  MS.colA.forEach(w=>{
+    const d=document.createElement('div');
+    d.className='mi'; d.textContent=w; d.dataset.val=w; d.dataset.side='A';
+    d.addEventListener('click',()=>pickMi(d));
+    cA.appendChild(d);
+  });
+  MS.colB.forEach(w=>{
+    const d=document.createElement('div');
+    d.className='mi'; d.textContent=w; d.dataset.val=w; d.dataset.side='B';
+    d.addEventListener('click',()=>pickMi(d));
+    cB.appendChild(d);
+  });
+}
+
+function pickMi(el){
+  if(el.classList.contains('matched')) return;
+  const side=el.dataset.side;
+  if(side==='A'){
+    document.querySelectorAll('[data-side="A"]').forEach(m=>{if(!m.classList.contains('matched'))m.classList.remove('sel');});
+    MS.elA=el; el.classList.add('sel');
+  } else {
+    document.querySelectorAll('[data-side="B"]').forEach(m=>{if(!m.classList.contains('matched'))m.classList.remove('sel');});
+    MS.elB=el; el.classList.add('sel');
+  }
+  if(MS.elA && MS.elB){
+    const vA=MS.elA.dataset.val, vB=MS.elB.dataset.val;
+    const pair=MS.pairs.find(p=>p.a===vA);
+    if(pair && pair.b===vB){
+      MS.elA.classList.remove('sel'); MS.elA.classList.add('matched');
+      MS.elB.classList.remove('sel'); MS.elB.classList.add('matched');
+      MS.matched++;
+      document.getElementById('mi').textContent='Matched: '+MS.matched+'/'+MS.pairs.length+' · Errors: '+MS.errors;
+      if(MS.matched===MS.pairs.length){
+        setTimeout(()=>{
+          document.getElementById('me-info').textContent='Errors made: '+MS.errors;
+          document.getElementById('md').classList.add('show');
+        },300);
+      }
+    } else {
+      MS.errors++;
+      document.getElementById('mi').textContent='Matched: '+MS.matched+'/'+MS.pairs.length+' · Errors: '+MS.errors;
+      const a=MS.elA, b=MS.elB;
+      a.classList.add('bad-flash'); b.classList.add('bad-flash');
+      setTimeout(()=>{a.classList.remove('sel','bad-flash');b.classList.remove('sel','bad-flash');},500);
+    }
+    MS.elA=null; MS.elB=null;
+  }
+}
+
+/* ══════════════════════ TABS ══════════════════════ */
+function showTab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='match'){if(!MS.pairs.length)initM(0);else renderM();}
+  else if(!ST[id])initQ(id);
+}
+
+/* BOOT */
+initQ('l25');
+</script>
+</body>
+</html>
