@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly High 4 Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#EFF6FF;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1565C0,#1976D2);padding:1.5rem 1rem 0;text-align:center}
+.logo{font-family:'Baloo 2',cursive;font-size:2.2rem;font-weight:900;color:#fff}
+.logo b{color:#FFD54F}
+.sub{color:rgba(255,255,255,.8);font-size:.85rem;font-weight:700;margin:.2rem 0 1rem}
+.tabs{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+.tab{padding:.45rem 1rem;border:2px solid rgba(255,255,255,.4);border-bottom:none;border-radius:10px 10px 0 0;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer}
+.tab.on{background:#fff;color:#1565C0;border-color:#fff}
+main{max-width:780px;margin:0 auto;padding:1.2rem 1rem 3rem}
+.sec{display:none}.sec.on{display:block}
+.stitle{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;margin-bottom:.2rem}
+.ssub{font-size:.83rem;color:#607D8B;font-weight:600;margin-bottom:1rem}
+.progbar{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #BBDEFB;border-radius:14px;padding:.6rem 1rem;margin-bottom:1rem}
+.pq{font-size:.8rem;font-weight:800;color:#607D8B;white-space:nowrap}
+.pt{flex:1;height:8px;background:#BBDEFB;border-radius:8px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,#1565C0,#42A5F5);border-radius:8px;transition:width .3s}
+.ps{font-size:1.1rem;font-weight:900;color:#1565C0;white-space:nowrap}
+.card{background:#fff;border:1.5px solid #BBDEFB;border-radius:14px;padding:1.4rem;box-shadow:0 2px 8px rgba(21,101,192,.07)}
+.bdg{display:inline-block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:20px;background:#E3F2FD;color:#1976D2;margin-bottom:.6rem}
+.qtxt{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:700;line-height:1.45;margin-bottom:1rem;color:#0D1B2A}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
+.opt{display:flex;align-items:center;gap:7px;padding:.65rem .85rem;background:#F5F9FF;border:2px solid #BBDEFB;border-radius:10px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:#0D1B2A;cursor:pointer;text-align:left;width:100%}
+.opt:hover{border-color:#1976D2;background:#E3F2FD}
+.opt:disabled{cursor:default}
+.opt .lt{min-width:22px;height:22px;border-radius:50%;background:#1976D2;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0}
+.opt.ok{border-color:#388E3C!important;background:#E8F5E9!important}.opt.ok .lt{background:#388E3C!important}
+.opt.bad{border-color:#D32F2F!important;background:#FFEBEE!important}.opt.bad .lt{background:#D32F2F!important}
+.fb{padding:.55rem .85rem;border-radius:10px;font-weight:700;font-size:.88rem;display:none;margin-bottom:.7rem}
+.fb.show{display:block}
+.fb.ok{background:#E8F5E9;color:#2E7D32;border:1.5px solid #A5D6A7}
+.fb.bad{background:#FFEBEE;color:#C62828;border:1.5px solid #EF9A9A}
+.nxtwrap{text-align:center}
+.nxt{padding:.6rem 1.8rem;background:#1565C0;color:#fff;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:800;cursor:pointer;display:none;box-shadow:0 3px 8px rgba(21,101,192,.3)}
+.nxt:hover{background:#1976D2}
+.result{background:#fff;border:1.5px solid #BBDEFB;border-radius:14px;padding:2rem;text-align:center;display:none}
+.result.show{display:block}
+.rem{font-size:3rem;margin-bottom:.6rem}
+.rtitle{font-family:'Baloo 2',cursive;font-size:1.7rem;font-weight:900;margin-bottom:.3rem}
+.rsub{font-size:.88rem;color:#607D8B;font-weight:600;margin-bottom:.5rem}
+.rbig{font-size:2.4rem;font-weight:900;color:#1565C0}
+.retry{margin-top:.8rem;padding:.6rem 1.8rem;background:#1565C0;color:#fff;border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.92rem;font-weight:800;cursor:pointer}
+/* MATCH */
+.mwrap{background:#fff;border:1.5px solid #BBDEFB;border-radius:14px;padding:1.2rem;box-shadow:0 2px 8px rgba(21,101,192,.07)}
+.mstabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.8rem}
+.mst{padding:.35rem .8rem;border:1.5px solid #BBDEFB;border-radius:20px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;color:#607D8B;background:#F5F9FF;cursor:pointer}
+.mst.on{background:#1565C0;color:#fff;border-color:#1565C0}
+.mtbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:.3rem}
+.minf{font-size:.82rem;font-weight:700;color:#607D8B}
+.mrst{padding:.3rem .8rem;background:#F5F9FF;border:1.5px solid #BBDEFB;border-radius:20px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;color:#607D8B;cursor:pointer}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mcol{display:flex;flex-direction:column;gap:6px}
+.mclbl{text-align:center;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#607D8B;margin-bottom:3px}
+.mi{padding:.55rem .8rem;background:#F5F9FF;border:2px solid #BBDEFB;border-radius:10px;font-weight:700;font-size:.85rem;text-align:center;cursor:pointer;user-select:none;line-height:1.3;transition:all .12s}
+.mi:hover:not(.matched){border-color:#42A5F5;transform:translateY(-1px)}
+.mi.sel{border-color:#7B1FA2;background:#F3E5F5;box-shadow:0 0 0 2px rgba(123,31,162,.2)}
+.mi.matched{border-color:#388E3C;background:#E8F5E9;cursor:default;opacity:.7}
+.mi.shake{border-color:#D32F2F;background:#FFEBEE;animation:sh .3s}
+@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media(max-width:480px){.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">&#9992;&#65039; Fly <b>High 4</b> Quiz</div>
+  <div class="sub">Units 25 &middot; 26 &middot; 27 &middot; Grammar</div>
+  <div class="tabs">
+    <button class="tab on" id="tab-u25" onclick="showTab('u25',this)">&#127917; U25 Carnival</button>
+    <button class="tab" id="tab-u26" onclick="showTab('u26',this)">&#127940; U26 Sports</button>
+    <button class="tab" id="tab-u27" onclick="showTab('u27',this)">&#128506; U27 Adventure</button>
+    <button class="tab" id="tab-gram" onclick="showTab('gram',this)">&#128221; Grammar</button>
+    <button class="tab" id="tab-match" onclick="showTab('match',this)">&#128279; Match!</button>
+  </div>
+</div>
+<main>
+  <div class="sec on" id="sec-u25"></div>
+  <div class="sec" id="sec-u26"></div>
+  <div class="sec" id="sec-u27"></div>
+  <div class="sec" id="sec-gram"></div>
+  <div class="sec" id="sec-match"></div>
+</main>
+<script>
+var QD = {
+  u25:{title:"U25 – I want to join in!",sub:"Carnival & Costumes vocabulary",bdg:"Carnival",qs:[
+    {q:"Everyone wears a ___ costume at the carnival. (маскарадний)",a:"fancy dress",o:["fancy dress","school uniform","sports kit","swimsuit"]},
+    {q:"Ben wants to be a ___. He saves the world! (супергерой)",a:"superhero",o:["superhero","alien","pop star","pirate"]},
+    {q:"Kate wants to be a ___. She sings on stage! (поп-зірка)",a:"pop star",o:["queen","alien","pop star","wizard"]},
+    {q:"Ben suggests wearing an ___ costume from outer space! (прибулець)",a:"alien",o:["alien","robot","monster","dinosaur"]},
+    {q:"Shall we ___ in? = Do you want to participate? (приєднатися)",a:"join",o:["join","take","come","go"]},
+    {q:"What about ___ this alien costume? (носити)",a:"wearing",o:["wearing","to wear","wore","wear"]},
+    {q:"___ we join in? (пропозиція)",a:"Shall",o:["Shall","Will","Do","Are"]},
+    {q:"Yes, I ___ be a superhero. (plan)",a:"want to",o:["want to","going to","would","will"]},
+    {q:"The shop is full of ___. Things you can dress up in. (костюми)",a:"costumes",o:["costumes","uniforms","clothes","outfits"]},
+    {q:"___ are you going to wear? (Що)",a:"What",o:["What","Which","Who","Where"]},
+    {q:"I'm going to be a pop star ___ I like these silver shoes. (тому що)",a:"because",o:["because","but","and","so"]},
+    {q:"Kate says NO to the alien costume. She is going to ___ a pop star.",a:"be",o:["be","wear","become","dress"]},
+  ]},
+  u26:{title:"U26 – He likes tobogganing!",sub:"Extreme & leisure sports",bdg:"Sports",qs:[
+    {q:"Sliding down a snowy hill on a sled = ___ (санки з гори)",a:"tobogganing",o:["tobogganing","skiing","snowboarding","ice skating"]},
+    {q:"Moving across ice on special boots = ___ (ковзанярство)",a:"ice skating",o:["ice skating","skiing","tobogganing","rollerblading"]},
+    {q:"Riding waves in the sea on a board = ___ (серфінг)",a:"surfing",o:["surfing","sailing","kayaking","diving"]},
+    {q:"Riding a board with wheels = ___ (скейтбординг)",a:"skateboarding",o:["skateboarding","cycling","rollerblading","surfing"]},
+    {q:"Climbing a mountain or rock face = ___ (скелолазання)",a:"rock climbing",o:["rock climbing","hiking","abseiling","mountaineering"]},
+    {q:"Riding a bicycle = ___ (велоспорт)",a:"cycling",o:["cycling","running","jogging","skating"]},
+    {q:"Catching fish in a river = ___ (риболовля)",a:"fishing",o:["fishing","swimming","diving","sailing"]},
+    {q:"She is ___ at swimming. She does it very well! (гарна)",a:"good",o:["good","bad","interested","happy"]},
+    {q:"Shall we go ___? = Using a board on snow (тобоган)",a:"tobogganing",o:["tobogganing","rock climbing","skiing","cycling"]},
+    {q:"She ___ to swim / diving / swim. (wants + verb)",a:"wants to",o:["wants to","likes","is good at","shall"]},
+    {q:"What about ___ in the park? (їзда на велосипеді)",a:"cycling",o:["cycling","rollerblades","basketball","surfing"]},
+    {q:"I've got a good idea! What about ___? (пропозиція)",a:"What about",o:["What about","Shall we","Let's not","Why not"]},
+  ]},
+  u27:{title:"U27 – What shall we do?",sub:"Adventure & objects vocabulary",bdg:"Adventure",qs:[
+    {q:"Use a ___ to find direction. (компас)",a:"compass",o:["compass","map","torch","binoculars"]},
+    {q:"A painting worth a lot of money is ___ (цінний)",a:"valuable",o:["valuable","expensive","rare","cheap"]},
+    {q:"The robber wants to ___ the painting. (вкрасти)",a:"steal",o:["steal","borrow","buy","take"]},
+    {q:"The woman is going to ___ the diamond. She loves jewellery. (купити)",a:"buy",o:["buy","steal","borrow","use"]},
+    {q:"The prisoner wants to ___ from prison. (втекти)",a:"escape",o:["escape","run","hide","leave"]},
+    {q:"They are going to ___ the compass because they are lost. (використати)",a:"use",o:["use","borrow","steal","find"]},
+    {q:"The dog is going to ___ the lamp. (збити)",a:"knock over",o:["knock over","steal","break","use"]},
+    {q:"The prisoner needs some ___ to escape. (інструменти)",a:"tools",o:["tools","keys","ropes","maps"]},
+    {q:"We're going to have a ___ because it's my birthday. (пікнік)",a:"picnic",o:["picnic","party","dinner","trip"]},
+    {q:"Rings, necklaces, bracelets = ___ (прикраси)",a:"jewellery",o:["jewellery","accessories","tools","treasure"]},
+    {q:"To ___ means to take temporarily and give back. (позичити)",a:"borrow",o:["borrow","steal","buy","use"]},
+    {q:"They need the compass because they are ___ (загублені)",a:"lost",o:["lost","tired","bored","scared"]},
+  ]},
+  gram:{title:"Grammar – Going to & Want to",sub:"Plans, wishes and suggestions",bdg:"Grammar",qs:[
+    {q:"Claudia is unhappy. She ___ escape from prison.",a:"wants to",o:["wants to","is going to","would like","shall"]},
+    {q:"Magnus is hungry. He ___ eat a sandwich.",a:"wants to",o:["wants to","going to","is going","shall"]},
+    {q:"Dr Wild is hot. He ___ open the window.",a:"wants to",o:["wants to","going to","will","would"]},
+    {q:"Oscar is thirsty. He ___ drink some water.",a:"wants to",o:["wants to","is wanting to","going to","shall"]},
+    {q:"Jack and Kelly are tired. They ___ go to bed.",a:"want to",o:["want to","going to","shall","will"]},
+    {q:"The robber ___ steal the painting. (future plan)",a:"is going to",o:["is going to","wants to","will","shall"]},
+    {q:"___ we go rock climbing? (suggestion)",a:"Shall",o:["Shall","Will","Do","Are"]},
+    {q:"What ___ fishing? (suggesting activity)",a:"about",o:["about","if","shall","for"]},
+    {q:"I'm ___ be a pop star. (I have decided)",a:"going to",o:["going to","wanting to","shall","will"]},
+    {q:"___ are you going to wear? (asking about plans)",a:"What",o:["What","Which","Who","How"]},
+    {q:"She ___ at rock climbing. She's excellent!",a:"is good",o:["is good","is going","wants","likes"]},
+    {q:"They need the compass ___ they are lost. (reason)",a:"because",o:["because","so","but","and"]},
+  ]}
+};
+
+var MD = [
+  {title:"U25 Costumes",c1:"English",c2:"Meaning",pairs:[
+    {a:"fancy dress",b:"маскарадний костюм"},{a:"superhero",b:"супергерой"},
+    {a:"alien",b:"прибулець"},{a:"pop star",b:"поп-зірка"},
+    {a:"costume",b:"костюм"},{a:"join in",b:"взяти участь"}
+  ]},
+  {title:"U26 Sports",c1:"Sport",c2:"Where / How",pairs:[
+    {a:"ice skating",b:"frozen lake / ice rink"},{a:"surfing",b:"big waves in the sea"},
+    {a:"rock climbing",b:"cliff or mountain"},{a:"skateboarding",b:"board with wheels"},
+    {a:"cycling",b:"bicycle"},{a:"tobogganing",b:"snowy hill + sled"}
+  ]},
+  {title:"U27 Adventure",c1:"Word",c2:"Ukrainian",pairs:[
+    {a:"compass",b:"компас"},{a:"steal",b:"вкрасти"},
+    {a:"borrow",b:"позичити"},{a:"escape",b:"втекти"},
+    {a:"valuable",b:"цінний"},{a:"jewellery",b:"прикраси"}
+  ]},
+  {title:"Grammar",c1:"Situation",c2:"Form",pairs:[
+    {a:"permission YES",b:"You CAN go."},{a:"permission NO",b:"You CANNOT go."},
+    {a:"future plan",b:"I am GOING TO..."},{a:"wish / desire",b:"I WANT TO..."},
+    {a:"suggestion",b:"SHALL we...?"},{a:"suggest activity",b:"What ABOUT...?"}
+  ]}
+];
+
+// ── State ──
+var ST = {};
+
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5});}
+
+// ── Quiz ──
+function initQ(id){
+  ST[id]={qs:shuffle(QD[id].qs.slice()),cur:0,score:0,done:false};
+  renderQ(id);
+}
+
+function renderQ(id){
+  var el=document.getElementById('sec-'+id);
+  var s=ST[id]; var d=QD[id];
+  if(s.done){
+    var p=Math.round(s.score/s.qs.length*100);
+    var em=p>=80?'&#127775;':p>=55?'&#128522;':'&#128170;';
+    var msg=p>=80?'Brilliant!':p>=55?'Good job!':'Keep practising!';
+    el.innerHTML='<div class="stitle">'+d.title+'</div><div class="result show"><div class="rem">'+em+'</div><div class="rtitle">'+msg+'</div><div class="rsub">Your score:</div><div class="rbig">'+s.score+'/'+s.qs.length+'</div><div class="rsub">'+p+'%</div><button class="retry" id="retry-'+id+'">&#128260; Try Again</button></div>';
+    document.getElementById('retry-'+id).onclick=function(){initQ(id);};
+    return;
+  }
+  var q=s.qs[s.cur];
+  var pct=Math.round(s.cur/s.qs.length*100);
+  var isLast=s.cur+1>=s.qs.length;
+  el.innerHTML='<div class="stitle">'+d.title+'</div><div class="ssub">'+d.sub+'</div><div class="progbar"><div class="pq">Q'+(s.cur+1)+'/'+s.qs.length+'</div><div class="pt"><div class="pf" style="width:'+pct+'%"></div></div><div class="ps">&#11088; '+s.score+'</div></div><div class="card"><div class="bdg">'+d.bdg+'</div><div class="qtxt" id="qt-'+id+'"></div><div class="opts" id="op-'+id+'"></div><div class="fb" id="fb-'+id+'"></div><div class="nxtwrap"><button class="nxt" id="nx-'+id+'">'+(isLast?'See Results &#127942;':'Next &#8594;')+'</button></div></div>';
+  document.getElementById('qt-'+id).textContent=q.q;
+  document.getElementById('nx-'+id).onclick=function(){nextQ(id);};
+  buildOpts(id,q);
+}
+
+function buildOpts(id,q){
+  var el=document.getElementById('op-'+id);
+  var opts=shuffle(q.o);
+  var cor=q.a;
+  var L=['A','B','C','D'];
+  for(var i=0;i<opts.length;i++){
+    (function(opt,idx){
+      var btn=document.createElement('button');
+      btn.className='opt';
+      var sp=document.createElement('span');
+      sp.className='lt';
+      sp.textContent=L[idx];
+      btn.appendChild(sp);
+      btn.appendChild(document.createTextNode(opt));
+      btn.onclick=function(){
+        if(btn.disabled)return;
+        // disable all
+        var all=document.querySelectorAll('#op-'+id+' .opt');
+        for(var j=0;j<all.length;j++) all[j].disabled=true;
+        var fb=document.getElementById('fb-'+id);
+        var nx=document.getElementById('nx-'+id);
+        if(opt===cor){
+          btn.classList.add('ok');
+          fb.textContent='Correct! Well done!';
+          fb.className='fb show ok';
+          ST[id].score++;
+        } else {
+          btn.classList.add('bad');
+          fb.textContent='The correct answer is: '+cor;
+          fb.className='fb show bad';
+          for(var k=0;k<all.length;k++){
+            var txt=all[k].textContent.replace(/^[ABCD]/,'').trim();
+            if(txt===cor) all[k].classList.add('ok');
+          }
+        }
+        nx.style.display='inline-block';
+      };
+      el.appendChild(btn);
+    })(opts[i],i);
+  }
+}
+
+function nextQ(id){
+  ST[id].cur++;
+  if(ST[id].cur>=ST[id].qs.length) ST[id].done=true;
+  renderQ(id);
+}
+
+// ── Match ──
+var MS={idx:0,elA:null,elB:null,matched:0,errors:0,pairs:[]};
+
+function initM(idx){
+  MS={idx:idx,elA:null,elB:null,matched:0,errors:0,pairs:[]};
+  renderM();
+}
+
+function renderM(){
+  var el=document.getElementById('sec-match');
+  var set=MD[MS.idx];
+  MS.pairs=shuffle(set.pairs);
+  var cA=shuffle(MS.pairs.map(function(p){return p.a;}));
+  var cB=shuffle(MS.pairs.map(function(p){return p.b;}));
+
+  el.innerHTML='<div class="stitle">&#128279; Matching Game</div><div class="ssub">Click left, then right to match!</div><div class="mwrap"><div class="mstabs" id="mst"></div><div class="mtbar"><div class="minf" id="minf">Matched: 0/'+MS.pairs.length+' &middot; Errors: 0</div><button class="mrst" id="mrst">&#128260; Restart</button></div><div class="mgrid"><div class="mcol"><div class="mclbl">'+set.c1+'</div><div id="cA"></div></div><div class="mcol"><div class="mclbl">'+set.c2+'</div><div id="cB"></div></div></div><div class="result" id="mres"><div class="rem">&#127881;</div><div class="rtitle">All matched!</div><div class="rsub" id="merr">Errors: 0</div><button class="retry" id="mretry">&#128260; Play Again</button></div></div>';
+
+  document.getElementById('mrst').onclick=function(){initM(MS.idx);};
+  document.getElementById('mretry').onclick=function(){initM(MS.idx);};
+
+  var stc=document.getElementById('mst');
+  for(var i=0;i<MD.length;i++){
+    (function(ii){
+      var b=document.createElement('button');
+      b.className='mst'+(ii===MS.idx?' on':'');
+      b.textContent=MD[ii].title;
+      b.onclick=function(){initM(ii);};
+      stc.appendChild(b);
+    })(i);
+  }
+
+  var ca=document.getElementById('cA');
+  var cb=document.getElementById('cB');
+  cA.forEach(function(w){
+    var d=document.createElement('div');
+    d.className='mi'; d.textContent=w; d.dataset.v=w; d.dataset.s='A';
+    d.onclick=function(){pickMi(d);};
+    ca.appendChild(d);
+  });
+  cB.forEach(function(w){
+    var d=document.createElement('div');
+    d.className='mi'; d.textContent=w; d.dataset.v=w; d.dataset.s='B';
+    d.onclick=function(){pickMi(d);};
+    cb.appendChild(d);
+  });
+}
+
+function pickMi(el){
+  if(el.classList.contains('matched'))return;
+  if(el.dataset.s==='A'){
+    document.querySelectorAll('[data-s="A"]').forEach(function(m){if(!m.classList.contains('matched'))m.classList.remove('sel');});
+    MS.elA=el; el.classList.add('sel');
+  } else {
+    document.querySelectorAll('[data-s="B"]').forEach(function(m){if(!m.classList.contains('matched'))m.classList.remove('sel');});
+    MS.elB=el; el.classList.add('sel');
+  }
+  if(MS.elA&&MS.elB){
+    var vA=MS.elA.dataset.v, vB=MS.elB.dataset.v;
+    var pair=null;
+    for(var i=0;i<MS.pairs.length;i++){if(MS.pairs[i].a===vA){pair=MS.pairs[i];break;}}
+    if(pair&&pair.b===vB){
+      MS.elA.classList.remove('sel'); MS.elA.classList.add('matched');
+      MS.elB.classList.remove('sel'); MS.elB.classList.add('matched');
+      MS.matched++;
+      document.getElementById('minf').textContent='Matched: '+MS.matched+'/'+MS.pairs.length+' · Errors: '+MS.errors;
+      if(MS.matched===MS.pairs.length){
+        setTimeout(function(){
+          document.getElementById('merr').textContent='Errors: '+MS.errors;
+          document.getElementById('mres').classList.add('show');
+        },300);
+      }
+    } else {
+      MS.errors++;
+      document.getElementById('minf').textContent='Matched: '+MS.matched+'/'+MS.pairs.length+' · Errors: '+MS.errors;
+      var a=MS.elA,b=MS.elB;
+      a.classList.add('shake'); b.classList.add('shake');
+      setTimeout(function(){a.classList.remove('sel','shake');b.classList.remove('sel','shake');},400);
+    }
+    MS.elA=null; MS.elB=null;
+  }
+}
+
+// ── Tabs ──
+function showTab(id,btn){
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('sec-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='match'){if(!MS.pairs.length)initM(0);else renderM();}
+  else{if(!ST[id])initQ(id);}
+}
+
+// ── Boot ──
+initQ('u25');
+</script>
+</body>
+</html>
