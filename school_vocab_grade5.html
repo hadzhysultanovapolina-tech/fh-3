@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My School World · Grade 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff9f0;--card:#fff;--border:#fde8c8;
+  --ink:#1a0a00;--muted:#8a6a4a;--soft:#fff3e0;
+  --orange:#ea580c;--pink:#db2777;--purple:#7c3aed;
+  --blue:#1d4ed8;--green:#15803d;--teal:#0f766e;
+  --yellow:#d97706;--red:#b91c1c;
+  --ok:#15803d;--no:#b91c1c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 5% 5%,rgba(234,88,12,.06),transparent 45%),
+             radial-gradient(ellipse at 95% 95%,rgba(124,58,237,.05),transparent 45%),
+             radial-gradient(ellipse at 50% 50%,rgba(29,78,216,.03),transparent 60%);
+  pointer-events:none;z-index:0;}
+
+/* floating emojis */
+.floaty{position:fixed;font-size:24px;pointer-events:none;z-index:0;opacity:.12;animation:fl var(--t,8s) ease-in-out infinite alternate;}
+@keyframes fl{0%{transform:translateY(0) rotate(-8deg);}100%{transform:translateY(-20px) rotate(8deg);}}
+
+.prog-wrap{position:fixed;top:0;left:0;right:0;height:5px;z-index:100;background:rgba(234,88,12,.1);}
+.prog-bar{height:100%;background:linear-gradient(90deg,#ea580c,#db2777,#7c3aed);width:0%;transition:width .4s;border-radius:0 4px 4px 0;}
+
+.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 80px;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#7c2d12,#ea580c,#9333ea);
+  border-radius:0 0 40px 40px;padding:52px 28px 48px;
+  text-align:center;margin:0 -16px 36px;
+  position:relative;overflow:hidden;
+  animation:hin .8s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes hin{from{opacity:0;transform:translateY(-28px);}to{opacity:1;transform:translateY(0);}}
+.hero::before{content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='rgba(255,255,255,.08)'/%3E%3C/svg%3E");}
+.hero-badge{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 18px;font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.9);text-transform:uppercase;margin-bottom:16px;}
+.hero h1{position:relative;font-family:'Baloo 2',cursive;font-size:clamp(30px,7vw,62px);color:#fff;line-height:1.0;margin-bottom:8px;text-shadow:0 2px 20px rgba(0,0,0,.25);}
+.hero h1 em{font-style:normal;color:#fde68a;}
+.hero-sub{position:relative;font-size:15px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:24px;}
+.hero-chips{position:relative;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hc{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
+
+/* TABS */
+.tabs-wrap{display:flex;gap:6px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;padding:10px 18px;border-radius:16px;border:2px solid var(--border);background:var(--card);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);}
+.tab-btn.active{color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.tab-btn:hover:not(.active){border-color:var(--orange);color:var(--orange);}
+.t0.active{background:linear-gradient(135deg,#ea580c,#f97316);}
+.t1.active{background:linear-gradient(135deg,#db2777,#ec4899);}
+.t2.active{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.t3.active{background:linear-gradient(135deg,#1d4ed8,#3b82f6);}
+.t4.active{background:linear-gradient(135deg,#15803d,#22c55e);}
+.t5.active{background:linear-gradient(135deg,#0f766e,#14b8a6);}
+
+/* PANELS */
+.panel{display:none;animation:up .35s ease both;}
+.panel.active{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* SEC DIV */
+.sec-div{display:flex;align-items:center;gap:12px;margin:24px 0 14px;}
+.sec-div .sl{flex:1;height:1.5px;border-radius:2px;}
+.sec-div .st{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;padding:6px 18px;border-radius:20px;border:2px solid;white-space:nowrap;}
+
+/* TASK CARD */
+.task{background:var(--card);border:2px solid var(--border);border-radius:22px;padding:22px 24px;margin-bottom:14px;animation:up .4s ease both;transition:transform .2s,box-shadow .2s;}
+.task:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(234,88,12,.1);}
+.task-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.tnum{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#fff;flex-shrink:0;}
+.ttype{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.tq{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.5;}
+.thint{font-size:13px;color:var(--muted);margin-bottom:12px;font-style:italic;}
+
+/* OPTS */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.opt{padding:9px 18px;border-radius:12px;border:2px solid var(--border);background:var(--soft);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;}
+.opt:hover{border-color:var(--orange);background:#fff3e0;color:var(--orange);}
+.opt:active{transform:scale(.96);}
+.opt.ok{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.no{background:#fee2e2;border-color:var(--no);color:var(--no);pointer-events:none;}
+.opt.reveal{background:#dcfce7;border-color:var(--ok);color:var(--ok);pointer-events:none;}
+.opt.dis{opacity:.3;pointer-events:none;}
+
+/* GAP */
+.gap-s{display:inline-block;min-width:110px;border-bottom:2.5px solid var(--orange);color:var(--orange);font-weight:800;text-align:center;padding:0 6px;margin:0 4px;transition:all .2s;}
+.gap-s.ok{border-bottom-color:var(--ok);color:var(--ok);}
+.gap-s.no{border-bottom-color:var(--no);color:var(--no);}
+
+/* FB */
+.fb{font-size:13px;font-weight:700;min-height:18px;margin-bottom:8px;}
+.fb.ok{color:var(--ok);}
+.fb.no{color:var(--no);}
+
+/* SENT BLOCK */
+.sb{background:var(--soft);border:2px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;}
+.sb-q{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.6;}
+
+/* VOCAB CARDS */
+.vc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:14px;}
+.vc{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:12px 10px;text-align:center;transition:transform .18s;}
+.vc:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(234,88,12,.12);}
+.vc-emoji{font-size:28px;margin-bottom:6px;}
+.vc-en{font-size:13px;font-weight:800;color:var(--ink);}
+
+/* MATCHING */
+.match-area{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;}
+.match-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;}
+.match-item{padding:9px 16px;border-radius:12px;border:2px solid var(--border);background:var(--soft);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;margin-bottom:6px;text-align:center;}
+.match-item:hover{border-color:var(--purple);background:#ede9fe;color:var(--purple);}
+.match-item.selected{border-color:var(--orange);background:#fff3e0;color:var(--orange);}
+.match-item.matched-ok{border-color:var(--ok);background:#dcfce7;color:var(--ok);pointer-events:none;}
+.match-item.matched-no{border-color:var(--no);background:#fee2e2;color:var(--no);}
+.match-item.disabled{opacity:.35;pointer-events:none;}
+
+/* GRAMMAR REF */
+.gram-ref{background:var(--card);border:2px solid var(--border);border-radius:18px;padding:18px 20px;margin-bottom:16px;}
+.gram-ref h3{font-family:'Baloo 2',cursive;font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.gram-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:560px){.gram-grid{grid-template-columns:1fr;}}
+.gram-box{border-radius:12px;padding:12px 14px;border:1.5px solid;}
+.gram-box .gb-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.gram-box .gb-r{font-size:13px;font-weight:600;color:var(--ink);padding:3px 0;border-bottom:1px dashed #e5e7eb;}
+.gram-box .gb-r:last-child{border:none;}
+.gram-box .gb-r em{font-style:normal;font-weight:800;}
+
+/* SPEAKING CARDS */
+.speak-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+@media(max-width:480px){.speak-grid{grid-template-columns:1fr;}}
+.speak-card{border-radius:18px;padding:18px;border:2px solid;}
+.speak-card h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.speak-card p{font-size:15px;font-weight:700;color:var(--ink);line-height:1.5;}
+.speak-card .sc-tip{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic;}
+
+/* PHRASE CHIPS */
+.phrase-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.pchip{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;border:1.5px solid var(--border);background:var(--soft);color:var(--ink);}
+
+/* CHECK ALL */
+.check-btn-big{display:block;width:100%;padding:15px;border-radius:18px;border:none;font-family:'Baloo 2',cursive;font-size:20px;color:#fff;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,.15);transition:all .22s;margin-top:24px;}
+.check-btn-big:hover{transform:translateY(-2px);filter:brightness(1.08);}
+.cb-orange{background:linear-gradient(135deg,#ea580c,#f97316);}
+.cb-pink{background:linear-gradient(135deg,#db2777,#ec4899);}
+.cb-purple{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.cb-blue{background:linear-gradient(135deg,#1d4ed8,#3b82f6);}
+
+/* SCORE MINI */
+.score-mini{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:16px;padding:14px 18px;text-align:center;margin-top:12px;display:none;animation:popin .4s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popin{from{opacity:0;transform:scale(.88);}to{opacity:1;transform:scale(1);}}
+.score-mini .sm-emoji{font-size:36px;}
+.score-mini .sm-score{font-family:'Baloo 2',cursive;font-size:28px;color:var(--yellow);}
+.score-mini .sm-msg{font-size:14px;font-weight:700;color:var(--ink);}
+
+/* FINAL SCORE */
+.final-score{display:none;background:linear-gradient(135deg,#1a0030,#4c1d95,#1e3a8a);border-radius:28px;padding:44px 28px;text-align:center;margin-top:28px;animation:popin .5s cubic-bezier(.34,1.56,.64,1) both;}
+.fs-emoji{font-size:70px;margin-bottom:12px;animation:bob 1.2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.fs-num{font-family:'Baloo 2',cursive;font-size:clamp(50px,12vw,82px);background:linear-gradient(135deg,#fde68a,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:6px 0;}
+.fs-stars{font-size:32px;letter-spacing:6px;margin:8px 0;}
+.fs-msg{font-size:20px;font-weight:700;color:#fff;margin-bottom:18px;}
+.fs-break{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.fs-chip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 16px;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
+.rebtn{display:inline-flex;align-items:center;gap:7px;padding:12px 28px;border-radius:14px;border:none;font-family:'Baloo 2',cursive;font-size:18px;background:linear-gradient(135deg,#ea580c,#fbbf24);color:#fff;cursor:pointer;transition:all .2s;}
+.rebtn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+
+/* CONFETTI */
+.cf{position:fixed;border-radius:3px;z-index:999;pointer-events:none;animation:cfall var(--d,2s) ease-in var(--dl,0s) forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotateZ(0);opacity:1;}100%{transform:translateY(105vh) rotateZ(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- floating decorations -->
+<div class="floaty" style="top:8%;left:1%;--t:7s">📚</div>
+<div class="floaty" style="top:20%;right:2%;--t:5s">✏️</div>
+<div class="floaty" style="top:45%;left:1%;--t:9s">🎒</div>
+<div class="floaty" style="top:65%;right:1%;--t:6s">🏫</div>
+<div class="floaty" style="top:82%;left:2%;--t:8s">🌟</div>
+
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+<div class="app">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🏫 Grade 5 · English</div>
+  <h1>My School <em>World!</em></h1>
+  <p class="hero-sub">School Subjects · Places · Items · do/play · Present Simple</p>
+  <div class="hero-chips">
+    <div class="hc">📖 Vocabulary</div>
+    <div class="hc">🔗 Matching</div>
+    <div class="hc">✅ Present Simple</div>
+    <div class="hc">🗣️ Speaking</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="tab-btn t0 active" onclick="switchTab(0)">📖 Vocab Test</button>
+  <button class="tab-btn t1" onclick="switchTab(1)">🔗 Matching</button>
+  <button class="tab-btn t2" onclick="switchTab(2)">✅ Affirmative</button>
+  <button class="tab-btn t3" onclick="switchTab(3)">❌ Negative</button>
+  <button class="tab-btn t4" onclick="switchTab(4)">❓ Questions</button>
+  <button class="tab-btn t5" onclick="switchTab(5)">🗣️ Speaking</button>
+</div>
+
+<!-- ══════════════ TAB 0 — VOCAB TEST ══════════════ -->
+<div class="panel active" id="p0">
+
+  <div class="sec-div" style="--c:#ea580c">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(234,88,12,.4))"></div>
+    <div class="st" style="color:#ea580c;border-color:rgba(234,88,12,.4);background:rgba(234,88,12,.06)">📚 School Subjects</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(234,88,12,.4),transparent)"></div>
+  </div>
+
+  <!-- vocab ref -->
+  <div class="vc-grid">
+    <div class="vc"><div class="vc-emoji">🎨</div><div class="vc-en">Art</div></div>
+    <div class="vc"><div class="vc-emoji">💻</div><div class="vc-en">Computer Studies</div></div>
+    <div class="vc"><div class="vc-emoji">🇬🇧</div><div class="vc-en">English</div></div>
+    <div class="vc"><div class="vc-emoji">🇫🇷</div><div class="vc-en">French</div></div>
+    <div class="vc"><div class="vc-emoji">🗺️</div><div class="vc-en">Geography</div></div>
+    <div class="vc"><div class="vc-emoji">📜</div><div class="vc-en">History</div></div>
+    <div class="vc"><div class="vc-emoji">➕</div><div class="vc-en">Maths</div></div>
+    <div class="vc"><div class="vc-emoji">🎵</div><div class="vc-en">Music</div></div>
+    <div class="vc"><div class="vc-emoji">🏃</div><div class="vc-en">P.E.</div></div>
+    <div class="vc"><div class="vc-emoji">🔬</div><div class="vc-en">Science</div></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="task" style="animation-delay:.05s">
+    <div class="task-head"><div class="tnum" style="background:#ea580c">1</div><div><div class="ttype">School Subjects · Choose the correct subject</div></div></div>
+
+    <div class="sb"><div class="sb-q">🎨 You draw pictures and paint. What subject is it?</div>
+    <div class="opts" id="oq1">
+      <button class="opt" data-val="Music" onclick="pg('q1',this,'Art')">Music</button>
+      <button class="opt" data-val="Art" onclick="pg('q1',this,'Art')">Art</button>
+      <button class="opt" data-val="Science" onclick="pg('q1',this,'Art')">Science</button>
+    </div><div class="fb" id="fbq1"></div></div>
+
+    <div class="sb"><div class="sb-q">🔬 You do experiments and learn about animals and plants. What subject is it?</div>
+    <div class="opts" id="oq2">
+      <button class="opt" data-val="History" onclick="pg('q2',this,'Science')">History</button>
+      <button class="opt" data-val="Maths" onclick="pg('q2',this,'Science')">Maths</button>
+      <button class="opt" data-val="Science" onclick="pg('q2',this,'Science')">Science</button>
+    </div><div class="fb" id="fbq2"></div></div>
+
+    <div class="sb"><div class="sb-q">🗺️ You learn about countries, rivers and mountains. What subject is it?</div>
+    <div class="opts" id="oq3">
+      <button class="opt" data-val="Geography" onclick="pg('q3',this,'Geography')">Geography</button>
+      <button class="opt" data-val="History" onclick="pg('q3',this,'Geography')">History</button>
+      <button class="opt" data-val="French" onclick="pg('q3',this,'Geography')">French</button>
+    </div><div class="fb" id="fbq3"></div></div>
+
+    <div class="sb"><div class="sb-q">➕ You add, subtract and solve problems with numbers. What subject is it?</div>
+    <div class="opts" id="oq4">
+      <button class="opt" data-val="Science" onclick="pg('q4',this,'Maths')">Science</button>
+      <button class="opt" data-val="Maths" onclick="pg('q4',this,'Maths')">Maths</button>
+      <button class="opt" data-val="Computer Studies" onclick="pg('q4',this,'Maths')">Computer Studies</button>
+    </div><div class="fb" id="fbq4"></div></div>
+
+    <div class="sb"><div class="sb-q">🏃 You play football, do gymnastics and run. What subject is it?</div>
+    <div class="opts" id="oq5">
+      <button class="opt" data-val="P.E." onclick="pg('q5',this,'P.E.')">P.E.</button>
+      <button class="opt" data-val="Art" onclick="pg('q5',this,'P.E.')">Art</button>
+      <button class="opt" data-val="Music" onclick="pg('q5',this,'P.E.')">Music</button>
+    </div><div class="fb" id="fbq5"></div></div>
+  </div>
+
+  <div class="sec-div">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(219,39,119,.4))"></div>
+    <div class="st" style="color:#db2777;border-color:rgba(219,39,119,.4);background:rgba(219,39,119,.06)">🏫 Places in a school</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(219,39,119,.4),transparent)"></div>
+  </div>
+
+  <div class="task" style="animation-delay:.1s">
+    <div class="task-head"><div class="tnum" style="background:#db2777">2</div><div><div class="ttype">Places · Choose the correct place</div></div></div>
+
+    <div class="sb"><div class="sb-q">📚 You borrow books and read here. Where is it?</div>
+    <div class="opts" id="oq6">
+      <button class="opt" data-val="canteen" onclick="pg('q6',this,'library')">canteen</button>
+      <button class="opt" data-val="library" onclick="pg('q6',this,'library')">library</button>
+      <button class="opt" data-val="gym" onclick="pg('q6',this,'library')">gym</button>
+    </div><div class="fb" id="fbq6"></div></div>
+
+    <div class="sb"><div class="sb-q">🍽️ You eat lunch here. Where is it?</div>
+    <div class="opts" id="oq7">
+      <button class="opt" data-val="canteen" onclick="pg('q7',this,'canteen')">canteen</button>
+      <button class="opt" data-val="staff room" onclick="pg('q7',this,'canteen')">staff room</button>
+      <button class="opt" data-val="classroom" onclick="pg('q7',this,'canteen')">classroom</button>
+    </div><div class="fb" id="fbq7"></div></div>
+
+    <div class="sb"><div class="sb-q">🏋️ You do sports and exercise here. Where is it?</div>
+    <div class="opts" id="oq8">
+      <button class="opt" data-val="playground" onclick="pg('q8',this,'gym')">playground</button>
+      <button class="opt" data-val="hall" onclick="pg('q8',this,'gym')">hall</button>
+      <button class="opt" data-val="gym" onclick="pg('q8',this,'gym')">gym</button>
+    </div><div class="fb" id="fbq8"></div></div>
+
+    <div class="sb"><div class="sb-q">💻 You use computers here. Where is it?</div>
+    <div class="opts" id="oq9">
+      <button class="opt" data-val="computer room" onclick="pg('q9',this,'computer room')">computer room</button>
+      <button class="opt" data-val="library" onclick="pg('q9',this,'computer room')">library</button>
+      <button class="opt" data-val="classroom" onclick="pg('q9',this,'computer room')">classroom</button>
+    </div><div class="fb" id="fbq9"></div></div>
+  </div>
+
+  <div class="sec-div">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(124,58,237,.4))"></div>
+    <div class="st" style="color:#7c3aed;border-color:rgba(124,58,237,.4);background:rgba(124,58,237,.06)">🎒 School Items</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(124,58,237,.4),transparent)"></div>
+  </div>
+
+  <div class="task" style="animation-delay:.15s">
+    <div class="task-head"><div class="tnum" style="background:#7c3aed">3</div><div><div class="ttype">School Items · Choose the correct item</div></div></div>
+
+    <div class="sb"><div class="sb-q">🖊️ You put your pens and pencils in it. What is it?</div>
+    <div class="opts" id="oq10">
+      <button class="opt" data-val="rubber" onclick="pg('q10',this,'pencil case')">rubber</button>
+      <button class="opt" data-val="pencil case" onclick="pg('q10',this,'pencil case')">pencil case</button>
+      <button class="opt" data-val="ruler" onclick="pg('q10',this,'pencil case')">ruler</button>
+    </div><div class="fb" id="fbq10"></div></div>
+
+    <div class="sb"><div class="sb-q">📏 You use it to draw straight lines and measure. What is it?</div>
+    <div class="opts" id="oq11">
+      <button class="opt" data-val="scissors" onclick="pg('q11',this,'ruler')">scissors</button>
+      <button class="opt" data-val="rubber" onclick="pg('q11',this,'ruler')">rubber</button>
+      <button class="opt" data-val="ruler" onclick="pg('q11',this,'ruler')">ruler</button>
+    </div><div class="fb" id="fbq11"></div></div>
+
+    <div class="sb"><div class="sb-q">🔢 You use it to calculate numbers. What is it?</div>
+    <div class="opts" id="oq12">
+      <button class="opt" data-val="calculator" onclick="pg('q12',this,'calculator')">calculator</button>
+      <button class="opt" data-val="laptop" onclick="pg('q12',this,'calculator')">laptop</button>
+      <button class="opt" data-val="dictionary" onclick="pg('q12',this,'calculator')">dictionary</button>
+    </div><div class="fb" id="fbq12"></div></div>
+
+    <div class="sb"><div class="sb-q">✂️ You use them to cut paper. What are they?</div>
+    <div class="opts" id="oq13">
+      <button class="opt" data-val="paints" onclick="pg('q13',this,'scissors')">paints</button>
+      <button class="opt" data-val="trainers" onclick="pg('q13',this,'scissors')">trainers</button>
+      <button class="opt" data-val="scissors" onclick="pg('q13',this,'scissors')">scissors</button>
+    </div><div class="fb" id="fbq13"></div></div>
+  </div>
+
+  <div class="sec-div">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(21,128,61,.4))"></div>
+    <div class="st" style="color:#15803d;border-color:rgba(21,128,61,.4);background:rgba(21,128,61,.06)">⚽ do or play?</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(21,128,61,.4),transparent)"></div>
+  </div>
+
+  <div class="task" style="animation-delay:.2s">
+    <div class="task-head"><div class="tnum" style="background:#15803d">4</div><div><div class="ttype">do / play · Choose the correct verb</div></div></div>
+    <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:12px 14px;margin-bottom:14px;font-size:13px;font-weight:700;color:var(--ink);">
+      💡 <span style="color:#15803d">do:</span> ballet, judo, karate, pottery &nbsp;|&nbsp;
+      <span style="color:#1d4ed8">play:</span> basketball, chess, football, tennis, the drums, the guitar, the piano
+    </div>
+
+    <div class="sb"><div class="sb-q">She <span class="gap-s" id="gdp1">___</span> basketball every Saturday.</div>
+    <div class="opts" id="odp1">
+      <button class="opt" data-val="does" onclick="pg('dp1',this,'plays')">does</button>
+      <button class="opt" data-val="plays" onclick="pg('dp1',this,'plays')">plays</button>
+    </div><div class="fb" id="fbdp1"></div></div>
+
+    <div class="sb"><div class="sb-q">He <span class="gap-s" id="gdp2">___</span> judo on Fridays.</div>
+    <div class="opts" id="odp2">
+      <button class="opt" data-val="does" onclick="pg('dp2',this,'does')">does</button>
+      <button class="opt" data-val="plays" onclick="pg('dp2',this,'does')">plays</button>
+    </div><div class="fb" id="fbdp2"></div></div>
+
+    <div class="sb"><div class="sb-q">They <span class="gap-s" id="gdp3">___</span> chess in the club after school.</div>
+    <div class="opts" id="odp3">
+      <button class="opt" data-val="do" onclick="pg('dp3',this,'play')">do</button>
+      <button class="opt" data-val="play" onclick="pg('dp3',this,'play')">play</button>
+    </div><div class="fb" id="fbdp3"></div></div>
+
+    <div class="sb"><div class="sb-q">My sister <span class="gap-s" id="gdp4">___</span> the piano every evening.</div>
+    <div class="opts" id="odp4">
+      <button class="opt" data-val="does" onclick="pg('dp4',this,'plays')">does</button>
+      <button class="opt" data-val="plays" onclick="pg('dp4',this,'plays')">plays</button>
+    </div><div class="fb" id="fbdp4"></div></div>
+
+    <div class="sb"><div class="sb-q">I <span class="gap-s" id="gdp5">___</span> karate at the sports centre.</div>
+    <div class="opts" id="odp5">
+      <button class="opt" data-val="do" onclick="pg('dp5',this,'do')">do</button>
+      <button class="opt" data-val="play" onclick="pg('dp5',this,'do')">play</button>
+    </div><div class="fb" id="fbdp5"></div></div>
+  </div>
+
+  <button class="check-btn-big cb-orange" onclick="checkSection('s0',['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12','q13','dp1','dp2','dp3','dp4','dp5'],'sc0')">🎯 Check Vocab Results!</button>
+  <div class="score-mini" id="sc0"><div class="sm-emoji" id="sc0e">⭐</div><div class="sm-score" id="sc0s">0/18</div><div class="sm-msg" id="sc0m">Well done!</div></div>
+</div>
+
+<!-- ══════════════ TAB 1 — MATCHING ══════════════ -->
+<div class="panel" id="p1">
+  <div class="sec-div">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(219,39,119,.4))"></div>
+    <div class="st" style="color:#db2777;border-color:rgba(219,39,119,.4);background:rgba(219,39,119,.06)">🔗 Match the word to the category</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(219,39,119,.4),transparent)"></div>
+  </div>
+
+  <div class="task" style="animation-delay:.05s">
+    <div class="task-head"><div class="tnum" style="background:#db2777">5</div><div><div class="ttype">Matching · Click a word, then click its category</div></div></div>
+    <p class="thint">💡 Click a word on the LEFT, then click where it belongs on the RIGHT!</p>
+
+    <div class="match-area">
+      <div>
+        <h4>Words</h4>
+        <div class="match-item" id="mw1" onclick="selectWord('mw1','School subject')" data-cat="School subject">🎵 Music</div>
+        <div class="match-item" id="mw2" onclick="selectWord('mw2','Place in school')" data-cat="Place in school">🏋️ gym</div>
+        <div class="match-item" id="mw3" onclick="selectWord('mw3','School item')" data-cat="School item">📏 ruler</div>
+        <div class="match-item" id="mw4" onclick="selectWord('mw4','School subject')" data-cat="School subject">📜 History</div>
+        <div class="match-item" id="mw5" onclick="selectWord('mw5','Place in school')" data-cat="Place in school">📚 library</div>
+        <div class="match-item" id="mw6" onclick="selectWord('mw6','School item')" data-cat="School item">💻 laptop</div>
+        <div class="match-item" id="mw7" onclick="selectWord('mw7','School subject')" data-cat="School subject">🔬 Science</div>
+        <div class="match-item" id="mw8" onclick="selectWord('mw8','Place in school')" data-cat="Place in school">🍽️ canteen</div>
+        <div class="match-item" id="mw9" onclick="selectWord('mw9','School item')" data-cat="School item">🖊️ paints</div>
+      </div>
+      <div>
+        <h4>Categories</h4>
+        <div class="match-item" id="mc1" onclick="selectCat('mc1','School subject')" style="background:#fce7f3;border-color:#f9a8d4;color:#be185d">📚 School subject</div>
+        <div class="match-item" id="mc2" onclick="selectCat('mc2','Place in school')" style="background:#ffe4e6;border-color:#fda4af;color:#be123c">🏫 Place in school</div>
+        <div class="match-item" id="mc3" onclick="selectCat('mc3','School item')" style="background:#ede9fe;border-color:#c4b5fd;color:#6d28d9">🎒 School item</div>
+      </div>
+    </div>
+    <div class="fb" id="fbmatch"></div>
+  </div>
+
+  <!-- do/play match -->
+  <div class="task" style="animation-delay:.1s">
+    <div class="task-head"><div class="tnum" style="background:#db2777">6</div><div><div class="ttype">do / play · Match activities to the correct verb</div></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:14px;">
+        <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#15803d;margin-bottom:10px;">✅ DO</div>
+        <div id="do-drop" style="min-height:80px;"></div>
+      </div>
+      <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:14px;padding:14px;">
+        <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#1d4ed8;margin-bottom:10px;">✅ PLAY</div>
+        <div id="play-drop" style="min-height:80px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:var(--soft);border-radius:14px;border:2px solid var(--border);margin-bottom:14px;" id="dp-bank">
+      <button class="opt" onclick="sortDP(this,'do','ballet')">ballet</button>
+      <button class="opt" onclick="sortDP(this,'play','football')">football</button>
+      <button class="opt" onclick="sortDP(this,'do','pottery')">pottery</button>
+      <button class="opt" onclick="sortDP(this,'play','chess')">chess</button>
+      <button class="opt" onclick="sortDP(this,'do','karate')">karate</button>
+      <button class="opt" onclick="sortDP(this,'play','tennis')">tennis</button>
+      <button class="opt" onclick="sortDP(this,'play','the guitar')">the guitar</button>
+      <button class="opt" onclick="sortDP(this,'do','judo')">judo</button>
+    </div>
+    <div class="fb" id="fbdp"></div>
+  </div>
+
+  <button class="check-btn-big cb-pink" onclick="checkDPSort()">🔗 Check Matching!</button>
+  <div class="score-mini" id="sc1"><div class="sm-emoji" id="sc1e">⭐</div><div class="sm-score" id="sc1s">0/8</div><div class="sm-msg" id="sc1m">Well done!</div></div>
+</div>
+
+<!-- ══════════════ TAB 2 — AFFIRMATIVE ══════════════ -->
+<div class="panel" id="p2">
+
+  <div class="gram-ref">
+    <h3 style="color:var(--green)">⚡ Present Simple — Affirmative</h3>
+    <div class="gram-grid">
+      <div class="gram-box" style="background:#f0fdf4;border-color:#86efac;">
+        <div class="gb-t" style="color:#15803d">I / You / We / They</div>
+        <div class="gb-r">I <em>study</em> Maths.</div>
+        <div class="gb-r">They <em>play</em> football.</div>
+        <div class="gb-r">We <em>go</em> to school.</div>
+      </div>
+      <div class="gram-box" style="background:#eff6ff;border-color:#93c5fd;">
+        <div class="gb-t" style="color:#1d4ed8">He / She / It</div>
+        <div class="gb-r">He <em>studies</em> Maths.</div>
+        <div class="gb-r">She <em>plays</em> tennis.</div>
+        <div class="gb-r">It <em>starts</em> at 8.</div>
+      </div>
+      <div class="gram-box" style="background:#fef3c7;border-color:#fcd34d;">
+        <div class="gb-t" style="color:#b45309">Spelling rules (he/she/it)</div>
+        <div class="gb-r">play → <em>plays</em></div>
+        <div class="gb-r">study → <em>studies</em></div>
+        <div class="gb-r">go → <em>goes</em></div>
+        <div class="gb-r">have → <em>has</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task" style="animation-delay:.05s">
+    <div class="task-head"><div class="tnum" style="background:#15803d">7</div><div><div class="ttype">Present Simple Affirmative · Choose the correct form</div></div></div>
+
+    <div class="sb"><div class="sb-q">She <span class="gap-s" id="ga1">___</span> Maths every day.</div>
+    <div class="opts" id="oa1">
+      <button class="opt" data-val="study" onclick="pg('a1',this,'studies')">study</button>
+      <button class="opt" data-val="studies" onclick="pg('a1',this,'studies')">studies</button>
+      <button class="opt" data-val="studys" onclick="pg('a1',this,'studies')">studys</button>
+    </div><div class="fb" id="fba1"></div></div>
+
+    <div class="sb"><div class="sb-q">They <span class="gap-s" id="ga2">___</span> in the school library after class.</div>
+    <div class="opts" id="oa2">
+      <button class="opt" data-val="reads" onclick="pg('a2',this,'read')">reads</button>
+      <button class="opt" data-val="read" onclick="pg('a2',this,'read')">read</button>
+      <button class="opt" data-val="reades" onclick="pg('a2',this,'read')">reades</button>
+    </div><div class="fb" id="fba2"></div></div>
+
+    <div class="sb"><div class="sb-q">He <span class="gap-s" id="ga3">___</span> to school by bus.</div>
+    <div class="opts" id="oa3">
+      <button class="opt" data-val="go" onclick="pg('a3',this,'goes')">go</button>
+      <button class="opt" data-val="goes" onclick="pg('a3',this,'goes')">goes</button>
+      <button class="opt" data-val="gos" onclick="pg('a3',this,'goes')">gos</button>
+    </div><div class="fb" id="fba3"></div></div>
+
+    <div class="sb"><div class="sb-q">My friend <span class="gap-s" id="ga4">___</span> the guitar in the Music class.</div>
+    <div class="opts" id="oa4">
+      <button class="opt" data-val="play" onclick="pg('a4',this,'plays')">play</button>
+      <button class="opt" data-val="playes" onclick="pg('a4',this,'plays')">playes</button>
+      <button class="opt" data-val="plays" onclick="pg('a4',this,'plays')">plays</button>
+    </div><div class="fb" id="fba4"></div></div>
+
+    <div class="sb"><div class="sb-q">We <span class="gap-s" id="ga5">___</span> Science on Tuesdays and Thursdays.</div>
+    <div class="opts" id="oa5">
+      <button class="opt" data-val="have" onclick="pg('a5',this,'have')">have</button>
+      <button class="opt" data-val="has" onclick="pg('a5',this,'have')">has</button>
+      <button class="opt" data-val="haves" onclick="pg('a5',this,'have')">haves</button>
+    </div><div class="fb" id="fba5"></div></div>
+
+    <div class="sb"><div class="sb-q">Our teacher <span class="gap-s" id="ga6">___</span> a laptop in the classroom.</div>
+    <div class="opts" id="oa6">
+      <button class="opt" data-val="have" onclick="pg('a6',this,'has')">have</button>
+      <button class="opt" data-val="has" onclick="pg('a6',this,'has')">has</button>
+      <button class="opt" data-val="haves" onclick="pg('a6',this,'has')">haves</button>
+    </div><div class="fb" id="fba6"></div></div>
+  </div>
+
+  <button class="check-btn-big" style="background:linear-gradient(135deg,#15803d,#22c55e)" onclick="checkSection('s2',['a1','a2','a3','a4','a5','a6'],'sc2')">✅ Check Affirmative!</button>
+  <div class="score-mini" id="sc2"><div class="sm-emoji" id="sc2e">⭐</div><div class="sm-score" id="sc2s">0/6</div><div class="sm-msg" id="sc2m">Well done!</div></div>
+</div>
+
+<!-- ══════════════ TAB 3 — NEGATIVE ══════════════ -->
+<div class="panel" id="p3">
+
+  <div class="gram-ref">
+    <h3 style="color:var(--blue)">❌ Present Simple — Negative</h3>
+    <div class="gram-grid">
+      <div class="gram-box" style="background:#eff6ff;border-color:#93c5fd;">
+        <div class="gb-t" style="color:#1d4ed8">I / You / We / They</div>
+        <div class="gb-r">I <em>don't</em> like Maths.</div>
+        <div class="gb-r">They <em>don't</em> play chess.</div>
+      </div>
+      <div class="gram-box" style="background:#fff1f2;border-color:#fda4af;">
+        <div class="gb-t" style="color:#be123c">He / She / It</div>
+        <div class="gb-r">She <em>doesn't</em> like P.E.</div>
+        <div class="gb-r">He <em>doesn't</em> go to gym.</div>
+      </div>
+      <div class="gram-box" style="background:#fef3c7;border-color:#fcd34d;">
+        <div class="gb-t" style="color:#b45309">Remember!</div>
+        <div class="gb-r">don't = <em>do not</em></div>
+        <div class="gb-r">doesn't = <em>does not</em></div>
+        <div class="gb-r">After doesn't → <em>base verb!</em></div>
+        <div class="gb-r">She doesn't <em>like</em> ✓ (NOT likes)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task" style="animation-delay:.05s">
+    <div class="task-head"><div class="tnum" style="background:#1d4ed8">8</div><div><div class="ttype">Present Simple Negative · Choose the correct form</div></div></div>
+
+    <div class="sb"><div class="sb-q">I <span class="gap-s" id="gn1">___</span> like History. It's boring!</div>
+    <div class="opts" id="on1">
+      <button class="opt" data-val="doesn't" onclick="pg('n1',this,'don\'t')">doesn't</button>
+      <button class="opt" data-val="don't" onclick="pg('n1',this,'don\'t')">don't</button>
+      <button class="opt" data-val="not" onclick="pg('n1',this,'don\'t')">not</button>
+    </div><div class="fb" id="fbn1"></div></div>
+
+    <div class="sb"><div class="sb-q">She <span class="gap-s" id="gn2">___</span> play chess. She prefers football.</div>
+    <div class="opts" id="on2">
+      <button class="opt" data-val="don't" onclick="pg('n2',this,'doesn\'t')">don't</button>
+      <button class="opt" data-val="doesn't" onclick="pg('n2',this,'doesn\'t')">doesn't</button>
+      <button class="opt" data-val="not" onclick="pg('n2',this,'doesn\'t')">not</button>
+    </div><div class="fb" id="fbn2"></div></div>
+
+    <div class="sb"><div class="sb-q">They <span class="gap-s" id="gn3">___</span> have Art on Mondays.</div>
+    <div class="opts" id="on3">
+      <button class="opt" data-val="doesn't" onclick="pg('n3',this,'don\'t')">doesn't</button>
+      <button class="opt" data-val="don't" onclick="pg('n3',this,'don\'t')">don't</button>
+      <button class="opt" data-val="not" onclick="pg('n3',this,'don\'t')">not</button>
+    </div><div class="fb" id="fbn3"></div></div>
+
+    <div class="sb"><div class="sb-q">He <span class="gap-s" id="gn4">___</span> use a calculator in Science.</div>
+    <div class="opts" id="on4">
+      <button class="opt" data-val="don't" onclick="pg('n4',this,'doesn\'t')">don't</button>
+      <button class="opt" data-val="doesn't" onclick="pg('n4',this,'doesn\'t')">doesn't</button>
+      <button class="opt" data-val="not" onclick="pg('n4',this,'doesn\'t')">not</button>
+    </div><div class="fb" id="fbn4"></div></div>
+
+    <div class="sb"><div class="sb-q">We <span class="gap-s" id="gn5">___</span> go to the gym on Fridays.</div>
+    <div class="opts" id="on5">
+      <button class="opt" data-val="doesn't" onclick="pg('n5',this,'don\'t')">doesn't</button>
+      <button class="opt" data-val="don't" onclick="pg('n5',this,'don\'t')">don't</button>
+      <button class="opt" data-val="not" onclick="pg('n5',this,'don\'t')">not</button>
+    </div><div class="fb" id="fbn5"></div></div>
+
+    <div class="sb"><div class="sb-q">My teacher <span class="gap-s" id="gn6">___</span> speak French in class.</div>
+    <div class="opts" id="on6">
+      <button class="opt" data-val="don't" onclick="pg('n6',this,'doesn\'t')">don't</button>
+      <button class="opt" data-val="doesn't" onclick="pg('n6',this,'doesn\'t')">doesn't</button>
+      <button class="opt" data-val="not" onclick="pg('n6',this,'doesn\'t')">not</button>
+    </div><div class="fb" id="fbn6"></div></div>
+  </div>
+
+  <button class="check-btn-big cb-blue" onclick="checkSection('s3',['n1','n2','n3','n4','n5','n6'],'sc3')">❌ Check Negative!</button>
+  <div class="score-mini" id="sc3"><div class="sm-emoji" id="sc3e">⭐</div><div class="sm-score" id="sc3s">0/6</div><div class="sm-msg" id="sc3m">Well done!</div></div>
+</div>
+
+<!-- ══════════════ TAB 4 — QUESTIONS ══════════════ -->
+<div class="panel" id="p4">
+
+  <div class="gram-ref">
+    <h3 style="color:var(--purple)">❓ Present Simple — Questions</h3>
+    <div class="gram-grid">
+      <div class="gram-box" style="background:#f5f3ff;border-color:#c4b5fd;">
+        <div class="gb-t" style="color:#7c3aed">I / You / We / They</div>
+        <div class="gb-r"><em>Do</em> you like Maths?</div>
+        <div class="gb-r">Yes, I <em>do</em>. / No, I <em>don't</em>.</div>
+      </div>
+      <div class="gram-box" style="background:#fff1f2;border-color:#fda4af;">
+        <div class="gb-t" style="color:#be123c">He / She / It</div>
+        <div class="gb-r"><em>Does</em> she play chess?</div>
+        <div class="gb-r">Yes, she <em>does</em>. / No, she <em>doesn't</em>.</div>
+      </div>
+      <div class="gram-box" style="background:#fff3e0;border-color:#fed7aa;">
+        <div class="gb-t" style="color:#ea580c">Wh- Questions</div>
+        <div class="gb-r"><em>What</em> do you study?</div>
+        <div class="gb-r"><em>Where</em> does she go?</div>
+        <div class="gb-r"><em>When</em> do they have PE?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task" style="animation-delay:.05s">
+    <div class="task-head"><div class="tnum" style="background:#7c3aed">9</div><div><div class="ttype">Questions · Choose the correct form</div></div></div>
+
+    <div class="sb"><div class="sb-q"><span class="gap-s" id="gqu1">___</span> you like Geography?</div>
+    <div class="opts" id="oqu1">
+      <button class="opt" data-val="Does" onclick="pg('qu1',this,'Do')">Does</button>
+      <button class="opt" data-val="Do" onclick="pg('qu1',this,'Do')">Do</button>
+      <button class="opt" data-val="Is" onclick="pg('qu1',this,'Do')">Is</button>
+    </div><div class="fb" id="fbqu1"></div></div>
+
+    <div class="sb"><div class="sb-q"><span class="gap-s" id="gqu2">___</span> she have a dictionary?</div>
+    <div class="opts" id="oqu2">
+      <button class="opt" data-val="Do" onclick="pg('qu2',this,'Does')">Do</button>
+      <button class="opt" data-val="Does" onclick="pg('qu2',this,'Does')">Does</button>
+      <button class="opt" data-val="Is" onclick="pg('qu2',this,'Does')">Is</button>
+    </div><div class="fb" id="fbqu2"></div></div>
+
+    <div class="sb"><div class="sb-q"><span class="gap-s" id="gqu3">___</span> they play football after school?</div>
+    <div class="opts" id="oqu3">
+      <button class="opt" data-val="Does" onclick="pg('qu3',this,'Do')">Does</button>
+      <button class="opt" data-val="Do" onclick="pg('qu3',this,'Do')">Do</button>
+      <button class="opt" data-val="Are" onclick="pg('qu3',this,'Do')">Are</button>
+    </div><div class="fb" id="fbqu3"></div></div>
+
+    <div class="sb"><div class="sb-q">Does your friend go to the library? — Yes, she <span class="gap-s" id="gqu4">___</span>.</div>
+    <div class="opts" id="oqu4">
+      <button class="opt" data-val="don't" onclick="pg('qu4',this,'does')">don't</button>
+      <button class="opt" data-val="does" onclick="pg('qu4',this,'does')">does</button>
+      <button class="opt" data-val="do" onclick="pg('qu4',this,'does')">do</button>
+    </div><div class="fb" id="fbqu4"></div></div>
+
+    <div class="sb"><div class="sb-q">Do you use scissors in Art? — No, I <span class="gap-s" id="gqu5">___</span>.</div>
+    <div class="opts" id="oqu5">
+      <button class="opt" data-val="doesn't" onclick="pg('qu5',this,'don\'t')">doesn't</button>
+      <button class="opt" data-val="don't" onclick="pg('qu5',this,'don\'t')">don't</button>
+      <button class="opt" data-val="does" onclick="pg('qu5',this,'don\'t')">does</button>
+    </div><div class="fb" id="fbqu5"></div></div>
+
+    <div class="sb"><div class="sb-q">What <span class="gap-s" id="gqu6">___</span> you do in P.E.?</div>
+    <div class="opts" id="oqu6">
+      <button class="opt" data-val="does" onclick="pg('qu6',this,'do')">does</button>
+      <button class="opt" data-val="do" onclick="pg('qu6',this,'do')">do</button>
+      <button class="opt" data-val="is" onclick="pg('qu6',this,'do')">is</button>
+    </div><div class="fb" id="fbqu6"></div></div>
+  </div>
+
+  <button class="check-btn-big cb-purple" onclick="checkSection('s4',['qu1','qu2','qu3','qu4','qu5','qu6'],'sc4')">❓ Check Questions!</button>
+  <div class="score-mini" id="sc4"><div class="sm-emoji" id="sc4e">⭐</div><div class="sm-score" id="sc4s">0/6</div><div class="sm-msg" id="sc4m">Well done!</div></div>
+</div>
+
+<!-- ══════════════ TAB 5 — SPEAKING ══════════════ -->
+<div class="panel" id="p5">
+
+  <div class="sec-div">
+    <div class="sl" style="background:linear-gradient(90deg,transparent,rgba(15,118,110,.4))"></div>
+    <div class="st" style="color:#0f766e;border-color:rgba(15,118,110,.4);background:rgba(15,118,110,.06)">🗣️ Asking for personal information</div>
+    <div class="sl" style="background:linear-gradient(90deg,rgba(15,118,110,.4),transparent)"></div>
+  </div>
+
+  <!-- questions ref box -->
+  <div class="task" style="background:linear-gradient(135deg,#f0fdf4,#e0f2fe);border-color:#86efac;animation-delay:.02s">
+    <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:#0f766e;margin-bottom:14px;">📋 Key Questions</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="background:#fff;border-radius:12px;padding:10px 14px;border:1.5px solid #86efac;font-size:15px;font-weight:700;">❓ What's your name?</div>
+      <div style="background:#fff;border-radius:12px;padding:10px 14px;border:1.5px solid #86efac;font-size:15px;font-weight:700;">❓ How do you spell that?</div>
+      <div style="background:#fff;border-radius:12px;padding:10px 14px;border:1.5px solid #86efac;font-size:15px;font-weight:700;">❓ Where do you live?</div>
+      <div style="background:#fff;border-radius:12px;padding:10px 14px;border:1.5px solid #86efac;font-size:15px;font-weight:700;">❓ What's your email address?</div>
+      <div style="background:#fff;border-radius:12px;padding:10px 14px;border:1.5px solid #86efac;font-size:15px;font-weight:700;">❓ What's your phone number?</div>
+    </div>
+  </div>
+
+  <!-- speaking cards -->
+  <div class="speak-grid">
+    <div class="speak-card" style="background:#fff0f6;border-color:#f9a8d4;">
+      <h4 style="color:#be185d">🎤 Question 1</h4>
+      <p>What subjects do you study at school? Which is your favourite?</p>
+      <div class="sc-tip">💡 I study... / My favourite subject is...</div>
+    </div>
+    <div class="speak-card" style="background:#eff6ff;border-color:#93c5fd;">
+      <h4 style="color:#1d4ed8">🎤 Question 2</h4>
+      <p>Where do you study? Describe your school or classroom.</p>
+      <div class="sc-tip">💡 My school has a... / In my classroom there is...</div>
+    </div>
+    <div class="speak-card" style="background:#fff3e0;border-color:#fed7aa;">
+      <h4 style="color:#ea580c">🎤 Question 3</h4>
+      <p>What do you do after school? Do you play any sports or instruments?</p>
+      <div class="sc-tip">💡 After school I... / I play / I do...</div>
+    </div>
+    <div class="speak-card" style="background:#f0fdf4;border-color:#86efac;">
+      <h4 style="color:#15803d">🎤 Question 4</h4>
+      <p>What subjects don't you like? Why not?</p>
+      <div class="sc-tip">💡 I don't like... because it's... / My least favourite is...</div>
+    </div>
+    <div class="speak-card" style="background:#faf5ff;border-color:#c4b5fd;">
+      <h4 style="color:#7c3aed">🎤 Question 5</h4>
+      <p>Does your best friend like the same subjects as you?</p>
+      <div class="sc-tip">💡 My friend likes / doesn't like... / She/He studies...</div>
+    </div>
+    <div class="speak-card" style="background:#fff9f0;border-color:#fde68a;">
+      <h4 style="color:#b45309">🎤 Personal info</h4>
+      <p>Interview your partner! Ask all 5 questions from the list above.</p>
+      <div class="sc-tip">💡 What's your name? How do you spell that?...</div>
+    </div>
+  </div>
+
+  <!-- useful phrases -->
+  <div class="task" style="animation-delay:.1s">
+    <div class="task-head"><div class="tnum" style="background:#0f766e">10</div><div><div class="ttype">Speaking · Useful Phrases</div></div></div>
+    <div style="font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px;">Use these phrases in your speaking! 👇</div>
+    <div class="phrase-chips">
+      <div class="pchip">My favourite subject is...</div>
+      <div class="pchip">I like... because...</div>
+      <div class="pchip">I don't like... because...</div>
+      <div class="pchip">I study... at school.</div>
+      <div class="pchip">After school I...</div>
+      <div class="pchip">My school has a...</div>
+      <div class="pchip">I play... / I do...</div>
+      <div class="pchip">My best friend...</div>
+      <div class="pchip">I think... is interesting.</div>
+      <div class="pchip">In my classroom there is/are...</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL SCORE (all sections) -->
+<div class="final-score" id="finalScore">
+  <div class="fs-emoji" id="fs-emoji">🏆</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:600;">TOTAL SCORE</div>
+  <div class="fs-num" id="fs-num">0</div>
+  <div class="fs-stars" id="fs-stars">⭐⭐⭐⭐⭐</div>
+  <div class="fs-msg" id="fs-msg">Amazing!</div>
+  <div class="fs-break" id="fs-break"></div>
+  <button class="rebtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div><!-- /app -->
+
+<script>
+// ── STATE ──
+const done={};
+const dpSorted={};
+let matchSelected=null;
+
+function upProg(){
+  const allKeys=[
+    'q1','q2','q3','q4','q5','q6','q7','q8','q9',
+    'q10','q11','q12','q13',
+    'dp1','dp2','dp3','dp4','dp5',
+    'a1','a2','a3','a4','a5','a6',
+    'n1','n2','n3','n4','n5','n6',
+    'qu1','qu2','qu3','qu4','qu5','qu6'
+  ];
+  document.getElementById('pb').style.width=(Object.keys(done).length/allKeys.length*100)+'%';
+}
+
+// ── TABS ──
+function switchTab(i){
+  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── GAP PICK ──
+function pg(id,btn,correct){
+  const chosen=btn.dataset.val;
+  btn.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.add('dis'));
+  const gap=document.getElementById('g'+id);
+  const fb=document.getElementById('fb'+id);
+  const ok=chosen===correct;
+  btn.classList.remove('dis');
+  btn.classList.add(ok?'ok':'no');
+  if(!ok){
+    btn.closest('.opts').querySelectorAll('.opt').forEach(o=>{
+      if(o.dataset.val===correct){o.classList.remove('dis');o.classList.add('reveal');}
+    });
+  }
+  if(gap){gap.textContent=ok?chosen:correct;gap.className='gap-s '+(ok?'ok':'no');}
+  if(fb){fb.className='fb '+(ok?'ok':'no');fb.innerHTML=ok?'✅ Correct!':'❌ Correct: <b>'+correct+'</b>';}
+  done[id]=ok;upProg();
+}
+
+// ── MATCHING (categories) ──
+let selWord=null,selWordCat=null;
+function selectWord(id,cat){
+  if(document.getElementById(id).classList.contains('matched-ok')) return;
+  if(selWord) document.getElementById(selWord).classList.remove('selected');
+  selWord=id;selWordCat=cat;
+  document.getElementById(id).classList.add('selected');
+}
+function selectCat(catId,cat){
+  if(!selWord){document.getElementById('fbmatch').className='fb no';document.getElementById('fbmatch').innerHTML='⚠️ First click a word on the left!';return;}
+  const wordEl=document.getElementById(selWord);
+  const fb=document.getElementById('fbmatch');
+  if(selWordCat===cat){
+    wordEl.classList.remove('selected');wordEl.classList.add('matched-ok');
+    fb.className='fb ok';fb.innerHTML='✅ Correct match!';
+    done['match_'+selWord]=true;
+  } else {
+    wordEl.classList.add('matched-no');
+    setTimeout(()=>wordEl.classList.remove('matched-no','selected'),800);
+    fb.className='fb no';fb.innerHTML='❌ Try again! Think about the category.';
+    done['match_'+selWord]=false;
+  }
+  selWord=null;selWordCat=null;upProg();
+}
+
+// ── DO/PLAY SORT ──
+function sortDP(btn,verb,word){
+  btn.classList.add('dis');
+  const zone=document.getElementById(verb+'-drop');
+  const chip=document.createElement('div');
+  chip.style.cssText='display:inline-block;padding:6px 14px;border-radius:10px;border:2px solid;font-size:14px;font-weight:700;margin:3px;';
+  chip.style.background=verb==='do'?'#dcfce7':'#dbeafe';
+  chip.style.borderColor=verb==='do'?'#86efac':'#93c5fd';
+  chip.style.color=verb==='do'?'#15803d':'#1d4ed8';
+  chip.textContent=word;
+  zone.appendChild(chip);
+  dpSorted[word]=verb;
+}
+
+function checkDPSort(){
+  const correct={ballet:'do',pottery:'do',karate:'do',judo:'do',football:'play',chess:'play',tennis:'play','the guitar':'play'};
+  let ok=0;
+  Object.entries(dpSorted).forEach(([word,verb])=>{if(correct[word]===verb)ok++;});
+  const total=Object.keys(correct).length;
+  const fb=document.getElementById('fbdp');
+  fb.className='fb '+(ok===total?'ok':'no');
+  fb.innerHTML=ok===total?'✅ Perfect! All correct!':'❌ '+ok+'/'+total+' correct. do: ballet, pottery, karate, judo | play: football, chess, tennis, the guitar';
+  showMini('sc1',ok,total);
+}
+
+// ── CHECK SECTION ──
+function checkSection(sec,keys,scId){
+  const correct=keys.filter(k=>done[k]===true).length;
+  const total=keys.length;
+  keys.filter(k=>!(k in done)).forEach(k=>{done[k]=false;});
+  showMini(scId,correct,total);
+  checkFinal();
+}
+
+function showMini(id,correct,total){
+  const pct=Math.round(correct/total*100);
+  let em='😊',msg='Keep going!';
+  if(pct===100){em='🏆';msg='Perfect score!';}
+  else if(pct>=80){em='🌟';msg='Excellent!';}
+  else if(pct>=60){em='👏';msg='Good job!';}
+  document.getElementById(id+'e').textContent=em;
+  document.getElementById(id+'s').textContent=correct+'/'+total;
+  document.getElementById(id+'m').textContent=msg;
+  document.getElementById(id).style.display='block';
+}
+
+function checkFinal(){
+  const allKeys=[
+    'q1','q2','q3','q4','q5','q6','q7','q8','q9',
+    'q10','q11','q12','q13','dp1','dp2','dp3','dp4','dp5',
+    'a1','a2','a3','a4','a5','a6',
+    'n1','n2','n3','n4','n5','n6',
+    'qu1','qu2','qu3','qu4','qu5','qu6'
+  ];
+  const answered=allKeys.filter(k=>k in done).length;
+  if(answered<allKeys.length) return;
+
+  const correct=allKeys.filter(k=>done[k]===true).length;
+  const pct=Math.round(correct/allKeys.length*100);
+  let em='🎓',msg='Keep studying!',stars='⭐';
+  if(pct===100){em='🏆';msg='Perfect! You are a star!';stars='⭐⭐⭐⭐⭐';}
+  else if(pct>=80){em='🌟';msg='Excellent work!';stars='⭐⭐⭐⭐';}
+  else if(pct>=60){em='👏';msg='Good job!';stars='⭐⭐⭐';}
+  else if(pct>=40){em='💪';msg='Keep practising!';stars='⭐⭐';}
+
+  const vocOk=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12','q13','dp1','dp2','dp3','dp4','dp5'].filter(k=>done[k]).length;
+  const affOk=['a1','a2','a3','a4','a5','a6'].filter(k=>done[k]).length;
+  const negOk=['n1','n2','n3','n4','n5','n6'].filter(k=>done[k]).length;
+  const qOk=['qu1','qu2','qu3','qu4','qu5','qu6'].filter(k=>done[k]).length;
+
+  document.getElementById('fs-emoji').textContent=em;
+  document.getElementById('fs-num').textContent=correct+'/'+allKeys.length;
+  document.getElementById('fs-stars').textContent=stars;
+  document.getElementById('fs-msg').textContent=msg;
+  document.getElementById('fs-break').innerHTML=
+    `<div class="fs-chip">📖 Vocab: ${vocOk}/18</div>`+
+    `<div class="fs-chip">✅ Affirmative: ${affOk}/6</div>`+
+    `<div class="fs-chip">❌ Negative: ${negOk}/6</div>`+
+    `<div class="fs-chip">❓ Questions: ${qOk}/6</div>`;
+
+  const box=document.getElementById('finalScore');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=70) confetti();
+}
+
+function confetti(){
+  const cols=['#fde68a','#f9a8d4','#c4b5fd','#93c5fd','#86efac','#fff','#fca5a5'];
+  for(let i=0;i<90;i++){
+    const p=document.createElement('div');p.className='cf';
+    const sz=6+Math.random()*9;
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};width:${sz}px;height:${sz}px;--d:${1.5+Math.random()*2}s;--dl:${Math.random()*.9}s;border-radius:${Math.random()>.5?'50%':'3px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3600);
+  }
+}
+</script>
+</body>
+</html>
